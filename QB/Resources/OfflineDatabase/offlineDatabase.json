@@ -1,0 +1,264 @@
+{
+  "bookData": {
+    "books": [
+      {
+        "invitedUsers": null,
+        "memberUsers": null,
+        "quotes": [
+          {
+            "creationDate": {
+              
+            },
+            "quoteContext": "in ebed",
+            "quoteLines": [
+              {
+                "text": "Im sorry your skin gets itcy",
+                "who": {
+                  "nonuserQuoted": "jualian",
+                  "userQuoted": null
+                }
+              }
+            ],
+            "uuid": 2
+          },
+          {
+            "creationDate": {
+              
+            },
+            "quoteContext": "on bus",
+            "quoteLines": [
+              {
+                "text": "new quote will fail",
+                "who": {
+                  "nonuserQuoted": "caleb",
+                  "userQuoted": null
+                }
+              }
+            ],
+            "uuid": 3
+          },
+          {
+            "creationDate": {
+              
+            },
+            "quoteContext": "bus",
+            "quoteLines": [
+              {
+                "text": "first time, unssesdlfjd",
+                "who": {
+                  "nonuserQuoted": "always caleb",
+                  "userQuoted": null
+                }
+              }
+            ],
+            "uuid": 4
+          },
+          {
+            "creationDate": {
+              
+            },
+            "quoteContext": "bus",
+            "quoteLines": [
+              {
+                "text": "first time, unssesdlfjd",
+                "who": {
+                  "nonuserQuoted": "always caleb",
+                  "userQuoted": null
+                }
+              }
+            ],
+            "uuid": 5
+          },
+          {
+            "creationDate": {
+              
+            },
+            "quoteContext": "bus",
+            "quoteLines": [
+              {
+                "text": "first time, unssesdlfjd",
+                "who": {
+                  "nonuserQuoted": "always caleb",
+                  "userQuoted": null
+                }
+              }
+            ],
+            "uuid": 6
+          }
+        ],
+        "title": "First",
+        "uuid": 1
+      },
+      {
+        "invitedUsers": null,
+        "memberUsers": null,
+        "quotes": [
+          {
+            "creationDate": null,
+            "quoteContext": null,
+            "quoteLines": [
+              {
+                "text": null,
+                "who": {
+                  "nonuserQuoted": "not initialized",
+                  "userQuoted": null
+                }
+              }
+            ],
+            "uuid": 7
+          }
+        ],
+        "title": "",
+        "uuid": 2
+      },
+      {
+        "invitedUsers": null,
+        "memberUsers": null,
+        "quotes": null,
+        "title": "Qbteam",
+        "uuid": 3
+      },
+      {
+        "invitedUsers": null,
+        "memberUsers": null,
+        "quotes": [
+          {
+            "creationDate": {
+              
+            },
+            "quoteContext": "dsfsd",
+            "quoteLines": [
+              {
+                "text": "lame",
+                "who": {
+                  "nonuserQuoted": "not initializedy",
+                  "userQuoted": null
+                }
+              }
+            ],
+            "uuid": 8
+          }
+        ],
+        "title": "Caleb",
+        "uuid": 4
+      },
+      {
+        "invitedUsers": null,
+        "memberUsers": null,
+        "quotes": null,
+        "title": "MyBook",
+        "uuid": 5
+      },
+      {
+        "invitedUsers": null,
+        "memberUsers": null,
+        "quotes": [
+          {
+            "creationDate": {
+              
+            },
+            "quoteContext": "in bed",
+            "quoteLines": [
+              {
+                "text": "caleb is fucking awesome in bed",
+                "who": {
+                  "nonuserQuoted": "juliana",
+                  "userQuoted": null
+                }
+              }
+            ],
+            "uuid": 9
+          }
+        ],
+        "title": "caleb",
+        "uuid": 6
+      }
+    ]
+  },
+  "bookUuidGenerator": 6,
+  "quoteUuidGenerator": 9,
+  "userData": {
+    "userActors": [
+      {
+        "password": "caleb",
+        "user": {
+          "bookIds": [
+            1,
+            3,
+            3,
+            4,
+            4,
+            5,
+            5
+          ],
+          "email": "caleb",
+          "firstName": "Caleb",
+          "lastName": "Fisher",
+          "uuid": 1
+        }
+      },
+      {
+        "password": null,
+        "user": {
+          "bookIds": [
+            
+          ],
+          "email": null,
+          "firstName": null,
+          "lastName": null,
+          "uuid": 2
+        }
+      },
+      {
+        "password": null,
+        "user": {
+          "bookIds": [
+            
+          ],
+          "email": null,
+          "firstName": null,
+          "lastName": null,
+          "uuid": 3
+        }
+      },
+      {
+        "password": "caleb",
+        "user": {
+          "bookIds": [
+            2
+          ],
+          "email": "caleb2",
+          "firstName": "caleb",
+          "lastName": "fisher",
+          "uuid": 4
+        }
+      },
+      {
+        "password": "caleb",
+        "user": {
+          "bookIds": [
+            6,
+            6
+          ],
+          "email": "caleb@caleb.com",
+          "firstName": "Caleb",
+          "lastName": "Fisher",
+          "uuid": 5
+        }
+      },
+      {
+        "password": "caleb2",
+        "user": {
+          "bookIds": [
+            
+          ],
+          "email": "caleb@caleb.com",
+          "firstName": "caleb",
+          "lastName": "caleb",
+          "uuid": 6
+        }
+      }
+    ]
+  },
+  "userUuidGenerator": 6
+}
