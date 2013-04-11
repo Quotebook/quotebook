@@ -4,6 +4,7 @@
 #import "ContentItem_button.h"
 #import "ContentItem_label.h"
 #import "ContentItem_textField.h"
+#import "ContentItem_datePicker.h"
 
 @implementation ContentView
 {
@@ -79,6 +80,16 @@
                                                                   parent:self];
     [labelItem.label setText:contentLabelConfig.labelText];
     
+    if (contentLabelConfig.wordWrap)
+    {
+        CGRect originalFrame = labelItem.label.frame;
+        
+        [labelItem.label setLineBreakMode:NSLineBreakByWordWrapping];
+        labelItem.label.numberOfLines = (originalFrame.size.height + contentLabelConfig.additionalViewHeight) / 22;
+        labelItem.label.frame = CGRectMake(originalFrame.origin.x, originalFrame.origin.y,
+                                           originalFrame.size.width, originalFrame.size.height + contentLabelConfig.additionalViewHeight);
+    }
+    
     labelItem.additionalViewHeight = contentLabelConfig.additionalViewHeight;
     
     return labelItem;
@@ -105,11 +116,21 @@
     }
 
     textFieldItem.additionalViewHeight = contentTextFieldConfig.additionalViewHeight;
-    
     textFieldItem.textBlock = contentTextFieldConfig.textBlock;
+    
     return textFieldItem;
 }
+
+- (ContentItem_datePicker*)internal_createDataPickerWithContentDatePickerConfig:(ContentDatePickerConfig*)contentDatePickerConfig
+{
+    ContentItem_datePicker* datePickerItem = [viewManager createManagedViewOfClass:ContentItem_datePicker.class
+                                                                        parent:self];
     
+    datePickerItem.dateBlock = contentDatePickerConfig.dateBlock;
+    
+    return datePickerItem;
+}
+
 - (ManagedView*)internal_createManagedViewForContentItemConfig:(ContentItemConfig*)contentItemConfig
 {
     if (contentItemConfig.class == ContentButtonConfig.class)
@@ -126,6 +147,11 @@
     {
         ContentTextFieldConfig* contentTextFieldConfig = (ContentTextFieldConfig*)contentItemConfig;
         return [self internal_createTextFieldWithContentTextFieldConfig:contentTextFieldConfig];
+    }
+    else if (contentItemConfig.class == ContentDatePickerConfig.class)
+    {
+        ContentDatePickerConfig* contentDatePickerConfig = (ContentDatePickerConfig*)contentItemConfig;
+        return [self internal_createDataPickerWithContentDatePickerConfig:contentDatePickerConfig];
     }
     AssertNow();
     return nil;

@@ -172,11 +172,90 @@
         ],
         "title": "caleb",
         "uuid": 6
+      },
+      {
+        "invitedUsers": null,
+        "memberUsers": null,
+        "quotes": [
+          {
+            "creationDate": {
+              
+            },
+            "quoteContext": "bs",
+            "quoteLines": [
+              {
+                "text": "hot ness?",
+                "who": {
+                  "nonuserQuoted": "heyo",
+                  "userQuoted": null
+                }
+              }
+            ],
+            "uuid": 10
+          }
+        ],
+        "title": "fuck shes hot",
+        "uuid": 7
+      },
+      {
+        "invitedUsers": null,
+        "memberUsers": null,
+        "quotes": [
+          {
+            "creationDate": {
+              
+            },
+            "quoteContext": "sdfd",
+            "quoteLines": [
+              {
+                "text": "caleb",
+                "who": {
+                  "nonuserQuoted": "not initializedsldkfjds",
+                  "userQuoted": null
+                }
+              },
+              {
+                "text": "sdfds",
+                "who": {
+                  "nonuserQuoted": "sdfds",
+                  "userQuoted": null
+                }
+              }
+            ],
+            "uuid": 11
+          }
+        ],
+        "title": "caleb",
+        "uuid": 8
+      },
+      {
+        "invitedUsers": null,
+        "memberUsers": null,
+        "quotes": [
+          {
+            "creationDate": {
+              
+            },
+            "quoteContext": "sdf",
+            "quoteLines": [
+              {
+                "text": "sdfsd",
+                "who": {
+                  "nonuserQuoted": "not initializedsdfsd",
+                  "userQuoted": null
+                }
+              }
+            ],
+            "uuid": 12
+          }
+        ],
+        "title": "lkj",
+        "uuid": 9
       }
     ]
   },
-  "bookUuidGenerator": 6,
-  "quoteUuidGenerator": 9,
+  "bookUuidGenerator": 9,
+  "quoteUuidGenerator": 12,
   "userData": {
     "userActors": [
       {
@@ -189,7 +268,8 @@
             4,
             4,
             5,
-            5
+            5,
+            7
           ],
           "email": "caleb",
           "firstName": "Caleb",
@@ -257,8 +337,44 @@
           "lastName": "caleb",
           "uuid": 6
         }
+      },
+      {
+        "password": "caleb",
+        "user": {
+          "bookIds": [
+            8
+          ],
+          "email": "caleb5@caleb.com",
+          "firstName": "caleb",
+          "lastName": "caleb",
+          "uuid": 7
+        }
+      },
+      {
+        "password": "caleb",
+        "user": {
+          "bookIds": [
+            
+          ],
+          "email": "newCaleb@caleb.com",
+          "firstName": "caleb",
+          "lastName": "caleb",
+          "uuid": 8
+        }
+      },
+      {
+        "password": "caleb",
+        "user": {
+          "bookIds": [
+            9
+          ],
+          "email": "hello@lskd.cmo",
+          "firstName": "sldkfj",
+          "lastName": "lksdf",
+          "uuid": 9
+        }
       }
     ]
   },
-  "userUuidGenerator": 6
+  "userUuidGenerator": 9
 }

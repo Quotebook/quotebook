@@ -16,6 +16,7 @@
 
 @interface ContentLabelConfig : ContentItemConfig
 @property (nonatomic, retain) NSString* labelText;
+@property (nonatomic, assign) BOOL wordWrap;
 @end
 
 @interface ContentTextFieldConfig : ContentItemConfig
@@ -25,7 +26,12 @@
 @property (nonatomic, copy) void(^textBlock)(NSString*);
 @end
 
+@interface ContentDatePickerConfig : ContentItemConfig
+@property (nonatomic, copy) void(^dateBlock)(NSDate*);
+@end
+
 @interface ContentItemConfigToAdd : ManagedPropertiesObject
 @property (nonatomic, retain) ContentItemConfig* contentItemConfig;
 @property (nonatomic, assign) int index;
 @end
+

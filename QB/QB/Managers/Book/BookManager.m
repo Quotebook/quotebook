@@ -66,7 +66,10 @@
                        {
                            [_booksById setObject:book
                                           forKey:@(book.uuid)];
-                           [userManager.getActiveUser.bookIds addObject:@(book.uuid)];
+                           if (![userManager.getActiveUser.bookIds containsObject:@(book.uuid)])
+                           {
+                               [userManager.getActiveUser.bookIds addObject:@(book.uuid)];
+                           }
                            successBlock(book);
                        }
                        else

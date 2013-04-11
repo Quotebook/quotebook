@@ -19,26 +19,10 @@
            forContainer:@"invitedUsers"];
 }
 
-//- (id)serializedRepresentationForOfflineDatabase
-//{
-//    NSMutableDictionary* serializedRepresentation = [NSMutableDictionary object];
-//    
-//    [serializedRepresentation setObject:@(_uuid)
-//                                 forKey:@"uuid"];
-//    
-//    [serializedRepresentation setObject:_title
-//                                 forKey:@"title"];
-//
-//    NSMutableArray* quotes = [NSMutableArray object];
-//    for (QBQuote* quote in _quotes)
-//    {
-//        [quotes addObject:quote.serializedRepresentationForOfflineDatabase];
-//    }
-//    [serializedRepresentation setObject:quotes
-//                                 forKey:@"quotes"];
-//    
-//    return serializedRepresentation;
-//}
+- (BOOL)isEmpty
+{
+    return _quotes == nil || _quotes.count == 0;
+}
 
 - (BOOL)hasMemberUser:(QBUser*)userArg
 {

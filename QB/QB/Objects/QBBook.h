@@ -10,6 +10,8 @@
 @property (nonatomic, retain) NSMutableArray* memberUsers;
 @property (nonatomic, retain) NSMutableArray* invitedUsers;
 
+- (BOOL)isEmpty;
+
 - (BOOL)hasMemberUser:(QBUser*)user;
 
 - (BOOL)hasInvitedUser:(QBUser*)user;

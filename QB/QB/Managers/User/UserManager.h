@@ -9,6 +9,10 @@
 
 - (void)setActiveUser:(QBUser*)user;
 
+- (BOOL)shouldLoginImplicitly;
+
+- (void)attemptImplicitLogin;
+
 - (void)createNewUserWithEmail:(NSString*)email
                      firstName:(NSString*)firstName
                       lastName:(NSString*)lastName

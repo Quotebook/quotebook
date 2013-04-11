@@ -59,6 +59,8 @@
 		676F8D0A1700945500004C89 /* UserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 676F8D041700945500004C89 /* UserManager.m */; };
 		67903B6916D33EF300C634FF /* QBUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 67903B6816D33EF300C634FF /* QBUser.m */; };
 		67903B8116D3EC7000C634FF /* QBBook.m in Sources */ = {isa = PBXBuildFile; fileRef = 67903B8016D3EC7000C634FF /* QBBook.m */; };
+		679411A51716433F00EC59E7 /* ContentItem_datePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 679411A31716433C00EC59E7 /* ContentItem_datePicker.m */; };
+		679411A61716433F00EC59E7 /* ContentItem_datePicker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 679411A41716433D00EC59E7 /* ContentItem_datePicker.xib */; };
 		67C424AA16D520C200680C7E /* QBQuote.m in Sources */ = {isa = PBXBuildFile; fileRef = 67C424A916D520C200680C7E /* QBQuote.m */; };
 		67C4252916D600F100680C7E /* ManagedScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67C4252816D600F100680C7E /* ManagedScrollView.m */; };
 		67C4252E16D68B9200680C7E /* ContentItem_button.m in Sources */ = {isa = PBXBuildFile; fileRef = 67C4252C16D68B9100680C7E /* ContentItem_button.m */; };
@@ -173,6 +175,9 @@
 		67903B6816D33EF300C634FF /* QBUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QBUser.m; path = QB/Objects/QBUser.m; sourceTree = "<group>"; };
 		67903B7F16D3EC7000C634FF /* QBBook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QBBook.h; path = QB/Objects/QBBook.h; sourceTree = "<group>"; };
 		67903B8016D3EC7000C634FF /* QBBook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QBBook.m; path = QB/Objects/QBBook.m; sourceTree = "<group>"; };
+		679411A21716433B00EC59E7 /* ContentItem_datePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContentItem_datePicker.h; path = QB/UI/Content/ContentItem_datePicker.h; sourceTree = "<group>"; };
+		679411A31716433C00EC59E7 /* ContentItem_datePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ContentItem_datePicker.m; path = QB/UI/Content/ContentItem_datePicker.m; sourceTree = "<group>"; };
+		679411A41716433D00EC59E7 /* ContentItem_datePicker.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ContentItem_datePicker.xib; path = QB/UI/Content/ContentItem_datePicker.xib; sourceTree = "<group>"; };
 		67C424A816D520C200680C7E /* QBQuote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QBQuote.h; path = QB/Objects/QBQuote.h; sourceTree = "<group>"; };
 		67C424A916D520C200680C7E /* QBQuote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QBQuote.m; path = QB/Objects/QBQuote.m; sourceTree = "<group>"; };
 		67C4252716D600F100680C7E /* ManagedScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ManagedScrollView.h; path = Core/Views/ManagedScrollView.h; sourceTree = "<group>"; };
@@ -650,6 +655,9 @@
 				672D81B916DC85DC00771EBA /* ContentItem_spacer.h */,
 				672D81BA16DC85DD00771EBA /* ContentItem_spacer.m */,
 				672D81BB16DC85DE00771EBA /* ContentItem_spacer.xib */,
+				679411A21716433B00EC59E7 /* ContentItem_datePicker.h */,
+				679411A31716433C00EC59E7 /* ContentItem_datePicker.m */,
+				679411A41716433D00EC59E7 /* ContentItem_datePicker.xib */,
 			);
 			name = Content;
 			sourceTree = "<group>";
@@ -746,6 +754,7 @@
 				676F8CEC1700920C00004C89 /* icon_quoteBook.png in Resources */,
 				676F8CED1700920C00004C89 /* offlineDatabase.json in Resources */,
 				676F8CEE1700920C00004C89 /* offlineDatabaseTemplate.json in Resources */,
+				679411A61716433F00EC59E7 /* ContentItem_datePicker.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -818,6 +827,7 @@
 				6751D7181705F23300570DE6 /* OfflineSupport.m in Sources */,
 				6722896B170B3DEC00649318 /* BookService.m in Sources */,
 				676B6A4E170D44E9004176A2 /* QuoteService.m in Sources */,
+				679411A51716433F00EC59E7 /* ContentItem_datePicker.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

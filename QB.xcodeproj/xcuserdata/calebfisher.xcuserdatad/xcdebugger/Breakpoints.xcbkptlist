@@ -21,11 +21,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "QB/Core/Base/Utilities.m"
-         timestampString = "381777045.346781"
+         timestampString = "387355381.780383"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "33"
-         endingLineNumber = "33"
+         startingLineNumber = "35"
+         endingLineNumber = "35"
          landmarkName = "+allClassesWithSuperClass:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -137,19 +137,6 @@
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "QB/QB/Managers/User/UserManager.m"
-         timestampString = "387123812.043606"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "88"
-         endingLineNumber = "88"
-         landmarkName = "-loginUserWithEmail:password:successBlock:failureBlock:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
          filePath = "QB/QB/Managers/Offline/OfflineManager.m"
          timestampString = "386746819.132908"
          startingColumnNumber = "9223372036854775807"
@@ -171,6 +158,19 @@
          endingLineNumber = "96"
          landmarkName = "@implementation OfflineManager"
          landmarkType = "3">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "QB/QB/Managers/Menu/MenuManager.m"
+         timestampString = "387354328.299761"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "276"
+         endingLineNumber = "276"
+         landmarkName = "-confirmFailureWithText:failureBlock:"
+         landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>
    <ExceptionBreakpoints>

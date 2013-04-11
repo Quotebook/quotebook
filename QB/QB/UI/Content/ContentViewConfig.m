@@ -40,5 +40,15 @@
 
 @end
 
+@implementation ContentDatePickerConfig
+
+- (void)dealloc
+{
+    self.dateBlock = nil;
+    [super dealloc];
+}
+
+@end
+
 @implementation ContentItemConfigToAdd
 @end

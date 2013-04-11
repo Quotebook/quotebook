@@ -11,7 +11,7 @@
 
 @interface RetrieveUserRequest : ManagedPropertiesObject <SerializeByDefault>
 @property (nonatomic, retain) NSString* email;
-@property (nonatomic, assign) int64_t uuid;
+@property (nonatomic, assign) int uuid;
 @end
 
 @interface LoginRequest : ManagedPropertiesObject <SerializeByDefault>

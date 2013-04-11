@@ -2,6 +2,8 @@
 #import <objc/runtime.h>
 #import "ViewManager.h"
 
+NSDateFormatter* dateFormatter = nil;
+
 @implementation Util
 
 + (NSArray*)allClassesWithSuperClass:(Class)superClass
@@ -31,6 +33,19 @@
     }
     
     return matchingClasses;
+}
+
++ (NSString*)formatedDate:(NSDate *)date
+{
+    if (dateFormatter == nil)
+    {
+        dateFormatter = [[NSDateFormatter alloc] init];
+//        [dateFormatter setDateFormat:@"yyyy-MM-dd 'at' HH:mm"];
+//        [dateFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
+        [dateFormatter setDateFormat:@"EEEE hh:mm a 'on' MM/dd/yyyy"];
+    }
+
+    return [dateFormatter stringFromDate:date];
 }
 
 @end
