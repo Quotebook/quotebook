@@ -8,6 +8,8 @@
     [_datePicker addTarget:self
                     action:@selector(dateChanged:)
           forControlEvents:UIControlEventValueChanged];
+    
+    [self dateChanged:self];
 }
 
 - (void)dealloc

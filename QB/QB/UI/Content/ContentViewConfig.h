@@ -28,6 +28,7 @@
 
 @interface ContentDatePickerConfig : ContentItemConfig
 @property (nonatomic, copy) void(^dateBlock)(NSDate*);
+@property (nonatomic, retain) NSDate* defaultDate;
 @end
 
 @interface ContentItemConfigToAdd : ManagedPropertiesObject

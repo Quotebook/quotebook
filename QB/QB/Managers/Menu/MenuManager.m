@@ -77,7 +77,7 @@ forState:UIControlStateNormal]; \
 contentViewArg.mainMenuBlock = mainMenuBlockArg; \
 }
 
-- (void)internal_showDefaultBackground
+- (void)showDefaultBackground
 {
     if (_backgroundView == nil)
     {
@@ -88,7 +88,7 @@ contentViewArg.mainMenuBlock = mainMenuBlockArg; \
     }
 }
 
-- (void)internal_showTitleBarWithTitle:(NSString*)title
+- (void)showTitleBarWithTitle:(NSString*)title
 {
     if (_titleBarView == nil)
     {
@@ -105,7 +105,7 @@ contentViewArg.mainMenuBlock = mainMenuBlockArg; \
     }
 }
 
-- (void)internal_showContentViewWithSetupBlock:(void(^)(ContentView*))setupBlock
+- (void)showContentViewWithSetupBlock:(void(^)(ContentView*))setupBlock
 {
     CheckTrue(_contentView == nil);
     
@@ -116,20 +116,20 @@ contentViewArg.mainMenuBlock = mainMenuBlockArg; \
                                            }];
 }
 
-- (void)internal_dismissContentView
+- (void)dismissContentView
 {   
     [_contentView dismiss];
     
     self.contentView = nil;
 }
 
-- (void)internal_showCreateNewLoginMenu
+- (void)showCreateNewLoginMenu
 {
-    [self internal_dismissContentView];
+    [self dismissContentView];
     
-    [self internal_showDefaultBackground];
+    [self showDefaultBackground];
     
-    [self internal_showContentViewWithSetupBlock:^(ContentView* contentView) {
+    [self showContentViewWithSetupBlock:^(ContentView* contentView) {
         __block NSString* email = nil;
         __block NSString* firstName = nil;
         __block NSString* lastName = nil;
@@ -189,72 +189,49 @@ contentViewArg.mainMenuBlock = mainMenuBlockArg; \
         });
     }];
     
-    [self internal_showTitleBarWithTitle:@"Create new login..."];
+    [self showTitleBarWithTitle:@"Create new login..."];
 }
 
-- (void)internal_showCreateNewBookMenu
+- (void)showCreateNewBookMenu
 {
-    [self internal_dismissContentView];
+    [self dismissContentView];
     
-    [self internal_showDefaultBackground];
+    [self showDefaultBackground];
     
-    [self internal_showContentViewWithSetupBlock:^(ContentView* contentView) {
+    [self showContentViewWithSetupBlock:^(ContentView* contentView) {
         __block NSString* bookName = nil;
-        __block NSMutableArray* emails = [NSMutableArray new];
-        __block NSMutableArray* users = [NSMutableArray new];
         
         ContentViewConfig* contentViewConfig = [ContentViewConfig object];
-        [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, @"Name the book:")];
+        contentViewConfig.initialSpacerHeight = 60;
+        [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight * 1.5, NO, @"Name the book:")];
         [contentViewConfig.viewConfigs addObject:ContentTextFieldConfig(kDefaultAdditionalHeight,^(NSString* enteredString) {
             bookName = [[NSString alloc] initWithString:enteredString];
         })];
-        [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight * .2, NO, @"Invite members:")];
-        [contentViewConfig.viewConfigs addObject:ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"E-mail:",^(NSString* enteredString) {
-            NSString* email = enteredString;
-            if (email != nil &&
-                email.length > 0)
-            {
-                [emails addObject:email];
-            }
-        })];
-        [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight * .2, NO, @"or ...")];
-        [contentViewConfig.viewConfigs addObject:ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"Users:",^(NSString* enteredString) {
-            NSString* user = enteredString;
-            if (user != nil  &&
-                user.length > 0)
-            {
-                [users addObject:user];
-            }
-        })];
+        
         [contentView configureWithContentViewConfig:contentViewConfig];
         
         ConfigureContentViewWithMainMenu(contentView, ^{
             [bookName release];
-            [emails release];
-            [users release];
             
             [self showAllBooksMenu];
         });
         
-        ConfigureContentViewWithAction(contentView, @"Done", ^{
+        ConfigureContentViewWithAction(contentView, @"Create!", ^{
             [bookManager createNewBookWithBookName:bookName
-                                      inviteEmails:emails
-                                       inviteUsers:users
                                       successBlock:^(QBBook* book){
                                           [bookName release];
-                                          [emails release];
-                                          [users release];
-                                          [self showMenuForBook:book];
+                                          
+                                          [self showMenuForInvitingNewMembersToBook:book];
                                       }
                                       failureBlock:^{
-                                          //[self internal_refreshWithErrors];
+                                          //[self refreshWithErrors];
                                           [self confirmFailureWithText:@"New Book Failed"
                                                           failureBlock:^{}];
                                       }];
         });
     }];
     
-    [self internal_showTitleBarWithTitle:@"Create new book..."];
+    [self showTitleBarWithTitle:@"Create new book..."];
 }
 
 - (void)confirmActionWithText:(NSString*)text
@@ -283,11 +260,11 @@ contentViewArg.mainMenuBlock = mainMenuBlockArg; \
 
 - (void)showLoginMenu
 {
-    [self internal_dismissContentView];
+    [self dismissContentView];
     
-    [self internal_showDefaultBackground];
+    [self showDefaultBackground];
     
-    [self internal_showContentViewWithSetupBlock:^(ContentView* contentView) {
+    [self showContentViewWithSetupBlock:^(ContentView* contentView) {
         __block NSString* email = nil;
         __block NSString* password = nil;
         
@@ -319,20 +296,20 @@ contentViewArg.mainMenuBlock = mainMenuBlockArg; \
         ConfigureContentViewWithMainMenu(contentView, ^{});
         
         ConfigureContentViewWithAction(contentView, @"Create new login...", ^{
-            [self internal_showCreateNewLoginMenu];
+            [self showCreateNewLoginMenu];
         }); 
     }];
     
-    [self internal_showTitleBarWithTitle:@"Quote with me..."];
+    [self showTitleBarWithTitle:@"Quote with me..."];
 }
 
 - (void)showAllBooksMenu
 {
-    [self internal_dismissContentView];
+    [self dismissContentView];
     
-    [self internal_showDefaultBackground];
+    [self showDefaultBackground];
     
-    [self internal_showContentViewWithSetupBlock:^(ContentView* contentView) {
+    [self showContentViewWithSetupBlock:^(ContentView* contentView) {
         ContentViewConfig* contentViewConfig = [ContentViewConfig object];
         
         QBUser* activeUser = userManager.getActiveUser;
@@ -365,12 +342,12 @@ contentViewArg.mainMenuBlock = mainMenuBlockArg; \
         });
         
         ConfigureContentViewWithAction(contentView, @"Create new book...", ^{
-            [self internal_showCreateNewBookMenu];
+            [self showCreateNewBookMenu];
         });
         
     }];
     
-    [self internal_showTitleBarWithTitle:@"Your Quotebooks"];
+    [self showTitleBarWithTitle:@"Your Quotebooks"];
 }
 
 @end
@@ -385,11 +362,11 @@ contentViewArg.mainMenuBlock = mainMenuBlockArg; \
         return;
     }
     
-    [self internal_dismissContentView];
+    [self dismissContentView];
     
-    [self internal_showDefaultBackground];
+    [self showDefaultBackground];
     
-    [self internal_showContentViewWithSetupBlock:^(ContentView* contentView) {
+    [self showContentViewWithSetupBlock:^(ContentView* contentView) {
         ContentViewConfig* contentViewConfig = [ContentViewConfig object];
         for (QBQuote* quote in book.quotes)
         {
@@ -411,7 +388,7 @@ contentViewArg.mainMenuBlock = mainMenuBlockArg; \
         });
     }];
     
-    [self internal_showTitleBarWithTitle:book.title];
+    [self showTitleBarWithTitle:book.title];
 }
 
 - (void)showMenuForViewingQuote:(QBQuote*)quote
@@ -420,11 +397,11 @@ contentViewArg.mainMenuBlock = mainMenuBlockArg; \
 {
     [quote retain];
     
-    [self internal_dismissContentView];
+    [self dismissContentView];
     
-    [self internal_showDefaultBackground];
+    [self showDefaultBackground];
     
-    [self internal_showContentViewWithSetupBlock:^(ContentView* contentView) {
+    [self showContentViewWithSetupBlock:^(ContentView* contentView) {
         ContentViewConfig* contentViewConfig = [ContentViewConfig object];
         contentViewConfig.initialSpacerHeight = 0;
         
@@ -489,21 +466,28 @@ contentViewArg.mainMenuBlock = mainMenuBlockArg; \
     
     if (asPreview)
     {
-        [self internal_showTitleBarWithTitle:@"Quote Preview"];
+        [self showTitleBarWithTitle:@"Quote Preview"];
     }
     else
     {
-        [self internal_showTitleBarWithTitle:book.title];
+        [self showTitleBarWithTitle:book.title];
     }
 }
 
 - (void)showMenuForBookActions:(QBBook*)book
 {
-    [self internal_dismissContentView];
+    if (book.isEmpty)
+    {
+        [self showMenuForAddingNewQuoteToBook:book
+                                optionalQuote:nil];
+        return;
+    }
     
-    [self internal_showDefaultBackground];
+    [self dismissContentView];
     
-    [self internal_showContentViewWithSetupBlock:^(ContentView* contentView) {
+    [self showDefaultBackground];
+    
+    [self showContentViewWithSetupBlock:^(ContentView* contentView) {
         ContentViewConfig* contentViewConfig = [ContentViewConfig object];
         [contentViewConfig.viewConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, @"Add new quote", ^{
             [self showMenuForAddingNewQuoteToBook:book
@@ -535,17 +519,17 @@ contentViewArg.mainMenuBlock = mainMenuBlockArg; \
         });
     }];
     
-    [self internal_showTitleBarWithTitle:book.title];
+    [self showTitleBarWithTitle:book.title];
 }
 
 - (void)showMenuForAddingNewQuoteToBook:(QBBook*)book
                           optionalQuote:(QBQuote*)quoteArg
 {
-    [self internal_dismissContentView];
+    [self dismissContentView];
     
-    [self internal_showDefaultBackground];
+    [self showDefaultBackground];
     
-    [self internal_showContentViewWithSetupBlock:^(ContentView* contentView) {
+    [self showContentViewWithSetupBlock:^(ContentView* contentView) {
         __block QBQuote* quoteToEdit = ^{
             if (quoteArg == nil)
             {
@@ -568,14 +552,14 @@ contentViewArg.mainMenuBlock = mainMenuBlockArg; \
             });
             ContentItemConfigToAdd* quoteTextConfigToAdd = [ContentItemConfigToAdd object];
             quoteTextConfigToAdd.contentItemConfig = quoteTextConfig;
-            quoteTextConfigToAdd.index = index * 2;
+            quoteTextConfigToAdd.index = index * 2 + 1;
             
             ContentTextFieldConfig* whoConfig = ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"Who:", ^(NSString* enteredString) {
                 quoteLine.who.nonuserQuoted = enteredString;
             });
             ContentItemConfigToAdd* whoConfigToAdd = [ContentItemConfigToAdd object];
             whoConfigToAdd.contentItemConfig = whoConfig;
-            whoConfigToAdd.index = index * 2 + 1;
+            whoConfigToAdd.index = index * 2 + 2;
             
             NSMutableArray* contentItemConfigsToAdd = [NSMutableArray object];
             [contentItemConfigsToAdd addObject:quoteTextConfigToAdd];
@@ -585,18 +569,19 @@ contentViewArg.mainMenuBlock = mainMenuBlockArg; \
         };
         
         ContentViewConfig* contentViewConfig = [ContentViewConfig object];
-        
+        [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, @"Add new quote:")];
         for (QBQuoteLine* quoteLine in quoteToEdit.quoteLines)
         {
+            int index = [quoteToEdit.quoteLines indexOfObject:quoteLine];
             ContentTextFieldConfig* quoteConfig = ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"Quote:", ^(NSString* enteredString){
-                QBQuoteLine* quoteLine = [quoteToEdit.quoteLines objectAtIndex:0];
+                QBQuoteLine* quoteLine = [quoteToEdit.quoteLines objectAtIndex:index];
                 quoteLine.text = enteredString;
             });
             quoteConfig.fieldText = quoteLine.text;
             [contentViewConfig.viewConfigs addObject:quoteConfig];
             
             ContentTextFieldConfig* whoConfig = ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"Who:", ^(NSString* enteredString){
-                QBQuoteLine* quoteLine = [quoteToEdit.quoteLines objectAtIndex:0];
+                QBQuoteLine* quoteLine = [quoteToEdit.quoteLines objectAtIndex:index];
                 quoteLine.who.nonuserQuoted = enteredString;
             });
             whoConfig.fieldText = quoteLine.who.displayName;
@@ -615,9 +600,11 @@ contentViewArg.mainMenuBlock = mainMenuBlockArg; \
         
         [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, @"When:")];
         
-        [contentViewConfig.viewConfigs addObject:ContentDatePickerConfig(kDefaultAdditionalHeight, ^(NSDate* enteredDate){
+        ContentDatePickerConfig* dateConfig = ContentDatePickerConfig(kDefaultAdditionalHeight, ^(NSDate* enteredDate){
             quoteToEdit.creationDate = [[enteredDate copy] autorelease];
-        })];
+        });
+        dateConfig.defaultDate = quoteToEdit.creationDate;
+        [contentViewConfig.viewConfigs addObject:dateConfig];
         
         [contentView configureWithContentViewConfig:contentViewConfig];
         
@@ -639,20 +626,21 @@ contentViewArg.mainMenuBlock = mainMenuBlockArg; \
         });
     }];
     
-    [self internal_showTitleBarWithTitle:book.title];
+    [self showTitleBarWithTitle:book.title];
 }
 
 - (void)showMenuForInvitingNewMembersToBook:(QBBook*)book
 {
-    [self internal_dismissContentView];
+    [self dismissContentView];
     
-    [self internal_showDefaultBackground];
+    [self showDefaultBackground];
     
-    [self internal_showContentViewWithSetupBlock:^(ContentView* contentView) {
+    [self showContentViewWithSetupBlock:^(ContentView* contentView) {
         __block NSMutableArray* users = [NSMutableArray new];
         
         ContentViewConfig* contentViewConfig = [ContentViewConfig object];
-        contentViewConfig.initialSpacerHeight = 60;
+        contentViewConfig.initialSpacerHeight = 30;
+        [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight * 1.5, NO, @"Invite members:")];
         [contentViewConfig.viewConfigs addObject:ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"E-mail:", ^(NSString* enteredString) {
             [userManager retrieveUserWithEmail:enteredString
                                   successBlock:^(QBUser* user) {
@@ -670,7 +658,9 @@ contentViewArg.mainMenuBlock = mainMenuBlockArg; \
         })];
         [contentView configureWithContentViewConfig:contentViewConfig];
         
-        ConfigureContentViewWithMainMenu(contentView, ^{[self showMenuForBook:book];});
+        ConfigureContentViewWithMainMenu(contentView, ^{
+            [self showMenuForBook:book];
+        });
         
         ConfigureContentViewWithAction(contentView, @"Send invitations", ^{
             [self showMenuForConfirmingInvitationOfUsers:users
@@ -678,16 +668,16 @@ contentViewArg.mainMenuBlock = mainMenuBlockArg; \
         });
     }];
     
-    [self internal_showTitleBarWithTitle:book.title];;
+    [self showTitleBarWithTitle:book.title];;
 }
 
 - (void)showMenuForConfirmingInvitationOfUsers:(NSArray*)users
                                         toBook:(QBBook*)book
 {
-    [self internal_dismissContentView];
+    [self dismissContentView];
     
-    [self internal_showDefaultBackground];
-    [self internal_showContentViewWithSetupBlock:^(ContentView* contentView) {
+    [self showDefaultBackground];
+    [self showContentViewWithSetupBlock:^(ContentView* contentView) {
         ContentViewConfig* contentViewConfig = [ContentViewConfig object];
         contentViewConfig.initialSpacerHeight = 60;
         [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, Format(@"An invitation to join \"%@\" has been sent to:", book.title))];
@@ -706,16 +696,16 @@ contentViewArg.mainMenuBlock = mainMenuBlockArg; \
         });
     }];
     
-    [self internal_showTitleBarWithTitle:book.title];
+    [self showTitleBarWithTitle:book.title];
 }
 
 - (void)showMenuForDisplayOptionsForBook:(QBBook*)book
 {
-    [self internal_dismissContentView];
+    [self dismissContentView];
     
-    [self internal_showDefaultBackground];
+    [self showDefaultBackground];
     
-    [self internal_showContentViewWithSetupBlock:^(ContentView* contentView) {
+    [self showContentViewWithSetupBlock:^(ContentView* contentView) {
         ContentViewConfig* contentViewConfig = [ContentViewConfig object];
         [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, @"Filter by...")];
         [contentViewConfig.viewConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, @"Members", ^{
@@ -731,16 +721,16 @@ contentViewArg.mainMenuBlock = mainMenuBlockArg; \
         ConfigureContentViewWithMainMenu(contentView, ^{[self showMenuForBook:book];});
     }];
     
-    [self internal_showTitleBarWithTitle:book.title];
+    [self showTitleBarWithTitle:book.title];
 }
 
 - (void)showMenuForViewingStatsForBook:(QBBook*)book
 {
-    [self internal_dismissContentView];
+    [self dismissContentView];
     
-    [self internal_showDefaultBackground];
+    [self showDefaultBackground];
     
-    [self internal_showContentViewWithSetupBlock:^(ContentView* contentView) {
+    [self showContentViewWithSetupBlock:^(ContentView* contentView) {
         ContentViewConfig* contentViewConfig = [ContentViewConfig object];
         [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, @"Members")];
         for (QBUser* user in book.memberUsers)
@@ -757,16 +747,16 @@ contentViewArg.mainMenuBlock = mainMenuBlockArg; \
         ConfigureContentViewWithMainMenu(contentView, ^{[self showMenuForBook:book];});
     }];
     
-    [self internal_showTitleBarWithTitle:book.title];
+    [self showTitleBarWithTitle:book.title];
 }
 
 - (void)showMenuForSearchingInBook:(QBBook*)book
 {
-    [self internal_dismissContentView];
+    [self dismissContentView];
     
-    [self internal_showDefaultBackground];
+    [self showDefaultBackground];
     
-    [self internal_showContentViewWithSetupBlock:^(ContentView* contentView) {
+    [self showContentViewWithSetupBlock:^(ContentView* contentView) {
         ContentViewConfig* contentViewConfig = [ContentViewConfig object];
         [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight * 3, NO, @"Search Keywords")];
         [contentViewConfig.viewConfigs addObject:ContentTextFieldConfig(kDefaultAdditionalHeight, ^(NSString* enteredString){
@@ -779,7 +769,7 @@ contentViewArg.mainMenuBlock = mainMenuBlockArg; \
         ConfigureContentViewWithMainMenu(contentView, ^{[self showMenuForBook:book];});
     }];
     
-    [self internal_showTitleBarWithTitle:book.title];
+    [self showTitleBarWithTitle:book.title];
 }
 
 @end

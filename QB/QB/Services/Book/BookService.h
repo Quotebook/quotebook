@@ -4,7 +4,6 @@
 
 @interface CreateNewBookRequest : ManagedPropertiesObject <SerializeByDefault>
 @property (nonatomic, retain) NSString* bookTitle;
-//@property (nonatomic, retain) NSArray* invitedByEmail;
 @end
 
 @interface RetrieveBookRequest : ManagedPropertiesObject <SerializeByDefault>

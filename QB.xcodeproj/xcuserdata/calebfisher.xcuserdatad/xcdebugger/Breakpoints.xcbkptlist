@@ -164,12 +164,25 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "QB/QB/Managers/Menu/MenuManager.m"
-         timestampString = "387354328.299761"
+         timestampString = "387822060.521354"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "276"
-         endingLineNumber = "276"
+         startingLineNumber = "253"
+         endingLineNumber = "253"
          landmarkName = "-confirmFailureWithText:failureBlock:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "QB/QB/Managers/Quote/QuoteManager.m"
+         timestampString = "387822795.49434"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "21"
+         endingLineNumber = "21"
+         landmarkName = "-internal_validateNewQuote:toBook:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

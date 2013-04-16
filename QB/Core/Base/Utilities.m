@@ -43,6 +43,8 @@ NSDateFormatter* dateFormatter = nil;
 //        [dateFormatter setDateFormat:@"yyyy-MM-dd 'at' HH:mm"];
 //        [dateFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
         [dateFormatter setDateFormat:@"EEEE hh:mm a 'on' MM/dd/yyyy"];
+        // Desire
+        //      July, 15 2011 - 2:00pm.
     }
 
     return [dateFormatter stringFromDate:date];

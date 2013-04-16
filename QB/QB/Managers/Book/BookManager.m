@@ -39,8 +39,6 @@
 }
 
 - (BOOL)internal_validateNewBookWithBookName:(NSString*)bookName
-                                inviteEmails:(NSArray*)inviteEmails
-                                 inviteUsers:(NSArray*)inviteUsers
 {
     if (bookName == nil)
         return NO;
@@ -48,17 +46,13 @@
 }
 
 - (void)createNewBookWithBookName:(NSString*)bookName
-                     inviteEmails:(NSArray*)inviteEmails
-                      inviteUsers:(NSArray*)inviteUsers
                      successBlock:(void(^)(QBBook*))successBlock
                      failureBlock:(VoidBlock)failureBlock
 {
     CreateNewBookRequest* request = [CreateNewBookRequest object];
     request.bookTitle = bookName;
     
-    if ([self internal_validateNewBookWithBookName:bookName
-                                      inviteEmails:inviteEmails
-                                       inviteUsers:inviteUsers])
+    if ([self internal_validateNewBookWithBookName:bookName])
     {
         [BookService createNewBook:request
                    responseHandler:^(QBBook* book) {

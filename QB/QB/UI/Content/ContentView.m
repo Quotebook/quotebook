@@ -126,6 +126,10 @@
     ContentItem_datePicker* datePickerItem = [viewManager createManagedViewOfClass:ContentItem_datePicker.class
                                                                         parent:self];
     
+    if (contentDatePickerConfig.defaultDate != nil)
+    {
+        datePickerItem.datePicker.date = contentDatePickerConfig.defaultDate;
+    }
     datePickerItem.dateBlock = contentDatePickerConfig.dateBlock;
     
     return datePickerItem;

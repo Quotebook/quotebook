@@ -251,11 +251,84 @@
         ],
         "title": "lkj",
         "uuid": 9
+      },
+      {
+        "invitedUsers": null,
+        "memberUsers": null,
+        "quotes": null,
+        "title": "My new book!",
+        "uuid": 10
+      },
+      {
+        "invitedUsers": null,
+        "memberUsers": null,
+        "quotes": null,
+        "title": "My book",
+        "uuid": 11
+      },
+      {
+        "invitedUsers": null,
+        "memberUsers": null,
+        "quotes": null,
+        "title": "My new book",
+        "uuid": 12
+      },
+      {
+        "invitedUsers": null,
+        "memberUsers": null,
+        "quotes": null,
+        "title": "Another book",
+        "uuid": 13
+      },
+      {
+        "invitedUsers": null,
+        "memberUsers": null,
+        "quotes": null,
+        "title": "Yet another",
+        "uuid": 14
+      },
+      {
+        "invitedUsers": null,
+        "memberUsers": null,
+        "quotes": null,
+        "title": "caleb",
+        "uuid": 15
+      },
+      {
+        "invitedUsers": null,
+        "memberUsers": null,
+        "quotes": [
+          {
+            "creationDate": {
+              
+            },
+            "quoteContext": "my content",
+            "quoteLines": [
+              {
+                "text": "new quote",
+                "who": {
+                  "nonuserQuoted": "who.",
+                  "userQuoted": null
+                }
+              },
+              {
+                "text": "sdfdd",
+                "who": {
+                  "nonuserQuoted": "ss",
+                  "userQuoted": null
+                }
+              }
+            ],
+            "uuid": 13
+          }
+        ],
+        "title": "da book",
+        "uuid": 16
       }
     ]
   },
-  "bookUuidGenerator": 9,
-  "quoteUuidGenerator": 12,
+  "bookUuidGenerator": 16,
+  "quoteUuidGenerator": 13,
   "userData": {
     "userActors": [
       {
@@ -373,8 +446,26 @@
           "lastName": "lksdf",
           "uuid": 9
         }
+      },
+      {
+        "password": "caleb",
+        "user": {
+          "bookIds": [
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16
+          ],
+          "email": "calebb@caleb.com",
+          "firstName": "caleb",
+          "lastName": "caleb",
+          "uuid": 10
+        }
       }
     ]
   },
-  "userUuidGenerator": 9
+  "userUuidGenerator": 10
 }

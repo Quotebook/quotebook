@@ -10,8 +10,6 @@
 - (void)addBooksToKnownBooks:(NSArray*)books;
 
 - (void)createNewBookWithBookName:(NSString*)bookName
-                     inviteEmails:(NSArray*)inviteEmails
-                      inviteUsers:(NSArray*)inviteUsers
                      successBlock:(void(^)(QBBook*))successBlock
                      failureBlock:(VoidBlock)failureBlock;
 
