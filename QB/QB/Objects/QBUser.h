@@ -7,6 +7,6 @@
 @property (nonatomic, retain) NSString* lastName;
 @property (nonatomic, retain) NSMutableArray* bookIds;
 
-- (NSString*)formattedDisplayName;
+- (NSString*)formatDisplayName;
 
 @end

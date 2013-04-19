@@ -27,6 +27,16 @@
 @end
 
 @implementation ContentLabelConfig
+
+- (id)init
+{
+    if (self = [super init])
+    {
+        _alignment = ContentConfigAlignmentNone;
+    }
+    return self;
+}
+
 @end
 
 @implementation ContentTextFieldConfig
@@ -34,7 +44,8 @@
 - (void)dealloc
 {
     self.textBlock = nil;
-    self.fieldText = nil;
+    self.overrideFieldText = nil;
+    self.defaultFieldText = nil;
     [super dealloc];
 }
 

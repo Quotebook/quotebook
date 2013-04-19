@@ -6,7 +6,7 @@
 @property (nonatomic, retain) QBUser* userQuoted;
 @property (nonatomic, retain) NSString* nonuserQuoted;
 
-- (NSString*)displayName;
+- (NSString*)formatDisplayName;
 
 @end
 
@@ -14,7 +14,9 @@
 @property (nonatomic, retain) QBQuoteWho* who;
 @property (nonatomic, retain) NSString* text;
 
-- (NSString*)oneLineDisplayName;
+- (NSString*)formatOnelineDisplay;
+
+- (NSString*)formatMultilineDisplay;
 
 @end
 
@@ -24,6 +26,8 @@
 @property (nonatomic, retain) NSDate* creationDate;
 @property (nonatomic, retain) NSString* quoteContext;
 
-- (NSString*)displayName;
+- (NSString*)formatDisplayName;
+
+- (NSString*)formatContext;
 
 @end

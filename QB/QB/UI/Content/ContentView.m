@@ -78,6 +78,7 @@
 {
     ContentItem_label* labelItem = [viewManager createManagedViewOfClass:ContentItem_label.class
                                                                   parent:self];
+    
     [labelItem.label setText:contentLabelConfig.labelText];
     
     if (contentLabelConfig.wordWrap)
@@ -88,6 +89,11 @@
         labelItem.label.numberOfLines = (originalFrame.size.height + contentLabelConfig.additionalViewHeight) / 22;
         labelItem.label.frame = CGRectMake(originalFrame.origin.x, originalFrame.origin.y,
                                            originalFrame.size.width, originalFrame.size.height + contentLabelConfig.additionalViewHeight);
+    }
+    
+    if (contentLabelConfig.alignment != ContentConfigAlignmentNone)
+    {
+        labelItem.label.textAlignment = contentLabelConfig.alignment;
     }
     
     labelItem.additionalViewHeight = contentLabelConfig.additionalViewHeight;
@@ -105,16 +111,44 @@
         textFieldItem.titleLabel.hidden = YES;
         textFieldItem.textFieldWithlabel.hidden = YES;
         textFieldItem.textField.secureTextEntry = contentTextFieldConfig.secureTextEntry;
-        textFieldItem.textField.text = contentTextFieldConfig.fieldText;
+        if (contentTextFieldConfig.defaultFieldText != nil)
+        {
+            textFieldItem.textField.text = contentTextFieldConfig.defaultFieldText;
+            textFieldItem.defaultText = contentTextFieldConfig.defaultFieldText;
+        }
+        if (contentTextFieldConfig.overrideFieldText != nil)
+        {
+            textFieldItem.textField.text = contentTextFieldConfig.overrideFieldText;
+            textFieldItem.overrideText = contentTextFieldConfig.overrideFieldText;
+        }
     }
     else
     {
         textFieldItem.titleLabel.text = contentTextFieldConfig.labelText;
         textFieldItem.textField.hidden = YES;
         textFieldItem.textFieldWithlabel.secureTextEntry = contentTextFieldConfig.secureTextEntry;
-        textFieldItem.textFieldWithlabel.text = contentTextFieldConfig.fieldText;   
+        if (contentTextFieldConfig.defaultFieldText != nil)
+        {
+            textFieldItem.textFieldWithlabel.text = contentTextFieldConfig.defaultFieldText;
+            textFieldItem.defaultText = contentTextFieldConfig.defaultFieldText;
+        }
+        if (contentTextFieldConfig.overrideFieldText != nil)
+        {
+            textFieldItem.textFieldWithlabel.text = contentTextFieldConfig.overrideFieldText;
+            textFieldItem.overrideText = contentTextFieldConfig.overrideFieldText;
+        }
     }
 
+    if (contentTextFieldConfig.defaultFieldText != nil)
+    {
+        textFieldItem.textFieldWithlabel.text = contentTextFieldConfig.defaultFieldText;
+        textFieldItem.defaultText = contentTextFieldConfig.defaultFieldText;
+    }
+    if (contentTextFieldConfig.overrideFieldText != nil)
+    {
+        textFieldItem.textFieldWithlabel.text = contentTextFieldConfig.overrideFieldText;
+    }
+    
     textFieldItem.additionalViewHeight = contentTextFieldConfig.additionalViewHeight;
     textFieldItem.textBlock = contentTextFieldConfig.textBlock;
     
@@ -260,6 +294,7 @@
 
 - (BOOL)notifyContentTextFieldDidReturn:(ContentItem_textField*)contentItemTextField
 {
+    NSLog(@"%s", __FUNCTION__);
     void (^activateViewWithTag)(int) = ^(int tag) {
         for (ManagedView* managedView in _scrollViewForBottomBar.managedViews)
         {

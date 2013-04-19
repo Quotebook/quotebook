@@ -14,6 +14,6 @@ typedef void (^VoidBlock)();
 
 + (NSArray*)allClassesWithSuperClass:(Class)superClass;
 
-+ (NSString*)formatedDate:(NSDate*)date;
++ (NSString*)formatDate:(NSDate*)date;
 
 @end

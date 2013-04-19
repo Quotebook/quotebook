@@ -3,24 +3,14 @@
 
 @implementation QBQuoteWho
 
-- (id)init
-{
-    if (self = [super init])
-    {
-        _nonuserQuoted = @"not initialized";
-    }
-    return self;
-}
-
-- (NSString*)displayName
+- (NSString*)formatDisplayName
 {
     if (_userQuoted != nil)
     {
-        return _userQuoted.formattedDisplayName;
+        return [_userQuoted formatDisplayName];
     }
     else
     {
-        CheckNotNull(_nonuserQuoted);
         return _nonuserQuoted;
     }
 }
@@ -38,9 +28,14 @@
     return self;
 }
 
-- (NSString*)oneLineDisplayName
+- (NSString*)formatOnelineDisplay
 {
-    return Format(@"%@: %@", _who.displayName, _text);
+    return Format(@"\"%@\"", _text);
+}
+
+- (NSString*)formatMultilineDisplay
+{
+    return Format(@"%@: \"%@\"", [_who formatDisplayName], _text);
 }
 
 @end
@@ -55,38 +50,19 @@
            forContainer:@"quoteLines"];
 }
 
-//- (id)serializedRepresentationForOfflineDatabase -- wtf is going on with our database. books are beingn entered twice, users need to reference books, not hve the actual instance. rework that setup. books should hold the actual quote object, though.
-//{
-//    NSMutableDictionary* serializedRepresentation = [NSMutableDictionary object];
-//    
-//    [serializedRepresentation setObject:@(_uuid)
-//                                 forKey:@"uuid"];
-//    
-//    [serializedRepresentation setObject:_creationDate
-//                                 forKey:@"creationDate"];
-//
-//    [serializedRepresentation setObject:_quoteContext
-//                                 forKey:@"quoteContext"];
-//    
-//    NSMutableArray* quoteLines = [NSMutableArray object];
-//    for (QBQuoteLine* quoteLine in _quoteLines)
-//    {
-//        [quoteLines addObject:quoteLines.serializedRepresentation];
-//    }
-//    [serializedRepresentation setObject:quoteLines
-//                                 forKey:@"quoteLines"];
-//    
-//    return serializedRepresentation;
-//}
-
-- (NSString*)displayName
+- (NSString*)formatDisplayName
 {
     if (_quoteLines.count == 0)
     {
         return @"no quote lines";
     }
     
-    return [[_quoteLines objectAtIndex:0] oneLineDisplayName];
+    return [[_quoteLines objectAtIndex:0] formatOnelineDisplay];
+}
+
+- (NSString*)formatContext
+{
+    return Format(@"Re: %@", _quoteContext);
 }
 
 @end

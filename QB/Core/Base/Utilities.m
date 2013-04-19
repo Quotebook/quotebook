@@ -35,7 +35,7 @@ NSDateFormatter* dateFormatter = nil;
     return matchingClasses;
 }
 
-+ (NSString*)formatedDate:(NSDate *)date
++ (NSString*)formatDate:(NSDate *)date
 {
     if (dateFormatter == nil)
     {

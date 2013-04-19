@@ -370,7 +370,7 @@ contentViewArg.mainMenuBlock = mainMenuBlockArg; \
         ContentViewConfig* contentViewConfig = [ContentViewConfig object];
         for (QBQuote* quote in book.quotes)
         {
-            [contentViewConfig.viewConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, [quote displayName], ^{
+            [contentViewConfig.viewConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, [quote formatDisplayName], ^{
                 [self showMenuForViewingQuote:quote
                                       forBook:book
                                     asPreview:NO];
@@ -408,20 +408,21 @@ contentViewArg.mainMenuBlock = mainMenuBlockArg; \
         if (quote.quoteLines.count == 1)
         {
             QBQuoteLine* quoteLine = [quote.quoteLines lastObject];
-            [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, quoteLine.text)];
-            [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, [quoteLine.who displayName])];
-            [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, [Util formatedDate:quote.creationDate])];
-            [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, quote.quoteContext)];
+            [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, [quoteLine formatOnelineDisplay])];
+            [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, [quoteLine.who formatDisplayName])];
+            [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, [Util formatDate:quote.creationDate])];
+            [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, [quote formatContext])];
         }
         else
         {
             for (QBQuoteLine* quoteLine in quote.quoteLines)
             {
-                [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, quoteLine.text)];
-                [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, [quoteLine.who displayName])];
+                ContentLabelConfig* labelConfig = ContentLabelConfig(kDefaultAdditionalHeight, NO, [quoteLine formatMultilineDisplay]);
+                labelConfig.alignment = ContentConfigAlignmentLeft;
+                [contentViewConfig.viewConfigs addObject:labelConfig];
             }
-            [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, [Util formatedDate:quote.creationDate])];
-            [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, quote.quoteContext)];
+            [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, [Util formatDate:quote.creationDate])];
+            [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, [quote formatContext])];
         }
         [contentView configureWithContentViewConfig:contentViewConfig];
         
@@ -550,6 +551,8 @@ contentViewArg.mainMenuBlock = mainMenuBlockArg; \
             ContentTextFieldConfig* quoteTextConfig = ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"Quote:", ^(NSString* enteredString) {
                 quoteLine.text = enteredString;
             });
+            quoteTextConfig.defaultFieldText = @"Required";
+            
             ContentItemConfigToAdd* quoteTextConfigToAdd = [ContentItemConfigToAdd object];
             quoteTextConfigToAdd.contentItemConfig = quoteTextConfig;
             quoteTextConfigToAdd.index = index * 2 + 1;
@@ -557,6 +560,8 @@ contentViewArg.mainMenuBlock = mainMenuBlockArg; \
             ContentTextFieldConfig* whoConfig = ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"Who:", ^(NSString* enteredString) {
                 quoteLine.who.nonuserQuoted = enteredString;
             });
+            whoConfig.defaultFieldText = @"Required";
+            
             ContentItemConfigToAdd* whoConfigToAdd = [ContentItemConfigToAdd object];
             whoConfigToAdd.contentItemConfig = whoConfig;
             whoConfigToAdd.index = index * 2 + 2;
@@ -577,14 +582,16 @@ contentViewArg.mainMenuBlock = mainMenuBlockArg; \
                 QBQuoteLine* quoteLine = [quoteToEdit.quoteLines objectAtIndex:index];
                 quoteLine.text = enteredString;
             });
-            quoteConfig.fieldText = quoteLine.text;
+            quoteConfig.defaultFieldText = @"Required";
+            quoteConfig.overrideFieldText = quoteLine.text;
             [contentViewConfig.viewConfigs addObject:quoteConfig];
             
             ContentTextFieldConfig* whoConfig = ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"Who:", ^(NSString* enteredString){
                 QBQuoteLine* quoteLine = [quoteToEdit.quoteLines objectAtIndex:index];
                 quoteLine.who.nonuserQuoted = enteredString;
             });
-            whoConfig.fieldText = quoteLine.who.displayName;
+            whoConfig.defaultFieldText = @"Required";
+            whoConfig.overrideFieldText = [quoteLine.who formatDisplayName];
             [contentViewConfig.viewConfigs addObject:whoConfig];
         }
         
@@ -595,7 +602,8 @@ contentViewArg.mainMenuBlock = mainMenuBlockArg; \
         ContentTextFieldConfig* contextConfig = ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"Context:", ^(NSString* enteredString){
             quoteToEdit.quoteContext = enteredString;
         });
-        contextConfig.fieldText = quoteToEdit.quoteContext;
+        contextConfig.defaultFieldText = @"Re:";
+        contextConfig.overrideFieldText = quoteToEdit.quoteContext;
         [contentViewConfig.viewConfigs addObject:contextConfig];
         
         [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, @"When:")];
@@ -642,14 +650,14 @@ contentViewArg.mainMenuBlock = mainMenuBlockArg; \
         contentViewConfig.initialSpacerHeight = 30;
         [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight * 1.5, NO, @"Invite members:")];
         [contentViewConfig.viewConfigs addObject:ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"E-mail:", ^(NSString* enteredString) {
-            [userManager retrieveUserWithEmail:enteredString
-                                  successBlock:^(QBUser* user) {
-                                      [users addObject:user];
-                                  }
-                                  failureBlock:^{
-                                      [self confirmFailureWithText:@"Get User Failed"
-                                                      failureBlock:^{}];
-                                  }];
+//            [userManager retrieveUserWithEmail:enteredString
+//                                  successBlock:^(QBUser* user) {
+//                                      [users addObject:user];
+//                                  }
+//                                  failureBlock:^{
+//                                      [self confirmFailureWithText:@"Get User Failed"
+//                                                      failureBlock:^{}];
+//                                  }];
         })];
         [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, @"or...")];
         [contentViewConfig.viewConfigs addObject:ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"Users:", ^(NSString* enteredString) {
@@ -683,7 +691,7 @@ contentViewArg.mainMenuBlock = mainMenuBlockArg; \
         [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, Format(@"An invitation to join \"%@\" has been sent to:", book.title))];
         for (QBUser* user in users)
         {
-            [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, Format(@"- %@", user.formattedDisplayName))];
+            [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, Format(@"- %@", [user formatDisplayName]))];
         }
         [contentView configureWithContentViewConfig:contentViewConfig];
         
@@ -735,12 +743,12 @@ contentViewArg.mainMenuBlock = mainMenuBlockArg; \
         [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, @"Members")];
         for (QBUser* user in book.memberUsers)
         {
-            [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, Format(@"- %@", user.formattedDisplayName))];
+            [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, Format(@"- %@", [user formatDisplayName]))];
         }
         [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, @"Invited")];
         for (QBUser* user in book.invitedUsers)
         {
-            [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, Format(@"- %@", user.formattedDisplayName))];
+            [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, Format(@"- %@", [user formatDisplayName]))];
         }
         [contentView configureWithContentViewConfig:contentViewConfig];
         

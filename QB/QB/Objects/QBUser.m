@@ -6,21 +6,13 @@
 
 @implementation QBUser
 
-- (id)init
-{
-    if (self = [super init])
-    {
-    }
-    return self;
-}
-
 + (void)setupSerialization
 {
     [self registerClass:BasicSerializedClassesPlaceholder.class
            forContainer:@"bookIds"];
 }
 
-- (NSString*)formattedDisplayName
+- (NSString*)formatDisplayName
 {
     return Format(@"%@ %@", _firstName, _lastName);
 }

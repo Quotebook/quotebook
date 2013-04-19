@@ -1,5 +1,13 @@
 #import "QB.h"
 
+typedef enum
+{
+    ContentConfigAlignmentNone = -1,
+    ContentConfigAlignmentLeft = NSTextAlignmentLeft,
+    ContentConfigAlignmentRight = NSTextAlignmentRight,
+    ContentConfigAlignmentCenter = NSTextAlignmentCenter
+} ContentConfigAlignment;
+
 @interface ContentViewConfig : ManagedPropertiesObject
 @property (nonatomic, retain) NSMutableArray* viewConfigs;
 @property (nonatomic, assign) int initialSpacerHeight;
@@ -17,11 +25,13 @@
 @interface ContentLabelConfig : ContentItemConfig
 @property (nonatomic, retain) NSString* labelText;
 @property (nonatomic, assign) BOOL wordWrap;
+@property (nonatomic, assign) ContentConfigAlignment alignment;
 @end
 
 @interface ContentTextFieldConfig : ContentItemConfig
 @property (nonatomic, retain) NSString* labelText;
-@property (nonatomic, retain) NSString* fieldText;
+@property (nonatomic, retain) NSString* overrideFieldText;
+@property (nonatomic, retain) NSString* defaultFieldText;
 @property (nonatomic, assign) BOOL secureTextEntry;
 @property (nonatomic, copy) void(^textBlock)(NSString*);
 @end
