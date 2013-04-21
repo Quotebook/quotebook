@@ -37,8 +37,15 @@
                              options:nil
                              context:nil];
     
-    [_textField setTextColor:[UIColor grayColor]];
-    [_textFieldWithlabel setTextColor:[UIColor grayColor]];
+    
+    _shouldRestoreDefaultText = _overrideText == nil;// || [_overrideText isEqualToString:@""];
+    _textChangeOccurred = _overrideText != nil;
+    
+    if (!_textChangeOccurred)
+    {
+        [_textField setTextColor:[UIColor grayColor]];
+        [_textFieldWithlabel setTextColor:[UIColor grayColor]];
+    }
     
     int viewHeight = self.managedUIView.frame.size.height + _additionalViewHeight;
     self.managedUIView.frame = CGRectMake(self.managedUIView.frame.origin.x,
@@ -112,7 +119,6 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField*)textField
 {
-        NSLog(@"%s", __FUNCTION__);
     return [self.internal_parent notifyContentTextFieldDidReturn:self];
 }
 

@@ -62,6 +62,8 @@
 
 - (NSString*)formatContext
 {
+    if (_quoteContext == nil)
+        return nil;
     return Format(@"Re: %@", _quoteContext);
 }
 

@@ -55,6 +55,19 @@
     [self loadDatabase];
 }
 
+- (void)resetOfflineDatabase
+{
+    NSMutableDictionary* offlineDatabaseTemplate = [ResourceManager configurationForResource:@"offlineDatabaseTemplate.json"];
+    
+    NSString* outputString = [offlineDatabaseTemplate JSONStringWithOptions:JKSerializeOptionPretty
+                                                                      error:nil];
+    
+    [outputString writeToFile:[self internal_offlineDatabasePathForFile:@"offlineDatabase.json"]
+                   atomically:YES
+                     encoding:NSUTF8StringEncoding
+                        error:nil];
+}
+
 - (void)loadDatabase
 {
     [self injectConfig:@"offlineDatabase.json"];
@@ -62,7 +75,6 @@
 
 - (void)saveDatabase
 {
-    // TOOD
     NSMutableDictionary* offlineDatabaseTemplate = [ResourceManager configurationForResource:@"offlineDatabaseTemplate.json"];
     
     [offlineDatabaseTemplate setValue:Integer(_userUuidGenerator)

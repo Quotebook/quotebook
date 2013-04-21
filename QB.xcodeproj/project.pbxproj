@@ -20,6 +20,8 @@
 		6722309216B83D0600500B9C /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 6722309116B83D0600500B9C /* Utilities.m */; };
 		6722309816B83EAD00500B9C /* Manager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6722309716B83EAD00500B9C /* Manager.m */; };
 		6722896B170B3DEC00649318 /* BookService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6722896A170B3DEC00649318 /* BookService.m */; };
+		672A18F41721A64800D9AC1E /* DebugPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 672A18F21721A64800D9AC1E /* DebugPanel.m */; };
+		672A18F51721A64800D9AC1E /* DebugPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 672A18F31721A64800D9AC1E /* DebugPanel.xib */; };
 		672D81BC16DC85DE00771EBA /* ContentItem_spacer.m in Sources */ = {isa = PBXBuildFile; fileRef = 672D81BA16DC85DD00771EBA /* ContentItem_spacer.m */; };
 		672D81BD16DC85DE00771EBA /* ContentItem_spacer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 672D81BB16DC85DE00771EBA /* ContentItem_spacer.xib */; };
 		672FCDA816B6C8C30032C81A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 672FCDA716B6C8C30032C81A /* UIKit.framework */; };
@@ -116,6 +118,9 @@
 		6722309716B83EAD00500B9C /* Manager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Manager.m; path = Core/Manager/Manager.m; sourceTree = "<group>"; };
 		67228969170B3DEC00649318 /* BookService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BookService.h; path = QB/Services/Book/BookService.h; sourceTree = "<group>"; };
 		6722896A170B3DEC00649318 /* BookService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BookService.m; path = QB/Services/Book/BookService.m; sourceTree = "<group>"; };
+		672A18F11721A64800D9AC1E /* DebugPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DebugPanel.h; path = QB/UI/DebugPanel/DebugPanel.h; sourceTree = "<group>"; };
+		672A18F21721A64800D9AC1E /* DebugPanel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DebugPanel.m; path = QB/UI/DebugPanel/DebugPanel.m; sourceTree = "<group>"; };
+		672A18F31721A64800D9AC1E /* DebugPanel.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DebugPanel.xib; path = QB/UI/DebugPanel/DebugPanel.xib; sourceTree = "<group>"; };
 		672D81B916DC85DC00771EBA /* ContentItem_spacer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContentItem_spacer.h; path = QB/UI/Content/ContentItem_spacer.h; sourceTree = "<group>"; };
 		672D81BA16DC85DD00771EBA /* ContentItem_spacer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ContentItem_spacer.m; path = QB/UI/Content/ContentItem_spacer.m; sourceTree = "<group>"; };
 		672D81BB16DC85DE00771EBA /* ContentItem_spacer.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ContentItem_spacer.xib; path = QB/UI/Content/ContentItem_spacer.xib; sourceTree = "<group>"; };
@@ -258,6 +263,7 @@
 		6707F75216C0044E00A1D64B /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				672A18F01721A62000D9AC1E /* DebugPanel */,
 				67DDD4AF16E33D820014AB47 /* ConfirmAction */,
 				67FEEBE716CC0DD10091EEDE /* Content */,
 				67FEEBE616CC0DC30091EEDE /* Background */,
@@ -375,6 +381,16 @@
 				6722309716B83EAD00500B9C /* Manager.m */,
 			);
 			name = Manager;
+			sourceTree = "<group>";
+		};
+		672A18F01721A62000D9AC1E /* DebugPanel */ = {
+			isa = PBXGroup;
+			children = (
+				672A18F11721A64800D9AC1E /* DebugPanel.h */,
+				672A18F21721A64800D9AC1E /* DebugPanel.m */,
+				672A18F31721A64800D9AC1E /* DebugPanel.xib */,
+			);
+			name = DebugPanel;
 			sourceTree = "<group>";
 		};
 		672FCD9816B6C8C30032C81A = {
@@ -755,6 +771,7 @@
 				676F8CED1700920C00004C89 /* offlineDatabase.json in Resources */,
 				676F8CEE1700920C00004C89 /* offlineDatabaseTemplate.json in Resources */,
 				679411A61716433F00EC59E7 /* ContentItem_datePicker.xib in Resources */,
+				672A18F51721A64800D9AC1E /* DebugPanel.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -828,6 +845,7 @@
 				6722896B170B3DEC00649318 /* BookService.m in Sources */,
 				676B6A4E170D44E9004176A2 /* QuoteService.m in Sources */,
 				679411A51716433F00EC59E7 /* ContentItem_datePicker.m in Sources */,
+				672A18F41721A64800D9AC1E /* DebugPanel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

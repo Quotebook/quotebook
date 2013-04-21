@@ -85,9 +85,12 @@
     [_viewManager setViewLayer:_viewDirector.popupViewLayer
                      layerName:kPopupViewLayer];
     
+    [_viewManager setViewLayer:_viewDirector.debugViewLayer
+                     layerName:kDebugViewLayer];
+    
     [_viewManager setViewLayer:_viewDirector.loadingViewLayer
                      layerName:kLoadingViewLayer];
-    
+
     [_viewDirector.view setFrame:CGRectMake(0,
                                             0,
                                             [[UIScreen mainScreen] bounds].size.width,

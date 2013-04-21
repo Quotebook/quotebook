@@ -9,6 +9,8 @@
 
 + (OfflineManager*)sharedInstance;
 
+- (void)resetOfflineDatabase;
+
 - (void)loadDatabase;
 
 - (void)saveDatabase;

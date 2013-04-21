@@ -5,6 +5,8 @@
 
 @interface MenuManager : Manager
 
+- (void)showDebugPanel;
+
 - (void)showLoginMenu;
 
 - (void)showAllBooksMenu;

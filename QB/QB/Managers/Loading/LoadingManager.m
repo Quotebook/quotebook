@@ -19,6 +19,10 @@
 
 - (void)load
 {
+#if DEBUG
+    [menuManager showDebugPanel];
+#endif
+    
     if ([userManager shouldLoginImplicitly])
     {
         [userManager attemptImplicitLogin];

@@ -11,6 +11,7 @@
 #import "QBQuote.h"
 #import "UserService.h"
 #import "QuoteManager.h"
+#import "DebugPanel.h"
 
 @interface MenuManager ()
 
@@ -75,6 +76,14 @@ forState:UIControlStateNormal]; \
 
 #define ConfigureContentViewWithMainMenu(contentViewArg, mainMenuBlockArg) { \
 contentViewArg.mainMenuBlock = mainMenuBlockArg; \
+}
+
+- (void)showDebugPanel
+{
+    [viewManager showManagedViewOfClassOnLayer:DebugPanel.class
+                                     layerName:kDebugViewLayer
+                                    setupBlock:^(DebugPanel* debugPanel) {
+                                    }];
 }
 
 - (void)showDefaultBackground
@@ -548,15 +557,6 @@ contentViewArg.mainMenuBlock = mainMenuBlockArg; \
             __block QBQuoteLine* quoteLine = [QBQuoteLine object];
             [quoteToEdit.quoteLines addObject:quoteLine];
             
-            ContentTextFieldConfig* quoteTextConfig = ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"Quote:", ^(NSString* enteredString) {
-                quoteLine.text = enteredString;
-            });
-            quoteTextConfig.defaultFieldText = @"Required";
-            
-            ContentItemConfigToAdd* quoteTextConfigToAdd = [ContentItemConfigToAdd object];
-            quoteTextConfigToAdd.contentItemConfig = quoteTextConfig;
-            quoteTextConfigToAdd.index = index * 2 + 1;
-            
             ContentTextFieldConfig* whoConfig = ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"Who:", ^(NSString* enteredString) {
                 quoteLine.who.nonuserQuoted = enteredString;
             });
@@ -564,11 +564,20 @@ contentViewArg.mainMenuBlock = mainMenuBlockArg; \
             
             ContentItemConfigToAdd* whoConfigToAdd = [ContentItemConfigToAdd object];
             whoConfigToAdd.contentItemConfig = whoConfig;
-            whoConfigToAdd.index = index * 2 + 2;
+            whoConfigToAdd.index = index * 2 + 1;
+            
+            ContentTextFieldConfig* quoteTextConfig = ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"Response:", ^(NSString* enteredString) {
+                quoteLine.text = enteredString;
+            });
+            quoteTextConfig.defaultFieldText = @"Required";
+            
+            ContentItemConfigToAdd* quoteTextConfigToAdd = [ContentItemConfigToAdd object];
+            quoteTextConfigToAdd.contentItemConfig = quoteTextConfig;
+            quoteTextConfigToAdd.index = index * 2 + 2;
             
             NSMutableArray* contentItemConfigsToAdd = [NSMutableArray object];
-            [contentItemConfigsToAdd addObject:quoteTextConfigToAdd];
             [contentItemConfigsToAdd addObject:whoConfigToAdd];
+            [contentItemConfigsToAdd addObject:quoteTextConfigToAdd];
             
             [contentView addContentItemConfigs:contentItemConfigsToAdd];
         };
@@ -578,14 +587,7 @@ contentViewArg.mainMenuBlock = mainMenuBlockArg; \
         for (QBQuoteLine* quoteLine in quoteToEdit.quoteLines)
         {
             int index = [quoteToEdit.quoteLines indexOfObject:quoteLine];
-            ContentTextFieldConfig* quoteConfig = ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"Quote:", ^(NSString* enteredString){
-                QBQuoteLine* quoteLine = [quoteToEdit.quoteLines objectAtIndex:index];
-                quoteLine.text = enteredString;
-            });
-            quoteConfig.defaultFieldText = @"Required";
-            quoteConfig.overrideFieldText = quoteLine.text;
-            [contentViewConfig.viewConfigs addObject:quoteConfig];
-            
+
             ContentTextFieldConfig* whoConfig = ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"Who:", ^(NSString* enteredString){
                 QBQuoteLine* quoteLine = [quoteToEdit.quoteLines objectAtIndex:index];
                 quoteLine.who.nonuserQuoted = enteredString;
@@ -593,6 +595,14 @@ contentViewArg.mainMenuBlock = mainMenuBlockArg; \
             whoConfig.defaultFieldText = @"Required";
             whoConfig.overrideFieldText = [quoteLine.who formatDisplayName];
             [contentViewConfig.viewConfigs addObject:whoConfig];
+            
+            ContentTextFieldConfig* quoteConfig = ContentTextFieldConfig_label(kDefaultAdditionalHeight, index == 0 ? @"Quote:" : @"Response:", ^(NSString* enteredString){
+                QBQuoteLine* quoteLine = [quoteToEdit.quoteLines objectAtIndex:index];
+                quoteLine.text = enteredString;
+            });
+            quoteConfig.defaultFieldText = @"Required";
+            quoteConfig.overrideFieldText = quoteLine.text;
+            [contentViewConfig.viewConfigs addObject:quoteConfig];
         }
         
         [contentViewConfig.viewConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, @"Add Quote Line", ^{

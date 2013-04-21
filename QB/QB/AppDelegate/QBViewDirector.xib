@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="7.10">
 	<data>
-		<int key="IBDocument.SystemTarget">1536</int>
-		<string key="IBDocument.SystemVersion">11E53</string>
-		<string key="IBDocument.InterfaceBuilderVersion">2844</string>
-		<string key="IBDocument.AppKitVersion">1138.47</string>
-		<string key="IBDocument.HIToolboxVersion">569.00</string>
+		<int key="IBDocument.SystemTarget">1552</int>
+		<string key="IBDocument.SystemVersion">12D78</string>
+		<string key="IBDocument.InterfaceBuilderVersion">3084</string>
+		<string key="IBDocument.AppKitVersion">1187.37</string>
+		<string key="IBDocument.HIToolboxVersion">626.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-			<string key="NS.object.0">1930</string>
+			<string key="NS.object.0">2083</string>
 		</object>
 		<object class="NSArray" key="IBDocument.IntegratedClassDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -45,7 +45,7 @@
 						<string key="NSFrameSize">{320, 480}</string>
 						<reference key="NSSuperview" ref="7972772"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="445404772"/>
+						<reference key="NSNextKeyView" ref="136782031"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<object class="NSColor" key="IBUIBackgroundColor" id="364567772">
 							<int key="NSColorSpace">3</int>
@@ -59,7 +59,7 @@
 						<string key="NSFrameSize">{320, 480}</string>
 						<reference key="NSSuperview" ref="7972772"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="706871618"/>
+						<reference key="NSNextKeyView" ref="445404772"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">3</int>
@@ -68,6 +68,17 @@
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 					</object>
 					<object class="IBUIView" id="445404772">
+						<reference key="NSNextResponder" ref="7972772"/>
+						<int key="NSvFlags">274</int>
+						<string key="NSFrameSize">{320, 480}</string>
+						<reference key="NSSuperview" ref="7972772"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="845382829"/>
+						<string key="NSReuseIdentifierKey">_NS:9</string>
+						<reference key="IBUIBackgroundColor" ref="364567772"/>
+						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+					</object>
+					<object class="IBUIView" id="845382829">
 						<reference key="NSNextResponder" ref="7972772"/>
 						<int key="NSvFlags">274</int>
 						<string key="NSFrameSize">{320, 480}</string>
@@ -84,6 +95,7 @@
 						<string key="NSFrameSize">{320, 480}</string>
 						<reference key="NSSuperview" ref="7972772"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<reference key="IBUIBackgroundColor" ref="364567772"/>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -92,7 +104,7 @@
 				<string key="NSFrameSize">{320, 480}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
-				<reference key="NSNextKeyView" ref="136782031"/>
+				<reference key="NSNextKeyView" ref="706871618"/>
 				<reference key="IBUIBackgroundColor" ref="364567772"/>
 				<object class="IBUISimulatedOrientationMetrics" key="IBUISimulatedOrientationMetrics">
 					<int key="IBUIInterfaceOrientation">3</int>
@@ -107,6 +119,9 @@
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 			</object>
 			<object class="IBUICustomObject" id="587101754">
+				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+			</object>
+			<object class="IBUICustomObject" id="1071310304">
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 			</object>
 			<object class="IBUICustomObject" id="494182166">
@@ -158,6 +173,14 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">debugViewLayer</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="1071310304"/>
+					</object>
+					<int key="connectionID">292</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">view</string>
 						<reference key="source" ref="558788345"/>
 						<reference key="destination" ref="136782031"/>
@@ -187,6 +210,14 @@
 						<reference key="destination" ref="176735142"/>
 					</object>
 					<int key="connectionID">284</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">view</string>
+						<reference key="source" ref="1071310304"/>
+						<reference key="destination" ref="845382829"/>
+					</object>
+					<int key="connectionID">293</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -220,6 +251,7 @@
 							<reference ref="176735142"/>
 							<reference ref="136782031"/>
 							<reference ref="706871618"/>
+							<reference ref="845382829"/>
 						</object>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">Base</string>
@@ -275,6 +307,18 @@
 						<reference key="parent" ref="0"/>
 						<string key="objectName">LoadingLayer</string>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">289</int>
+						<reference key="object" ref="1071310304"/>
+						<reference key="parent" ref="0"/>
+						<string key="objectName">DebugLayer</string>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">291</int>
+						<reference key="object" ref="845382829"/>
+						<reference key="parent" ref="7972772"/>
+						<string key="objectName">DebugView</string>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -302,6 +346,10 @@
 					<string>278.IBPluginDependency</string>
 					<string>279.CustomClassName</string>
 					<string>279.IBPluginDependency</string>
+					<string>289.CustomClassName</string>
+					<string>289.IBPluginDependency</string>
+					<string>291.CustomClassName</string>
+					<string>291.IBPluginDependency</string>
 				</object>
 				<object class="NSArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -326,6 +374,10 @@
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>ViewLayer</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<string>ViewLayer</string>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<string>PassthroughView</string>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="unlocalizedProperties">
@@ -340,7 +392,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">288</int>
+			<int key="maxID">293</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -360,6 +412,7 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>debugViewLayer</string>
 							<string>defaultViewLayer</string>
 							<string>loadingViewLayer</string>
 							<string>popupViewLayer</string>
@@ -367,6 +420,7 @@
 						</object>
 						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>ViewLayer</string>
 							<string>ViewLayer</string>
 							<string>ViewLayer</string>
 							<string>ViewLayer</string>
@@ -377,6 +431,7 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>debugViewLayer</string>
 							<string>defaultViewLayer</string>
 							<string>loadingViewLayer</string>
 							<string>popupViewLayer</string>
@@ -384,6 +439,10 @@
 						</object>
 						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBToOneOutletInfo">
+								<string key="name">debugViewLayer</string>
+								<string key="candidateClassName">ViewLayer</string>
+							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">defaultViewLayer</string>
 								<string key="candidateClassName">ViewLayer</string>
@@ -436,6 +495,6 @@
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
-		<string key="IBCocoaTouchPluginVersion">1930</string>
+		<string key="IBCocoaTouchPluginVersion">2083</string>
 	</data>
 </archive>

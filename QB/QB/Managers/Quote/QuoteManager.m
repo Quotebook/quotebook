@@ -16,7 +16,7 @@
     if (unvalidatedQuote.quoteLines == nil ||
         unvalidatedQuote.quoteLines.count == 0 ||
         unvalidatedQuote.creationDate == nil ||
-        unvalidatedQuote.quoteContext == nil ||
+//        unvalidatedQuote.quoteContext == nil ||
         unvalidatedQuote.uuid != 0)
         return NO;
     return YES;
