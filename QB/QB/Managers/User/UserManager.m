@@ -64,7 +64,7 @@
         [self loginUserWithEmail:lastLoginEmail
                         password:lastLoginPassword
                     successBlock:^(LoginResponse* loginResponse) {
-                        [menuManager showAllBooksMenu];
+                        [menuManager showMenuForUser:loginResponse.user];
                     }
                     failureBlock:^{
                         [menuManager showLoginMenu];

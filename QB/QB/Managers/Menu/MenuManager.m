@@ -74,10 +74,6 @@ contentViewArg.actionBlock = actionBlockArg; \
 forState:UIControlStateNormal]; \
 }
 
-#define ConfigureContentViewWithMainMenu(contentViewArg, mainMenuBlockArg) { \
-contentViewArg.mainMenuBlock = mainMenuBlockArg; \
-}
-
 - (void)showDebugPanel
 {
     [viewManager showManagedViewOfClassOnLayer:DebugPanel.class
@@ -97,21 +93,116 @@ contentViewArg.mainMenuBlock = mainMenuBlockArg; \
     }
 }
 
-- (void)showTitleBarWithTitle:(NSString*)title
+- (void)showTitleBarForBook:(QBBook*)book
+                    forUser:(QBUser*)user
+           backButtonAction:(VoidBlock)backButtonAction
 {
-    if (_titleBarView == nil)
+    BOOL firstTitleBar = _titleBarView == nil;
+    
+    if (firstTitleBar)
     {
         [viewManager showManagedViewOfClassOnDefaultLayer:TitleBarView.class
                                                setupBlock:^(TitleBarView* titleBarView) {
                                                    self.titleBarView = titleBarView;
-                                                   titleBarView.titleLabel.text = title;
                                                }];
     }
-    else
+    
+    NSMutableArray* sideMenuConfigs = [NSMutableArray object];
+    
+    SideMenuConfig* addNewQuoteConfig = [SideMenuConfig object];
+    SideMenuConfig* inviteMembersConfig = [SideMenuConfig object];
+    SideMenuConfig* displayOptionsConfig = [SideMenuConfig object];
+    SideMenuConfig* viewStatsConfig = [SideMenuConfig object];
+    SideMenuConfig* searchConfig = [SideMenuConfig object];
+    
+    [sideMenuConfigs addObject:addNewQuoteConfig];
+    [sideMenuConfigs addObject:inviteMembersConfig];
+    [sideMenuConfigs addObject:displayOptionsConfig];
+    [sideMenuConfigs addObject:viewStatsConfig];
+    [sideMenuConfigs addObject:searchConfig];
+    
+    addNewQuoteConfig.buttonTitleText = @"Add new quote";
+    inviteMembersConfig.buttonTitleText = @"Invite members";
+    displayOptionsConfig.buttonTitleText = @"Display options";
+    viewStatsConfig.buttonTitleText = @"View stats";
+    searchConfig.buttonTitleText = @"Search";
+    
+    addNewQuoteConfig.buttonAction = ^{
+        [self showMenuForAddingNewQuoteToBook:book
+                                      forUser:user
+                                optionalQuote:nil];
+    };
+
+    inviteMembersConfig.buttonAction = ^{
+        [self showMenuForInvitingNewMembersToBook:book
+                                          forUser:user];
+    };
+    
+    displayOptionsConfig.buttonAction = ^{
+        [self showMenuForDisplayOptionsForBook:book
+                                       forUser:user];
+    };
+    
+    viewStatsConfig.buttonAction = ^{
+        [self showMenuForViewingStatsForBook:book
+                                     forUser:user];
+    };
+    
+    searchConfig.buttonAction = ^{
+        [self showMenuForSearchingInBook:book
+                                 forUser:user];
+    };
+    
+    [_titleBarView reconfigureAndAnimateTransitionWithTitle:book.title
+                                          rightButtonAction:backButtonAction
+                                              sideMenuTitle:@"Book Actions"
+                                            sideMenuConfigs:sideMenuConfigs
+                                           shouldAnimateOut:!firstTitleBar];
+}
+
+- (void)showTitleBarForQuote:(QBQuote*)quote
+                     forUser:(QBUser*)user
+            backButtonAction:(VoidBlock)backButtonAction
+{
+    BOOL firstTitleBar = _titleBarView == nil;
+    
+    if (firstTitleBar)
     {
-        _titleBarView.titleLabel.text = title;
-        [_titleBarView bringSubviewToFront];
+        [viewManager showManagedViewOfClassOnDefaultLayer:TitleBarView.class
+                                               setupBlock:^(TitleBarView* titleBarView) {
+                                                   self.titleBarView = titleBarView;
+                                               }];
     }
+    
+    NSMutableArray* sideMenuConfigs = [NSMutableArray object];
+    
+    [_titleBarView reconfigureAndAnimateTransitionWithTitle:[quote formatDisplayName]
+                                          rightButtonAction:backButtonAction
+                                              sideMenuTitle:@"Quote Actions"
+                                            sideMenuConfigs:sideMenuConfigs
+                                           shouldAnimateOut:!firstTitleBar];
+}
+
+- (void)showTitleBarWithTitle:(NSString*)title
+             backButtonAction:(VoidBlock)backButtonAction
+{
+    BOOL firstTitleBar = _titleBarView == nil;
+    
+    if (firstTitleBar)
+    {
+        [viewManager showManagedViewOfClassOnDefaultLayer:TitleBarView.class
+                                               setupBlock:^(TitleBarView* titleBarView) {
+                                                   self.titleBarView = titleBarView;
+                                               }];
+    }
+    
+    
+    
+    [_titleBarView reconfigureAndAnimateTransitionWithTitle:title
+                                          rightButtonAction:backButtonAction
+                                              sideMenuTitle:@""
+                                            sideMenuConfigs:nil
+                                           shouldAnimateOut:firstTitleBar];
 }
 
 - (void)showContentViewWithSetupBlock:(void(^)(ContentView*))setupBlock
@@ -169,10 +260,6 @@ contentViewArg.mainMenuBlock = mainMenuBlockArg; \
         [contentViewConfig.viewConfigs addObject:confirmConfig];
         [contentView configureWithContentViewConfig:contentViewConfig];
         
-        ConfigureContentViewWithMainMenu(contentView, ^{
-            [self showLoginMenu];
-        });
-        
         ConfigureContentViewWithAction(contentView, @"Done", ^{
             [userManager createNewUserWithEmail:email
                                       firstName:firstName
@@ -183,7 +270,7 @@ contentViewArg.mainMenuBlock = mainMenuBlockArg; \
                                        [userManager loginUserWithEmail:email
                                                               password:password
                                                           successBlock:^(LoginResponse* loginResponse) {
-                                                              [self showAllBooksMenu];
+                                                              [self showMenuForUser:loginResponse.user];
                                                           }
                                                           failureBlock:^{
                                                               [self confirmFailureWithText:@"Login failed"
@@ -198,18 +285,21 @@ contentViewArg.mainMenuBlock = mainMenuBlockArg; \
         });
     }];
     
-    [self showTitleBarWithTitle:@"Create new login..."];
+    [self showTitleBarWithTitle:@"Create new login..."
+               backButtonAction:^{
+                   [self showLoginMenu];
+               }];
 }
 
-- (void)showCreateNewBookMenu
+- (void)showCreateNewBookMenuForUser:(QBUser*)user
 {
     [self dismissContentView];
     
     [self showDefaultBackground];
     
+    __block NSString* bookName = nil;
+    
     [self showContentViewWithSetupBlock:^(ContentView* contentView) {
-        __block NSString* bookName = nil;
-        
         ContentViewConfig* contentViewConfig = [ContentViewConfig object];
         contentViewConfig.initialSpacerHeight = 60;
         [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight * 1.5, NO, @"Name the book:")];
@@ -219,18 +309,13 @@ contentViewArg.mainMenuBlock = mainMenuBlockArg; \
         
         [contentView configureWithContentViewConfig:contentViewConfig];
         
-        ConfigureContentViewWithMainMenu(contentView, ^{
-            [bookName release];
-            
-            [self showAllBooksMenu];
-        });
-        
         ConfigureContentViewWithAction(contentView, @"Create!", ^{
             [bookManager createNewBookWithBookName:bookName
                                       successBlock:^(QBBook* book){
                                           [bookName release];
                                           
-                                          [self showMenuForInvitingNewMembersToBook:book];
+                                          [self showMenuForInvitingNewMembersToBook:book
+                                                                            forUser:user];
                                       }
                                       failureBlock:^{
                                           //[self refreshWithErrors];
@@ -240,7 +325,11 @@ contentViewArg.mainMenuBlock = mainMenuBlockArg; \
         });
     }];
     
-    [self showTitleBarWithTitle:@"Create new book..."];
+    [self showTitleBarWithTitle:@"Create new book..."
+               backButtonAction:^{
+                   [bookName release];
+                   [self showMenuForUser:user];
+               }];
 }
 
 - (void)confirmActionWithText:(NSString*)text
@@ -292,7 +381,7 @@ contentViewArg.mainMenuBlock = mainMenuBlockArg; \
             [userManager loginUserWithEmail:email
                                    password:password
                                successBlock:^(LoginResponse* loginResponse) {
-                                    [self showAllBooksMenu];
+                                    [self showMenuForUser:loginResponse.user];
                                 }
                                 failureBlock:^{
                                     [self confirmFailureWithText:@"Login failed"
@@ -302,17 +391,16 @@ contentViewArg.mainMenuBlock = mainMenuBlockArg; \
         
         [contentView configureWithContentViewConfig:contentViewConfig];
         
-        ConfigureContentViewWithMainMenu(contentView, ^{});
-        
         ConfigureContentViewWithAction(contentView, @"Create new login...", ^{
             [self showCreateNewLoginMenu];
         }); 
     }];
     
-    [self showTitleBarWithTitle:@"Quote with me..."];
+    [self showTitleBarWithTitle:@"Quote with me..."
+               backButtonAction:nil];
 }
 
-- (void)showAllBooksMenu
+- (void)showMenuForUser:(QBUser*)user
 {
     [self dismissContentView];
     
@@ -321,56 +409,45 @@ contentViewArg.mainMenuBlock = mainMenuBlockArg; \
     [self showContentViewWithSetupBlock:^(ContentView* contentView) {
         ContentViewConfig* contentViewConfig = [ContentViewConfig object];
         
-        QBUser* activeUser = userManager.getActiveUser;
-        
-        if (activeUser.bookIds == nil ||
-            activeUser.bookIds.count == 0)
+        if (user.bookIds == nil ||
+            user.bookIds.count == 0)
         {
             [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight * 3, YES, @"Get started by creating a new book!")];
         }
         else
         {
-            for (NSNumber* bookId in activeUser.bookIds)
+            for (NSNumber* bookId in user.bookIds)
             {
                 QBBook* book = [bookManager bookForBookId:bookId.intValue];
                 [contentViewConfig.viewConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, book.title, ^{
-                    [self showMenuForBook:book];
+                    [self showMenuForBook:book
+                                  forUser:user];
                 })];
             }
         }
         [contentView configureWithContentViewConfig:contentViewConfig];
         
-        ConfigureContentViewWithMainMenu(contentView, ^{
-            [self confirmActionWithText:@"Logout?"
-                           confirmBlock:^{
-                               [userManager logout];
-                               [userManager setActiveUser:nil];
-                               [self showLoginMenu];
-                           }
-                           cancelBlock:^{}];
-        });
-        
         ConfigureContentViewWithAction(contentView, @"Create new book...", ^{
-            [self showCreateNewBookMenu];
+            [self showCreateNewBookMenuForUser:user];
         });
         
     }];
     
-    [self showTitleBarWithTitle:@"Your Quotebooks"];
+    [self showTitleBarWithTitle:@"Your Quotebooks"
+               backButtonAction:^{
+                   [self confirmActionWithText:@"Logout?"
+                                  confirmBlock:^{
+                                      [userManager logout];
+                                      [userManager setActiveUser:nil];
+                                      [self showLoginMenu];
+                                  }
+                                   cancelBlock:^{}];
+               }];
 }
 
-@end
-
-@implementation MenuManager (Book)
-
 - (void)showMenuForBook:(QBBook*)book
+                forUser:(QBUser*)user
 {
-    if ([book isEmpty])
-    {
-        [self showMenuForBookActions:book];
-        return;
-    }
-    
     [self dismissContentView];
     
     [self showDefaultBackground];
@@ -382,26 +459,25 @@ contentViewArg.mainMenuBlock = mainMenuBlockArg; \
             [contentViewConfig.viewConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, [quote formatDisplayName], ^{
                 [self showMenuForViewingQuote:quote
                                       forBook:book
+                                      forUser:user
                                     asPreview:NO];
             })];
         }
         
         [contentView configureWithContentViewConfig:contentViewConfig];
         
-        ConfigureContentViewWithMainMenu(contentView, ^{
-            [self showAllBooksMenu];
-        });
-        
-        ConfigureContentViewWithAction(contentView, @"Book Actions", ^{
-            [self showMenuForBookActions:book];
-        });
     }];
     
-    [self showTitleBarWithTitle:book.title];
+    [self showTitleBarForBook:book
+                      forUser:user
+             backButtonAction:^{
+                 [self showMenuForUser:user];
+             }];
 }
 
 - (void)showMenuForViewingQuote:(QBQuote*)quote
                         forBook:(QBBook*)book
+                        forUser:(QBUser*)user
                       asPreview:(BOOL)asPreview
 {
     [quote retain];
@@ -435,27 +511,14 @@ contentViewArg.mainMenuBlock = mainMenuBlockArg; \
         }
         [contentView configureWithContentViewConfig:contentViewConfig];
         
-        ConfigureContentViewWithMainMenu(contentView, ^{
-            if (asPreview)
-            {
-                [self showMenuForAddingNewQuoteToBook:book
-                                        optionalQuote:quote];
-                [quote release];
-            }
-            else
-            {
-                [quote release];
-                [self showMenuForBook:book];
-            }
-        });
-        
         if (asPreview)
         {
             ConfigureContentViewWithAction(contentView, @"Looks good!", ^{
                 [quoteManager addQuote:quote
                                 toBook:book
                           successBlock:^(QBQuote* addedQuote){
-                              [self showMenuForBook:book];
+                              [self showMenuForBook:book
+                                            forUser:user];
                               [quote release];
                           }
                           failureBlock:^{
@@ -464,94 +527,50 @@ contentViewArg.mainMenuBlock = mainMenuBlockArg; \
                           }];
             });
         }
-        else
-        {
-            ConfigureContentViewWithAction(contentView, @"All quotes", ^{
-                [self showMenuForBook:book];
-                
-                [quote release];
-            });
-        }
     }];
     
     if (asPreview)
     {
-        [self showTitleBarWithTitle:@"Quote Preview"];
+        [self showTitleBarWithTitle:@"Quote Preview"
+                   backButtonAction:^{
+                       [self showMenuForAddingNewQuoteToBook:book
+                                                     forUser:user
+                                               optionalQuote:quote];
+                       [quote release];
+                   }];
     }
     else
     {
-        [self showTitleBarWithTitle:book.title];
+        [self showTitleBarWithTitle:book.title
+                   backButtonAction:^{
+                       [quote release];
+                       [self showMenuForBook:book
+                                     forUser:user];
+                   }];
     }
-}
-
-- (void)showMenuForBookActions:(QBBook*)book
-{
-    if (book.isEmpty)
-    {
-        [self showMenuForAddingNewQuoteToBook:book
-                                optionalQuote:nil];
-        return;
-    }
-    
-    [self dismissContentView];
-    
-    [self showDefaultBackground];
-    
-    [self showContentViewWithSetupBlock:^(ContentView* contentView) {
-        ContentViewConfig* contentViewConfig = [ContentViewConfig object];
-        [contentViewConfig.viewConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, @"Add new quote", ^{
-            [self showMenuForAddingNewQuoteToBook:book
-                                    optionalQuote:nil];
-        })];
-        [contentViewConfig.viewConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, @"Invite members", ^{
-            [self showMenuForInvitingNewMembersToBook:book];
-        })];
-        [contentViewConfig.viewConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, @"Display options", ^{
-            [self showMenuForDisplayOptionsForBook:book];
-        })];
-        [contentViewConfig.viewConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, @"View stats", ^{
-            [self showMenuForViewingStatsForBook:book];
-        })];
-        [contentViewConfig.viewConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, @"Search", ^{
-            [self showMenuForSearchingInBook:book];
-        })];
-        [contentView configureWithContentViewConfig:contentViewConfig];
-        
-        ConfigureContentViewWithMainMenu(contentView, ^{
-            if ([book isEmpty])
-            {
-                [self showAllBooksMenu];
-            }
-            else
-            {
-                [self showMenuForBook:book];
-            }
-        });
-    }];
-    
-    [self showTitleBarWithTitle:book.title];
 }
 
 - (void)showMenuForAddingNewQuoteToBook:(QBBook*)book
+                                forUser:(QBUser*)user
                           optionalQuote:(QBQuote*)quoteArg
 {
     [self dismissContentView];
     
     [self showDefaultBackground];
     
+    __block QBQuote* quoteToEdit = ^{
+        if (quoteArg == nil)
+        {
+            QBQuote* quote = [[QBQuote alloc] init];
+            quote.quoteLines = [[NSMutableArray alloc] initWithObjects:[QBQuoteLine object], nil];
+            quote.creationDate = nil;
+            quote.quoteContext = nil;
+            return quote;
+        }
+        return [quoteArg retain];
+    }();
+    
     [self showContentViewWithSetupBlock:^(ContentView* contentView) {
-        __block QBQuote* quoteToEdit = ^{
-            if (quoteArg == nil)
-            {
-                QBQuote* quote = [[QBQuote alloc] init];
-                quote.quoteLines = [[NSMutableArray alloc] initWithObjects:[QBQuoteLine object], nil];
-                quote.creationDate = nil;
-                quote.quoteContext = nil;
-                return quote;
-            }
-            return [quoteArg retain];
-        }();
-        
         void (^addQuoteLineToContentView)() = ^{
             int index = quoteToEdit.quoteLines.count;
             __block QBQuoteLine* quoteLine = [QBQuoteLine object];
@@ -626,17 +645,12 @@ contentViewArg.mainMenuBlock = mainMenuBlockArg; \
         
         [contentView configureWithContentViewConfig:contentViewConfig];
         
-        ConfigureContentViewWithMainMenu(contentView, ^{
-            [self showMenuForBook:book];
-            
-            [quoteToEdit release];
-        });
-        
         ConfigureContentViewWithAction(contentView, @"Preview...", ^{
             if (quoteToEdit.quoteLines.count > 0)
             {
                 [self showMenuForViewingQuote:quoteToEdit
                                       forBook:book
+                                      forUser:user
                                     asPreview:YES];
                 
                 [quoteToEdit release];
@@ -644,10 +658,18 @@ contentViewArg.mainMenuBlock = mainMenuBlockArg; \
         });
     }];
     
-    [self showTitleBarWithTitle:book.title];
+    [self showTitleBarForBook:book
+                      forUser:user
+             backButtonAction:^{
+                 [self showMenuForBook:book
+                               forUser:user];
+                 
+                 [quoteToEdit release];
+             }];
 }
 
 - (void)showMenuForInvitingNewMembersToBook:(QBBook*)book
+                                    forUser:(QBUser*)user
 {
     [self dismissContentView];
     
@@ -676,21 +698,24 @@ contentViewArg.mainMenuBlock = mainMenuBlockArg; \
         })];
         [contentView configureWithContentViewConfig:contentViewConfig];
         
-        ConfigureContentViewWithMainMenu(contentView, ^{
-            [self showMenuForBook:book];
-        });
-        
         ConfigureContentViewWithAction(contentView, @"Send invitations", ^{
             [self showMenuForConfirmingInvitationOfUsers:users
-                                                  toBook:book];
+                                                  toBook:book
+                                                 forUser:user];
         });
     }];
     
-    [self showTitleBarWithTitle:book.title];;
+    [self showTitleBarForBook:book
+                      forUser:user
+             backButtonAction:^{
+                 [self showMenuForBook:book
+                               forUser:user];
+             }];
 }
 
 - (void)showMenuForConfirmingInvitationOfUsers:(NSArray*)users
                                         toBook:(QBBook*)book
+                                       forUser:(QBUser*)user
 {
     [self dismissContentView];
     
@@ -705,19 +730,24 @@ contentViewArg.mainMenuBlock = mainMenuBlockArg; \
         }
         [contentView configureWithContentViewConfig:contentViewConfig];
         
-        ConfigureContentViewWithMainMenu(contentView, ^{[self showMenuForBook:book];});
-        
         ConfigureContentViewWithAction(contentView, @"Send invitation", ^{
             [bookManager sendInvitesToUsers:users
                                     forBook:book];
-            [self showMenuForBook:book];
+            [self showMenuForBook:book
+                          forUser:user];
         });
     }];
     
-    [self showTitleBarWithTitle:book.title];
+    [self showTitleBarForBook:book
+                      forUser:user
+             backButtonAction:^{
+                 [self showMenuForBook:book
+                               forUser:user];
+             }];
 }
 
 - (void)showMenuForDisplayOptionsForBook:(QBBook*)book
+                                 forUser:(QBUser*)user
 {
     [self dismissContentView];
     
@@ -735,14 +765,18 @@ contentViewArg.mainMenuBlock = mainMenuBlockArg; \
         [contentViewConfig.viewConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, @"Chronological", ^{
         })];
         [contentView configureWithContentViewConfig:contentViewConfig];
-        
-        ConfigureContentViewWithMainMenu(contentView, ^{[self showMenuForBook:book];});
     }];
     
-    [self showTitleBarWithTitle:book.title];
+    [self showTitleBarForBook:book
+                      forUser:user
+             backButtonAction:^{
+                 [self showMenuForBook:book
+                               forUser:user];
+             }];
 }
 
 - (void)showMenuForViewingStatsForBook:(QBBook*)book
+                               forUser:(QBUser*)user
 {
     [self dismissContentView];
     
@@ -761,14 +795,18 @@ contentViewArg.mainMenuBlock = mainMenuBlockArg; \
             [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, Format(@"- %@", [user formatDisplayName]))];
         }
         [contentView configureWithContentViewConfig:contentViewConfig];
-        
-        ConfigureContentViewWithMainMenu(contentView, ^{[self showMenuForBook:book];});
     }];
     
-    [self showTitleBarWithTitle:book.title];
+    [self showTitleBarForBook:book
+                      forUser:user
+             backButtonAction:^{
+                 [self showMenuForBook:book
+                               forUser:user];
+             }];
 }
 
 - (void)showMenuForSearchingInBook:(QBBook*)book
+                           forUser:(QBUser*)user
 {
     [self dismissContentView];
     
@@ -783,11 +821,14 @@ contentViewArg.mainMenuBlock = mainMenuBlockArg; \
         [contentViewConfig.viewConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, @"Run search...", ^{
         })];
         [contentView configureWithContentViewConfig:contentViewConfig];
-        
-        ConfigureContentViewWithMainMenu(contentView, ^{[self showMenuForBook:book];});
     }];
     
-    [self showTitleBarWithTitle:book.title];
+    [self showTitleBarForBook:book
+                      forUser:user
+             backButtonAction:^{
+                 [self showMenuForBook:book
+                               forUser:user];
+             }];
 }
 
 @end

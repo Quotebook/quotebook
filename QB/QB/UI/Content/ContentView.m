@@ -14,8 +14,6 @@
 
 - (void)dealloc
 {
-    self.mainMenuBlock = nil;
-    self.actionBlock = nil;
     [ContentView releaseRetainedPropertiesOfObject:self];
     [super dealloc];
 }
@@ -30,18 +28,8 @@
 
 - (void)viewWillShow
 {
-    _mainMenuButton.hidden = _mainMenuBlock == nil;
-    _mainMenuButton.userInteractionEnabled = _mainMenuBlock != nil;
-    
     _actionButton.hidden = _actionBlock == nil;
     _actionButton.userInteractionEnabled = _actionBlock != nil;
-}
-
-- (IBAction)executeMainMenuBlock
-{
-    CheckNotNull(_mainMenuBlock);
-    
-    _mainMenuBlock();
 }
 
 - (IBAction)executeActionBlock

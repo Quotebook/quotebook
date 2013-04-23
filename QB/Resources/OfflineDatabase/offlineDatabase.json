@@ -9,10 +9,10 @@
             "creationDate": {
               
             },
-            "quoteContext": "Re:",
+            "quoteContext": "caleb",
             "quoteLines": [
               {
-                "text": "sup",
+                "text": "caleb",
                 "who": {
                   "nonuserQuoted": "caleb",
                   "userQuoted": null
@@ -20,22 +20,46 @@
               }
             ],
             "uuid": 1
+          },
+          {
+            "creationDate": {
+              
+            },
+            "quoteContext": "caleb",
+            "quoteLines": [
+              {
+                "text": "caleb",
+                "who": {
+                  "nonuserQuoted": "caleb",
+                  "userQuoted": null
+                }
+              }
+            ],
+            "uuid": 2
           }
         ],
         "title": "caleb",
         "uuid": 1
+      },
+      {
+        "invitedUsers": null,
+        "memberUsers": null,
+        "quotes": null,
+        "title": "dfdsf",
+        "uuid": 2
       }
     ]
   },
-  "bookUuidGenerator": 1,
-  "quoteUuidGenerator": 1,
+  "bookUuidGenerator": 2,
+  "quoteUuidGenerator": 2,
   "userData": {
     "userActors": [
       {
         "password": "caleb",
         "user": {
           "bookIds": [
-            1
+            1,
+            2
           ],
           "email": "caleb@caleb.com",
           "firstName": "caleb",
