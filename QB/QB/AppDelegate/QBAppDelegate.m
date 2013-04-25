@@ -4,17 +4,30 @@
 #import "ViewManager.h"
 
 @interface QBAppDelegate ()
-@property (nonatomic, retain) ViewManager* viewManager;
+{
+    ViewManager* viewManager;
+}
 @end
 
 @implementation QBAppDelegate
 
 - (void)dealloc
 {
-    [_window release];
-    [_director release];
-    [_viewManager release];
     [super dealloc];
+}
+
+- (void)reload
+{
+    viewManager = nil;
+    
+    [_director injectManagersIntoIVars:self];
+    
+    [self internal_setupViewLayers];
+}
+
++ (QBAppDelegate*)sharedApplicationDelegate
+{
+    return (QBAppDelegate*)[[UIApplication sharedApplication] delegate];
 }
 
 - (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions
@@ -77,18 +90,18 @@
 
 - (void)internal_setupViewLayers
 {
-    [_viewManager setDefaultViewLayer:_viewDirector.defaultViewLayer];
+    [viewManager setDefaultViewLayer:_viewDirector.defaultViewLayer];
     
-    [_viewManager setViewLayer:_viewDirector.statusViewLayer
+    [viewManager setViewLayer:_viewDirector.statusViewLayer
                      layerName:kStatusViewLayer];
 
-    [_viewManager setViewLayer:_viewDirector.popupViewLayer
+    [viewManager setViewLayer:_viewDirector.popupViewLayer
                      layerName:kPopupViewLayer];
     
-    [_viewManager setViewLayer:_viewDirector.debugViewLayer
+    [viewManager setViewLayer:_viewDirector.debugViewLayer
                      layerName:kDebugViewLayer];
     
-    [_viewManager setViewLayer:_viewDirector.loadingViewLayer
+    [viewManager setViewLayer:_viewDirector.loadingViewLayer
                      layerName:kLoadingViewLayer];
 
     [_viewDirector.view setFrame:CGRectMake(0,

@@ -2,6 +2,7 @@
 #import "Manager.h"
 #import "Base.h"
 #import "ViewManager.h"
+#import "QBAppDelegate.h"
 
 @interface AppDirector ()
 {
@@ -10,6 +11,7 @@
 
 @property (nonatomic, retain) NSDictionary* managersByClass;
 @property (nonatomic, retain) ViewManager* viewManager;
+@property (nonatomic, assign) BOOL firstFrame;
 @property (nonatomic, assign) BOOL shouldReload;
 
 @end
@@ -41,7 +43,7 @@
 
 - (void)beginRunning
 {
-    self.shouldReload = YES;
+    self.firstFrame = YES;
     
     [self internal_performNextFrame];
 
@@ -61,19 +63,32 @@
         {
             [manager unload];
         }
+        
+        [self internal_removeManagers];
+        [self internal_setupManagers];
+        [[QBAppDelegate sharedApplicationDelegate] reload];    
+    }
+    
+    if (_shouldReload || _firstFrame)
+    {
         for (Manager* manager in _managersByClass.allValues)
         {
             [manager load];
         }
         
         self.shouldReload = NO;
+        self.firstFrame = NO;
     }
     
     for (Manager* manager in _managersByClass.allValues)
     {
         [manager update];
     }
-    
+}
+
+- (void)reload
+{
+    _shouldReload = YES;
 }
 
 - (void)internal_setupManagers
@@ -98,6 +113,11 @@
     {
 		[self injectManagersIntoIVars:manager];
     }
+}
+
+- (void)internal_removeManagers
+{
+    self.managersByClass = nil;
 }
 
 - (void)injectManagersIntoIVars:(id)injectee

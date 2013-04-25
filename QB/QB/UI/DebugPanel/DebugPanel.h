@@ -2,7 +2,7 @@
 
 @interface DebugPanel : ManagedView
 
-@property (nonatomic, retain) IBOutlet UIView* openPanel;
+@property (nonatomic, assign) IBOutlet UIView* openPanel;
 
 - (IBAction)toggleOpen;
 

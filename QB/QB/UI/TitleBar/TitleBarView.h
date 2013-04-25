@@ -8,10 +8,10 @@
 
 @interface TitleBarView : ManagedView
 
-@property (nonatomic, retain) IBOutlet UIView* mainView;
-@property (nonatomic, retain) IBOutlet UILabel* titleLabel;
-@property (nonatomic, retain) IBOutlet UIButton* toggleSideMenuButton;
-@property (nonatomic, retain) IBOutlet UIButton* rightButton;
+@property (nonatomic, assign) IBOutlet UIView* mainView;
+@property (nonatomic, assign) IBOutlet UILabel* titleLabel;
+@property (nonatomic, assign) IBOutlet UIButton* toggleSideMenuButton;
+@property (nonatomic, assign) IBOutlet UIButton* rightButton;
 
 - (IBAction)toggleSideMenu;
 - (IBAction)rightAction;
@@ -24,10 +24,10 @@
 
 // === SIDE MENU ===
 
-@property (nonatomic, retain) IBOutlet UIView* sideMenuView;
-@property (nonatomic, retain) IBOutlet UIView* sideMenuLipBackgroundView;
-@property (nonatomic, retain) IBOutlet UIView* sideMenuButtonBackgroundView;
-@property (nonatomic, retain) IBOutlet UILabel* sideMenuTitleLabel;
+@property (nonatomic, assign) IBOutlet UIView* sideMenuView;
+@property (nonatomic, assign) IBOutlet UIView* sideMenuLipBackgroundView;
+@property (nonatomic, assign) IBOutlet UIView* sideMenuButtonBackgroundView;
+@property (nonatomic, assign) IBOutlet UILabel* sideMenuTitleLabel;
 @property (nonatomic, retain) IBOutletCollection(UIView) NSArray* sideMenuButtons;
 
 

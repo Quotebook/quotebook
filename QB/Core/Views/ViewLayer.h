@@ -4,7 +4,7 @@
 
 @interface ViewLayer : NSObject
 
-@property (nonatomic, retain) IBOutlet UIView* view;
+@property (nonatomic, assign) IBOutlet UIView* view;
 
 - (void)showManagedView:(ManagedView*)managedView
              setupBlock:(void(^)(ManagedView*))setupBlock;

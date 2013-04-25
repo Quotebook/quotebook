@@ -10,6 +10,8 @@
 
 - (void)beginRunning;
 
+- (void)reload;
+
 - (void)injectManagersIntoIVars:(id)injectee;
 
 - (id)managerForClass:(Class)managerClass;

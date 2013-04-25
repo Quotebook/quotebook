@@ -2,10 +2,10 @@
 
 @interface ConfirmActionView : ManagedView
 
-@property (nonatomic, retain) IBOutlet UILabel* titleLabel;
-@property (nonatomic, retain) IBOutlet UIButton* confirmButton;
-@property (nonatomic, retain) IBOutlet UIButton* cancelButton;
-@property (nonatomic, retain) IBOutlet UIButton* failureButton;
+@property (nonatomic, assign) IBOutlet UILabel* titleLabel;
+@property (nonatomic, assign) IBOutlet UIButton* confirmButton;
+@property (nonatomic, assign) IBOutlet UIButton* cancelButton;
+@property (nonatomic, assign) IBOutlet UIButton* failureButton;
 @property (nonatomic, copy) VoidBlock confirmBlock;
 @property (nonatomic, copy) VoidBlock cancelBlock;
 @property (nonatomic, copy) VoidBlock failureBlock;

@@ -17,6 +17,11 @@
 
 @implementation UserManager
 
+- (void)unload
+{
+    [self setActiveUser:nil];
+}
+
 - (QBUser*)getActiveUser
 {
     return _currentActiveUser;
@@ -27,7 +32,7 @@
     self.currentActiveUser = user;
 }
 
-- (void)internal_clearUserDefaults
+- (void)clearUserDefaults
 {
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:kUserDefaults_lastLoginEmail];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:kUserDefaults_lastLoginPassword];
@@ -143,7 +148,7 @@
            responseHandler:^(LoginResponse* loginResponse) {
                if (loginResponse.user == nil)
                {
-                   [self internal_clearUserDefaults];
+                   [self clearUserDefaults];
                    
                    failureBlock();
                }
@@ -162,7 +167,7 @@
     }
     else
     {
-        [self internal_clearUserDefaults];
+        [self clearUserDefaults];
         
         failureBlock();
     }
@@ -172,7 +177,7 @@
 {
     self.currentActiveUser = nil;
     
-    [self internal_clearUserDefaults];
+    [self clearUserDefaults];
     
     [UserService logout];
 }

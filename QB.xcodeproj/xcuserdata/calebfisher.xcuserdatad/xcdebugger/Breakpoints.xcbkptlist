@@ -73,11 +73,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "QB/Core/AppDirector/AppDirector.m"
-         timestampString = "383592218.854689"
+         timestampString = "388509572.41086"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "51"
-         endingLineNumber = "51"
+         startingLineNumber = "53"
+         endingLineNumber = "53"
          landmarkName = "-beginRunning"
          landmarkType = "5">
       </FileBreakpoint>
@@ -138,12 +138,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "QB/QB/Managers/Offline/OfflineManager.m"
-         timestampString = "386746819.132908"
+         timestampString = "388510003.723938"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "99"
-         endingLineNumber = "99"
-         landmarkName = "-createNewUserWithEmail:firstName:lastName:password:"
+         startingLineNumber = "92"
+         endingLineNumber = "92"
+         landmarkName = "-saveDatabase"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -151,13 +151,13 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "QB/QB/Managers/Offline/OfflineManager.m"
-         timestampString = "386746819.132908"
+         timestampString = "388510003.723938"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "96"
-         endingLineNumber = "96"
-         landmarkName = "@implementation OfflineManager"
-         landmarkType = "3">
+         startingLineNumber = "89"
+         endingLineNumber = "89"
+         landmarkName = "-saveDatabase"
+         landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"

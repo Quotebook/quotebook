@@ -24,10 +24,12 @@
     return self;
 }
 
-- (void)dealloc
+- (void)unload
 {
-    [ViewManager releaseRetainedPropertiesOfObject:self];
-    [super dealloc];
+    for (ViewLayer* viewLayer in _layers.allValues)
+    {
+        [viewLayer dismissAllViews];
+    }
 }
 
 - (void)setDefaultViewLayer:(ViewLayer*)viewLayer

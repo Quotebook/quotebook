@@ -61,7 +61,7 @@
     [managedView fadeIn];
 }
 
-- (void)dismissManagedView:(ManagedView*)managedView;
+- (void)dismissManagedView:(ManagedView*)managedView
 {
     CheckNotNull(managedView);
     

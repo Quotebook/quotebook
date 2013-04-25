@@ -31,6 +31,7 @@ NSDateFormatter* dateFormatter = nil;
         }
         while (currentClass != nil);
     }
+    free(classes);
     
     return matchingClasses;
 }

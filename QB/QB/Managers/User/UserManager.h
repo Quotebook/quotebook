@@ -9,6 +9,8 @@
 
 - (void)setActiveUser:(QBUser*)user;
 
+- (void)clearUserDefaults;
+
 - (BOOL)shouldLoginImplicitly;
 
 - (void)attemptImplicitLogin;

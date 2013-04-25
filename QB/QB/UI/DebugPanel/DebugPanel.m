@@ -1,9 +1,11 @@
 #import "DebugPanel.h"
 #import "OfflineManager.h"
+#import "UserManager.h"
 
 @interface DebugPanel ()
 {
     OfflineManager* offlineManager;
+    UserManager* userManager;
 }
 
 @end
@@ -40,7 +42,14 @@
 
 - (IBAction)resetOfflineDatabase
 {
+    [userManager clearUserDefaults];
     [offlineManager resetOfflineDatabase];
+    [self.director reload];
+}
+
+- (IBAction)clearUserDefaults
+{
+    [userManager clearUserDefaults];
 }
 
 @end

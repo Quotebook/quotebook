@@ -412,7 +412,11 @@ forState:UIControlStateNormal]; \
         if (user.bookIds == nil ||
             user.bookIds.count == 0)
         {
-            [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight * 3, YES, @"Get started by creating a new book!")];
+            [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight * 2, YES, @"Get started by creating a new book!")];
+            
+            [contentViewConfig.viewConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, @"Create new book...", ^{
+                [self showCreateNewBookMenuForUser:user];
+            })];
         }
         else
         {
@@ -426,11 +430,6 @@ forState:UIControlStateNormal]; \
             }
         }
         [contentView configureWithContentViewConfig:contentViewConfig];
-        
-        ConfigureContentViewWithAction(contentView, @"Create new book...", ^{
-            [self showCreateNewBookMenuForUser:user];
-        });
-        
     }];
     
     [self showTitleBarWithTitle:@"Your Quotebooks"
@@ -454,14 +453,29 @@ forState:UIControlStateNormal]; \
     
     [self showContentViewWithSetupBlock:^(ContentView* contentView) {
         ContentViewConfig* contentViewConfig = [ContentViewConfig object];
-        for (QBQuote* quote in book.quotes)
+        
+        if (book.isEmpty)
         {
-            [contentViewConfig.viewConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, [quote formatDisplayName], ^{
-                [self showMenuForViewingQuote:quote
-                                      forBook:book
-                                      forUser:user
-                                    asPreview:NO];
+            [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight * 2, YES, @"Get started by creating a new quote!")];
+            
+            [contentViewConfig.viewConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, @"Add new quote", ^{
+                [self showMenuForAddingNewQuoteToBook:book
+                                              forUser:user
+                                        optionalQuote:nil];
             })];
+        }
+        else
+        {
+        
+            for (QBQuote* quote in book.quotes)
+            {
+                [contentViewConfig.viewConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, [quote formatDisplayName], ^{
+                    [self showMenuForViewingQuote:quote
+                                          forBook:book
+                                          forUser:user
+                                        asPreview:NO];
+                })];
+            }
         }
         
         [contentView configureWithContentViewConfig:contentViewConfig];
@@ -562,7 +576,7 @@ forState:UIControlStateNormal]; \
         if (quoteArg == nil)
         {
             QBQuote* quote = [[QBQuote alloc] init];
-            quote.quoteLines = [[NSMutableArray alloc] initWithObjects:[QBQuoteLine object], nil];
+            quote.quoteLines = [[[NSMutableArray alloc] initWithObjects:[QBQuoteLine object], nil] autorelease];
             quote.creationDate = nil;
             quote.quoteContext = nil;
             return quote;
@@ -702,6 +716,7 @@ forState:UIControlStateNormal]; \
             [self showMenuForConfirmingInvitationOfUsers:users
                                                   toBook:book
                                                  forUser:user];
+            [users release];
         });
     }];
     

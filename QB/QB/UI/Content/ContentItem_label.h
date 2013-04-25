@@ -2,7 +2,7 @@
 
 @interface ContentItem_label : ManagedView
 
-@property (nonatomic, retain) IBOutlet UILabel* label;
+@property (nonatomic, assign) IBOutlet UILabel* label;
 
 @property (nonatomic, assign) int additionalViewHeight;
 

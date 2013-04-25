@@ -7,10 +7,10 @@
 
 @property (nonatomic, copy) VoidBlock actionBlock;
 
-@property (nonatomic, retain) IBOutlet UIButton* actionButton;
+@property (nonatomic, assign) IBOutlet UIButton* actionButton;
 
-@property (nonatomic, retain) IBOutlet ManagedScrollView* scrollViewForBottomBar;
-@property (nonatomic, retain) IBOutlet ManagedScrollView* scrollViewForScrollControls;
+@property (nonatomic, assign) IBOutlet ManagedScrollView* scrollViewForBottomBar;
+@property (nonatomic, assign) IBOutlet ManagedScrollView* scrollViewForScrollControls;
 
 - (void)configureWithContentViewConfig:(ContentViewConfig*)contentViewConfig;
 

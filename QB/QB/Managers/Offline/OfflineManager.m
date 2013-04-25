@@ -25,8 +25,7 @@
 
 + (OfflineManager*)sharedInstance
 {
-    QBAppDelegate* appDelegate = (QBAppDelegate*)[[UIApplication sharedApplication] delegate];
-    return (OfflineManager*)[appDelegate.director managerForClass:OfflineManager.class];
+    return (OfflineManager*)[[QBAppDelegate sharedApplicationDelegate].director managerForClass:OfflineManager.class];
 }
 
 - (id)init
@@ -37,12 +36,6 @@
         _userData = [OfflineUserContainer new];
     }
     return self;
-}
-
-- (void)dealloc
-{
-	[OfflineManager releaseRetainedPropertiesOfObject:self];
-	[super dealloc];
 }
 
 - (NSString*)internal_offlineDatabasePathForFile:(NSString*)filename
