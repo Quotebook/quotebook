@@ -14,7 +14,6 @@
 
 - (void)dealloc
 {
-    self.dateBlock = nil;
 	[ContentItem_datePicker releaseRetainedPropertiesOfObject:self];
 	[super dealloc];
 }

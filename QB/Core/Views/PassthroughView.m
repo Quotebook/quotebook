@@ -3,12 +3,6 @@
 
 @implementation PassthroughView
 
-- (void)dealloc
-{
-    [PassthroughView releaseRetainedPropertiesOfObject:self];
-    [super dealloc];
-}
-
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];

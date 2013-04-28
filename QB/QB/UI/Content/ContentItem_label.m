@@ -9,11 +9,6 @@
     [super dealloc];
 }
 
-- (void)dismiss
-{
-    [super dismiss];
-}
-
 - (void)viewWillShow
 {
     int viewHeight = _label.frame.size.height + _additionalViewHeight;

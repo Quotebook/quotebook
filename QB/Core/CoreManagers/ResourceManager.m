@@ -14,12 +14,6 @@
 
 @implementation ResourceManager
 
-- (void)dealloc
-{
-	[ResourceManager releaseRetainedPropertiesOfObject:self];
-	[super dealloc];
-}
-
 + (NSData*)dataForResource:(NSString*)resourceName
 {
 	return [NSData dataWithContentsOfFile:[self formatPathForResourceWithName:resourceName]];

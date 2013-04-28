@@ -176,6 +176,29 @@ forState:UIControlStateNormal]; \
     
     NSMutableArray* sideMenuConfigs = [NSMutableArray object];
     
+    SideMenuConfig* editQuoteConfig = [SideMenuConfig object];
+    SideMenuConfig* emailToFriendQuoteConfig = [SideMenuConfig object];
+    SideMenuConfig* createPostcardQuoteConfig = [SideMenuConfig object];
+    
+    [sideMenuConfigs addObject:editQuoteConfig];
+    [sideMenuConfigs addObject:emailToFriendQuoteConfig];
+    [sideMenuConfigs addObject:createPostcardQuoteConfig];
+    
+    editQuoteConfig.buttonTitleText = @"Edit quote";
+    emailToFriendQuoteConfig.buttonTitleText = @"Email to friend";
+    createPostcardQuoteConfig.buttonTitleText = @"Create postcard";
+    
+    editQuoteConfig.buttonAction = ^{
+        
+    };
+    
+    emailToFriendQuoteConfig.buttonAction = ^{
+        
+    };
+    
+    createPostcardQuoteConfig.buttonAction = ^{
+    };
+    
     [_titleBarView reconfigureAndAnimateTransitionWithTitle:[quote formatDisplayName]
                                           rightButtonAction:backButtonAction
                                               sideMenuTitle:@"Quote Actions"
@@ -555,7 +578,8 @@ forState:UIControlStateNormal]; \
     }
     else
     {
-        [self showTitleBarWithTitle:book.title
+        [self showTitleBarForQuote:quote
+                           forUser:user
                    backButtonAction:^{
                        [quote release];
                        [self showMenuForBook:book

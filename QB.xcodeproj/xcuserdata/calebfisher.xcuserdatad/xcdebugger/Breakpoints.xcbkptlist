@@ -34,37 +34,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "QB/Core/Views/ManagedView.m"
-         timestampString = "383851523.402848"
+         timestampString = "388600937.133744"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "67"
-         endingLineNumber = "67"
-         landmarkName = "+createManagedViewWithClass:parent:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "QB/Core/Views/ManagedView.m"
-         timestampString = "383851523.402848"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "62"
-         endingLineNumber = "62"
-         landmarkName = "+createManagedViewWithClass:parent:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "QB/Core/Views/ManagedView.m"
-         timestampString = "383851523.402848"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "57"
-         endingLineNumber = "57"
+         startingLineNumber = "56"
+         endingLineNumber = "56"
          landmarkName = "+createManagedViewWithClass:parent:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -164,11 +138,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "QB/QB/Managers/Menu/MenuManager.m"
-         timestampString = "388396563.942026"
+         timestampString = "388835524.610715"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "259"
-         endingLineNumber = "259"
+         startingLineNumber = "282"
+         endingLineNumber = "282"
          landmarkName = "-showCreateNewLoginMenu"
          landmarkType = "5">
       </FileBreakpoint>

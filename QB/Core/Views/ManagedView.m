@@ -9,22 +9,11 @@
 	
 }
 @property (nonatomic, assign) ViewLayer* viewLayer;
-@property (nonatomic, retain) IBOutlet UIView* managedView;
+@property (nonatomic, assign) IBOutlet UIView* managedView;
 @end
 
 
 @implementation ManagedView
-
-- (void)dealloc
-{
-    for (UIView* view in _managedView.subviews)
-    {
-        [view removeFromSuperview];
-    }
-    
-    [ManagedView releaseRetainedPropertiesOfObject:self];
-    [super dealloc];
-}
 
 + (ManagedView*)createManagedViewWithClass:(Class)managedViewClass
                                     parent:(id)parent
@@ -83,7 +72,10 @@
     self.managedView.frame = _viewLayer.view.bounds;
 }
 
-- (void)viewWillShow {}
+- (void)viewWillShow
+{
+    [_managedView retain];
+}
 
 - (void)viewWillFadeOut {}
 

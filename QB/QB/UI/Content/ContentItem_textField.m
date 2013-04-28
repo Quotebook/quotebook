@@ -54,6 +54,13 @@
                                           viewHeight);
 }
 
+- (void)viewWillFadeOut
+{
+    [_textField removeObserver:self
+                    forKeyPath:@"text"];
+    [_textFieldWithlabel removeObserver:self
+                             forKeyPath:@"text"];
+}
 
 - (void)observeValueForKeyPath:(NSString*)keyPath
                       ofObject:(id)object

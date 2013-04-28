@@ -11,12 +11,6 @@
 
 @implementation LoadingManager
 
-- (void)dealloc
-{
-	[LoadingManager releaseRetainedPropertiesOfObject:self];
-	[super dealloc];
-}
-
 - (void)load
 {
 #if DEBUG
