@@ -1,35 +1,46 @@
 #import "ContentView.h"
 #import "ContentViewConfig.h"
-#import "ContentItem_spacer.h"
-#import "ContentItem_button.h"
-#import "ContentItem_label.h"
-#import "ContentItem_textField.h"
-#import "ContentItem_datePicker.h"
+#import "ContentItem_scrollView.h"
 
-@implementation ContentView
+@interface ContentView ()
 {
     ViewManager* viewManager;
-    int textFieldCount;
 }
+
+@property (nonatomic, retain) ContentItem_scrollView* scrollView;
+
+@end
+
+@implementation ContentView
 
 - (void)dealloc
 {
+    [self.scrollView dismiss];
     [ContentView releaseRetainedPropertiesOfObject:self];
     [super dealloc];
 }
 
 - (void)dismiss
 {
-    [_scrollViewForBottomBar removeAllManagedViews];
-    [_scrollViewForScrollControls removeAllManagedViews];
     [self cancelTextEntry];
     [super dismiss];
 }
 
 - (void)viewWillShow
 {
+    [_scrollViewContainer addSubview:_scrollView.managedUIView];
+    
     _actionButton.hidden = _actionBlock == nil;
     _actionButton.userInteractionEnabled = _actionBlock != nil;
+}
+
+- (void)internal_createScrollView
+{
+    if (_scrollView == nil)
+    {
+        self.scrollView =  [viewManager createManagedViewOfClass:ContentItem_scrollView.class
+                                                          parent:self];
+    }
 }
 
 - (IBAction)executeActionBlock
@@ -39,282 +50,35 @@
     _actionBlock();
 }
 
-- (ContentItem_spacer*)internal_createSpacerWithHieght:(int)spacerHeight
-{
-    ContentItem_spacer* spacerItem = [viewManager createManagedViewOfClass:ContentItem_spacer.class
-                                                                    parent:self];
-    spacerItem.additionalViewHeight = spacerHeight;
-    
-    return spacerItem;
-}
-
-- (ContentItem_button*)internal_createButtonWithContentButtonConfig:(ContentButtonConfig*)contentButtonConfig
-{
-    ContentItem_button* buttonItem = [viewManager createManagedViewOfClass:ContentItem_button.class
-                                                                    parent:self];
-    [buttonItem.button setTitle:contentButtonConfig.buttonTitle
-                       forState:UIControlStateNormal];
-    
-    buttonItem.onTapBlock = contentButtonConfig.onTapBlock;
-    
-    buttonItem.additionalViewHeight = contentButtonConfig.additionalViewHeight;
-    
-    return buttonItem;
-}
-
-- (ContentItem_label*)internal_createLabelWithContentLabelConfig:(ContentLabelConfig*)contentLabelConfig
-{
-    ContentItem_label* labelItem = [viewManager createManagedViewOfClass:ContentItem_label.class
-                                                                  parent:self];
-    
-    [labelItem.label setText:contentLabelConfig.labelText];
-    
-    if (contentLabelConfig.wordWrap)
-    {
-        CGRect originalFrame = labelItem.label.frame;
-        
-        [labelItem.label setLineBreakMode:NSLineBreakByWordWrapping];
-        labelItem.label.numberOfLines = (originalFrame.size.height + contentLabelConfig.additionalViewHeight) / 22;
-        labelItem.label.frame = CGRectMake(originalFrame.origin.x, originalFrame.origin.y,
-                                           originalFrame.size.width, originalFrame.size.height + contentLabelConfig.additionalViewHeight);
-    }
-    
-    if (contentLabelConfig.alignment != ContentConfigAlignmentNone)
-    {
-        labelItem.label.textAlignment = contentLabelConfig.alignment;
-    }
-    
-    labelItem.additionalViewHeight = contentLabelConfig.additionalViewHeight;
-    
-    return labelItem;
-}
-
-- (ContentItem_textField*)internal_createTextFieldWithContentTextFieldConfig:(ContentTextFieldConfig*)contentTextFieldConfig
-{
-    ContentItem_textField* textFieldItem = [viewManager createManagedViewOfClass:ContentItem_textField.class
-                                                                          parent:self];
-    
-    if (contentTextFieldConfig.labelText == nil)
-    {
-        textFieldItem.titleLabel.hidden = YES;
-        textFieldItem.textFieldWithlabel.hidden = YES;
-        textFieldItem.textField.secureTextEntry = contentTextFieldConfig.secureTextEntry;
-        if (contentTextFieldConfig.defaultFieldText != nil)
-        {
-            textFieldItem.textField.text = contentTextFieldConfig.defaultFieldText;
-            textFieldItem.defaultText = contentTextFieldConfig.defaultFieldText;
-        }
-        if (contentTextFieldConfig.overrideFieldText != nil)
-        {
-            textFieldItem.textField.text = contentTextFieldConfig.overrideFieldText;
-            textFieldItem.overrideText = contentTextFieldConfig.overrideFieldText;
-        }
-    }
-    else
-    {
-        textFieldItem.titleLabel.text = contentTextFieldConfig.labelText;
-        textFieldItem.textField.hidden = YES;
-        textFieldItem.textFieldWithlabel.secureTextEntry = contentTextFieldConfig.secureTextEntry;
-        if (contentTextFieldConfig.defaultFieldText != nil)
-        {
-            textFieldItem.textFieldWithlabel.text = contentTextFieldConfig.defaultFieldText;
-            textFieldItem.defaultText = contentTextFieldConfig.defaultFieldText;
-        }
-        if (contentTextFieldConfig.overrideFieldText != nil)
-        {
-            textFieldItem.textFieldWithlabel.text = contentTextFieldConfig.overrideFieldText;
-            textFieldItem.overrideText = contentTextFieldConfig.overrideFieldText;
-        }
-    }
-
-    if (contentTextFieldConfig.defaultFieldText != nil)
-    {
-        textFieldItem.textFieldWithlabel.text = contentTextFieldConfig.defaultFieldText;
-        textFieldItem.defaultText = contentTextFieldConfig.defaultFieldText;
-    }
-    if (contentTextFieldConfig.overrideFieldText != nil)
-    {
-        textFieldItem.textFieldWithlabel.text = contentTextFieldConfig.overrideFieldText;
-    }
-    
-    textFieldItem.additionalViewHeight = contentTextFieldConfig.additionalViewHeight;
-    textFieldItem.textBlock = contentTextFieldConfig.textBlock;
-    
-    return textFieldItem;
-}
-
-- (ContentItem_datePicker*)internal_createDataPickerWithContentDatePickerConfig:(ContentDatePickerConfig*)contentDatePickerConfig
-{
-    ContentItem_datePicker* datePickerItem = [viewManager createManagedViewOfClass:ContentItem_datePicker.class
-                                                                        parent:self];
-    
-    if (contentDatePickerConfig.defaultDate != nil)
-    {
-        datePickerItem.datePicker.date = contentDatePickerConfig.defaultDate;
-    }
-    datePickerItem.dateBlock = contentDatePickerConfig.dateBlock;
-    
-    return datePickerItem;
-}
-
-- (ManagedView*)internal_createManagedViewForContentItemConfig:(ContentItemConfig*)contentItemConfig
-{
-    if (contentItemConfig.class == ContentButtonConfig.class)
-    {
-        ContentButtonConfig* contentButtonConfig = (ContentButtonConfig*)contentItemConfig;
-        return [self internal_createButtonWithContentButtonConfig:contentButtonConfig];
-    }
-    else if (contentItemConfig.class == ContentLabelConfig.class)
-    {
-        ContentLabelConfig* contentLabelConfig = (ContentLabelConfig*)contentItemConfig;
-        return [self internal_createLabelWithContentLabelConfig:contentLabelConfig];
-    }
-    else if (contentItemConfig.class == ContentTextFieldConfig.class)
-    {
-        ContentTextFieldConfig* contentTextFieldConfig = (ContentTextFieldConfig*)contentItemConfig;
-        return [self internal_createTextFieldWithContentTextFieldConfig:contentTextFieldConfig];
-    }
-    else if (contentItemConfig.class == ContentDatePickerConfig.class)
-    {
-        ContentDatePickerConfig* contentDatePickerConfig = (ContentDatePickerConfig*)contentItemConfig;
-        return [self internal_createDataPickerWithContentDatePickerConfig:contentDatePickerConfig];
-    }
-    AssertNow();
-    return nil;
-}
-
-- (void)internal_enumerateTextFields
-{
-    textFieldCount = 0;
-    for (ManagedView* scrollViewItem in _scrollViewForBottomBar.managedViews)
-    {
-        if (scrollViewItem.class == ContentItem_textField.class)
-        {
-            scrollViewItem.managedUIView.tag = ++textFieldCount;
-        }
-    }
-}
-
 - (void)configureWithContentViewConfig:(ContentViewConfig*)contentViewConfig
 {
-    NSMutableArray* views = [NSMutableArray object];
+    [self internal_createScrollView];
     
-    if (contentViewConfig.initialSpacerHeight > 0)
-    {
-        [views addObject:[self internal_createSpacerWithHieght:contentViewConfig.initialSpacerHeight]];
-    }
+    ContentScrollViewConfig* scrollViewConfig = [ContentScrollViewConfig object];
+    [scrollViewConfig.contentViewConfigs addObject:contentViewConfig];
+    [_scrollView configure:scrollViewConfig];
+}
+
+- (void)configureWithContentScrollViewConfig:(ContentScrollViewConfig*)scrollViewConfig
+{
+    [self internal_createScrollView];
     
-    for (ContentItemConfig* viewItemConfig in contentViewConfig.viewConfigs)
-    {
-        [views addObject:[self internal_createManagedViewForContentItemConfig:viewItemConfig]];
-    }
-    
-    [_scrollViewForBottomBar addManagedViews:views];
-    
-    [self internal_enumerateTextFields];
+    [_scrollView configure:scrollViewConfig];
 }
 
 - (void)addContentItemConfigs:(NSArray*)contentItemConfigsToAdd
 {
-    for (ContentItemConfigToAdd* contentItemConfigToAdd in contentItemConfigsToAdd)
-    {
-        ManagedView* managedView = [self internal_createManagedViewForContentItemConfig:contentItemConfigToAdd.contentItemConfig];
-        [_scrollViewForBottomBar addManagedView:managedView
-                                        atIndex:contentItemConfigToAdd.index
-                           refreshViewPlacement:NO];
-        
-    }
-    [_scrollViewForBottomBar refreshViewPlacement];
-    [self internal_enumerateTextFields];
-}
-
-- (void)internal_animateViewsForTextEditingUp
-{
+    CheckNotNull(_scrollView)
     
-}
-
-- (void)internal_animateViewsForTextEditingDown
-{
-    [UIView animateWithDuration:.3f
-                     animations:^{
-                         self.scrollViewForBottomBar.transform = CGAffineTransformMakeTranslation(0, 0);
-                     }];
+    [[_scrollView activeScrollViewItem] addContentItemConfigs:contentItemConfigsToAdd];   
 }
 
 - (IBAction)cancelTextEntry
 {
+    CheckNotNull(_scrollView)
+    
     [self.managedUIView endEditing:YES];
-    [self internal_animateViewsForTextEditingDown];
-}
-
-- (void)keepContentTextFieldVisibleWithAcitveOSK:(ContentItem_textField*)contentItemTextField
-{
-    int bottomOfTitleBarHeight = 62;
-    int topOfKeyboardHeight = 265;
-
-    CGRect frame = contentItemTextField.managedUIView.frame;
-    int textFieldHeight = 30;
-    int textFieldCurrentTop = frame.origin.y + _scrollViewForBottomBar.frame.origin.y;
-    int textFieldCurrentBottom = frame.origin.y + textFieldHeight + _scrollViewForBottomBar.frame.origin.y;
-    
-    int newTopOfTextField = bottomOfTitleBarHeight + (topOfKeyboardHeight - bottomOfTitleBarHeight) * 0.5f;
-    
-    int diffToAnimate = 0;
-    
-    if (textFieldCurrentTop < bottomOfTitleBarHeight)
-    {
-        diffToAnimate = newTopOfTextField - textFieldCurrentTop;
-    }
-    
-    if (textFieldCurrentBottom > topOfKeyboardHeight)
-    {
-        diffToAnimate = textFieldCurrentTop - newTopOfTextField;
-    }
-    
-    if (diffToAnimate != 0)
-    {
-        [UIView animateWithDuration:.3f
-                         animations:^{
-                             self.scrollViewForBottomBar.transform = CGAffineTransformMakeTranslation(0, -diffToAnimate);
-                         }];
-    }
-}
-
-- (BOOL)notifyContentTextFieldDidReturn:(ContentItem_textField*)contentItemTextField
-{
-    NSLog(@"%s", __FUNCTION__);
-    void (^activateViewWithTag)(int) = ^(int tag) {
-        for (ManagedView* managedView in _scrollViewForBottomBar.managedViews)
-        {
-            if ([managedView isKindOfClass:ContentItem_textField.class] &&
-                managedView.managedUIView.tag == tag)
-            {
-                ContentItem_textField* contentItem = (ContentItem_textField*)managedView;
-                [contentItem activateTextField];
-                return;
-            }
-        }
-        
-        AssertNow();
-    };
-
-    int activeTag = contentItemTextField.managedUIView.tag;
-    
-    if (activeTag == textFieldCount)
-    {
-        [contentItemTextField.textField resignFirstResponder];
-        [contentItemTextField.textFieldWithlabel resignFirstResponder];
-        [self internal_animateViewsForTextEditingDown];
-        [self cancelTextEntry];
-        return YES;
-    }
-    else
-    {
-        [contentItemTextField deactivateTextField];
-        activateViewWithTag(activeTag + 1);
-        return YES;
-    }
-    return NO;
+    [[_scrollView activeScrollViewItem] cancelTextEntry];
 }
 
 @end

@@ -1,5 +1,5 @@
 #import "ContentItem_spacer.h"
-#import "ContentView.h"
+#import "ContentItem_scrollViewItem.h"
 
 @implementation ContentItem_spacer
 
@@ -7,6 +7,18 @@
 {
     [ContentItem_spacer releaseRetainedPropertiesOfObject:self];
     [super dealloc];
+}
+
++ (ContentItem_spacer*)createSpacerWithHieght:(int)spacerHeight
+                                  viewManager:(ViewManager*)viewManager
+                                       parent:(id)parent
+{
+    ContentItem_spacer* spacerItem = [viewManager createManagedViewOfClass:ContentItem_spacer.class
+                                                                    parent:parent];
+    
+    spacerItem.additionalViewHeight = spacerHeight;
+    
+    return spacerItem;
 }
 
 - (void)viewWillShow
@@ -19,8 +31,8 @@
 
 - (IBAction)cancelTextEntry
 {
-    ContentView* contentView = self.parent;
-    [contentView cancelTextEntry];
+    ContentItem_scrollViewItem* parent = self.parent;
+    [parent cancelTextEntry];
 }
 
 @end

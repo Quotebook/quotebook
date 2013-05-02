@@ -1,5 +1,6 @@
 #import "ContentItem_textField.h"
-#import "ContentView.h"
+#import "ContentItem_scrollViewItem.h"
+#import "ContentViewConfig.h"
 
 @interface ContentItem_textField ()
 {
@@ -19,11 +20,66 @@
     [super dealloc];
 }
 
-- (ContentView*)internal_parent
+- (ContentItem_scrollViewItem*)internal_parent
 {
     return self.parent;
 }
 
++ (ContentItem_textField*)createTextFieldWithContentTextFieldConfig:(ContentTextFieldConfig*)config
+                                                        viewManager:(ViewManager*)viewManager
+                                                             parent:(id)parent
+{
+    ContentItem_textField* textFieldItem = [viewManager createManagedViewOfClass:ContentItem_textField.class
+                                                                          parent:parent];
+    
+    if (config.labelText == nil)
+    {
+        textFieldItem.titleLabel.hidden = YES;
+        textFieldItem.textFieldWithlabel.hidden = YES;
+        textFieldItem.textField.secureTextEntry = config.secureTextEntry;
+        if (config.defaultFieldText != nil)
+        {
+            textFieldItem.textField.text = config.defaultFieldText;
+            textFieldItem.defaultText = config.defaultFieldText;
+        }
+        if (config.overrideFieldText != nil)
+        {
+            textFieldItem.textField.text = config.overrideFieldText;
+            textFieldItem.overrideText = config.overrideFieldText;
+        }
+    }
+    else
+    {
+        textFieldItem.titleLabel.text = config.labelText;
+        textFieldItem.textField.hidden = YES;
+        textFieldItem.textFieldWithlabel.secureTextEntry = config.secureTextEntry;
+        if (config.defaultFieldText != nil)
+        {
+            textFieldItem.textFieldWithlabel.text = config.defaultFieldText;
+            textFieldItem.defaultText = config.defaultFieldText;
+        }
+        if (config.overrideFieldText != nil)
+        {
+            textFieldItem.textFieldWithlabel.text = config.overrideFieldText;
+            textFieldItem.overrideText = config.overrideFieldText;
+        }
+    }
+    
+    if (config.defaultFieldText != nil)
+    {
+        textFieldItem.textFieldWithlabel.text = config.defaultFieldText;
+        textFieldItem.defaultText = config.defaultFieldText;
+    }
+    if (config.overrideFieldText != nil)
+    {
+        textFieldItem.textFieldWithlabel.text = config.overrideFieldText;
+    }
+    
+    textFieldItem.additionalViewHeight = config.additionalViewHeight;
+    textFieldItem.textBlock = config.textBlock;
+    
+    return textFieldItem;
+}
 
 - (void)viewWillShow
 {

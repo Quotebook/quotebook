@@ -1,5 +1,6 @@
 #import "ContentItem_button.h"
-#import "ContentView.h"
+#import "ContentItem_scrollViewItem.h"
+#import "ContentViewConfig.h"
 
 @implementation ContentItem_button
 
@@ -8,6 +9,23 @@
     self.onTapBlock = nil;
     [ContentItem_button releaseRetainedPropertiesOfObject:self];
     [super dealloc];
+}
+
++ (ContentItem_button*)createButtonWithContentButtonConfig:(ContentButtonConfig*)config
+                                               viewManager:(ViewManager*)viewManager
+                                                    parent:(id)parent
+{
+    ContentItem_button* buttonItem = [viewManager createManagedViewOfClass:ContentItem_button.class
+                                                                    parent:parent];
+    
+    [buttonItem.button setTitle:config.buttonTitle
+                       forState:UIControlStateNormal];
+    
+    buttonItem.onTapBlock = config.onTapBlock;
+    
+    buttonItem.additionalViewHeight = config.additionalViewHeight;
+    
+    return buttonItem;
 }
 
 - (void)viewWillShow
@@ -27,8 +45,8 @@
 
 - (IBAction)cancelTextEntry
 {
-    ContentView* contentView = self.parent;
-    [contentView cancelTextEntry];
+    ContentItem_scrollViewItem* parent = self.parent;
+    [parent cancelTextEntry];
 }
 
 @end

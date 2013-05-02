@@ -260,27 +260,27 @@ forState:UIControlStateNormal]; \
         __block NSString* confirm = nil;
         
         ContentViewConfig* contentViewConfig = [ContentViewConfig object];
-        [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, @"Basic info:")];
-        [contentViewConfig.viewConfigs addObject:ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"E-mail:", ^(NSString* enteredString) {
+        [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, @"Basic info:")];
+        [contentViewConfig.contentItemConfigs addObject:ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"E-mail:", ^(NSString* enteredString) {
             email = enteredString;
         })];
-        [contentViewConfig.viewConfigs addObject:ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"First name:", ^(NSString* enteredString) {
+        [contentViewConfig.contentItemConfigs addObject:ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"First name:", ^(NSString* enteredString) {
             firstName = enteredString;
         })];
-        [contentViewConfig.viewConfigs addObject:ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"Last name", ^(NSString* enteredString) {
+        [contentViewConfig.contentItemConfigs addObject:ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"Last name", ^(NSString* enteredString) {
             lastName = enteredString;
         })];
-        [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight * .2, NO, @"Create password:")];
+        [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight * .2, NO, @"Create password:")];
         ContentTextFieldConfig* passwordConfig = ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"Password:",^(NSString* enteredString) {
             password = enteredString;
         });
         passwordConfig.secureTextEntry = YES;
-        [contentViewConfig.viewConfigs addObject:passwordConfig];
+        [contentViewConfig.contentItemConfigs addObject:passwordConfig];
         ContentTextFieldConfig* confirmConfig = ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"Confirm", ^(NSString* enteredString) {
             confirm = enteredString;
         });
         confirmConfig.secureTextEntry = YES;
-        [contentViewConfig.viewConfigs addObject:confirmConfig];
+        [contentViewConfig.contentItemConfigs addObject:confirmConfig];
         [contentView configureWithContentViewConfig:contentViewConfig];
         
         ConfigureContentViewWithAction(contentView, @"Done", ^{
@@ -325,8 +325,8 @@ forState:UIControlStateNormal]; \
     [self showContentViewWithSetupBlock:^(ContentView* contentView) {
         ContentViewConfig* contentViewConfig = [ContentViewConfig object];
         contentViewConfig.initialSpacerHeight = 60;
-        [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight * 1.5, NO, @"Name the book:")];
-        [contentViewConfig.viewConfigs addObject:ContentTextFieldConfig(kDefaultAdditionalHeight,^(NSString* enteredString) {
+        [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight * 1.5, NO, @"Name the book:")];
+        [contentViewConfig.contentItemConfigs addObject:ContentTextFieldConfig(kDefaultAdditionalHeight,^(NSString* enteredString) {
             bookName = [[NSString alloc] initWithString:enteredString];
         })];
         
@@ -391,16 +391,16 @@ forState:UIControlStateNormal]; \
         
         ContentViewConfig* contentViewConfig = [ContentViewConfig object];
         contentViewConfig.initialSpacerHeight = 80;
-        [contentViewConfig.viewConfigs addObject:ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"E-mail", ^(NSString* enteredString) {
+        [contentViewConfig.contentItemConfigs addObject:ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"E-mail", ^(NSString* enteredString) {
             email = enteredString;
         })];
         ContentTextFieldConfig* config = ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"Password", ^(NSString* enteredString) {
             password = enteredString;
         });
         config.secureTextEntry = YES;
-        [contentViewConfig.viewConfigs addObject:config];
+        [contentViewConfig.contentItemConfigs addObject:config];
 
-        [contentViewConfig.viewConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, @"Login", ^{
+        [contentViewConfig.contentItemConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, @"Login", ^{
             [userManager loginUserWithEmail:email
                                    password:password
                                successBlock:^(LoginResponse* loginResponse) {
@@ -435,9 +435,9 @@ forState:UIControlStateNormal]; \
         if (user.bookIds == nil ||
             user.bookIds.count == 0)
         {
-            [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight * 2, YES, @"Get started by creating a new book!")];
+            [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight * 2, YES, @"Get started by creating a new book!")];
             
-            [contentViewConfig.viewConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, @"Create new book...", ^{
+            [contentViewConfig.contentItemConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, @"Create new book...", ^{
                 [self showCreateNewBookMenuForUser:user];
             })];
         }
@@ -446,7 +446,7 @@ forState:UIControlStateNormal]; \
             for (NSNumber* bookId in user.bookIds)
             {
                 QBBook* book = [bookManager bookForBookId:bookId.intValue];
-                [contentViewConfig.viewConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, book.title, ^{
+                [contentViewConfig.contentItemConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, book.title, ^{
                     [self showMenuForBook:book
                                   forUser:user];
                 })];
@@ -474,14 +474,16 @@ forState:UIControlStateNormal]; \
     
     [self showDefaultBackground];
     
+    // Show scroll view of buttons representing all quotes
+    /*
     [self showContentViewWithSetupBlock:^(ContentView* contentView) {
         ContentViewConfig* contentViewConfig = [ContentViewConfig object];
         
         if (book.isEmpty)
         {
-            [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight * 2, YES, @"Get started by creating a new quote!")];
+            [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight * 2, YES, @"Get started by creating a new quote!")];
             
-            [contentViewConfig.viewConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, @"Add new quote", ^{
+            [contentViewConfig.contentItemConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, @"Add new quote", ^{
                 [self showMenuForAddingNewQuoteToBook:book
                                               forUser:user
                                         optionalQuote:nil];
@@ -492,7 +494,7 @@ forState:UIControlStateNormal]; \
         
             for (QBQuote* quote in book.quotes)
             {
-                [contentViewConfig.viewConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, [quote formatDisplayName], ^{
+                [contentViewConfig.contentItemConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, [quote formatDisplayName], ^{
                     [self showMenuForViewingQuote:quote
                                           forBook:book
                                           forUser:user
@@ -503,6 +505,58 @@ forState:UIControlStateNormal]; \
         
         [contentView configureWithContentViewConfig:contentViewConfig];
         
+    }];
+    */
+    
+    [self showContentViewWithSetupBlock:^(ContentView* contentView) {
+        if (book.isEmpty)
+        {
+            ContentViewConfig* contentViewConfig = [ContentViewConfig object];
+            
+            [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight * 2, YES, @"Get started by creating a new quote!")];
+            
+            [contentViewConfig.contentItemConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, @"Add new quote", ^{
+                [self showMenuForAddingNewQuoteToBook:book
+                                              forUser:user
+                                        optionalQuote:nil];
+            })];
+            
+            [contentView configureWithContentViewConfig:contentViewConfig];
+        }
+        else
+        {
+            ContentScrollViewConfig* contentScrollViewConfig = [ContentScrollViewConfig object];
+            
+            contentScrollViewConfig.enablePaging = YES;
+            
+            for (QBQuote* quote in book.quotes)
+            {
+                ContentViewConfig* contentViewConfig = [ContentViewConfig object];
+                contentViewConfig.initialSpacerHeight = 0;
+                
+                if (quote.quoteLines.count == 1)
+                {
+                    QBQuoteLine* quoteLine = [quote.quoteLines lastObject];
+                    [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, [quoteLine formatOnelineDisplay])];
+                    [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, [quoteLine.who formatDisplayName])];
+                    [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, [Util formatDate:quote.creationDate])];
+                    [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, [quote formatContext])];
+                }
+                else
+                {
+                    for (QBQuoteLine* quoteLine in quote.quoteLines)
+                    {
+                        ContentLabelConfig* labelConfig = ContentLabelConfig(kDefaultAdditionalHeight, NO, [quoteLine formatMultilineDisplay]);
+                        labelConfig.alignment = ContentConfigAlignmentLeft;
+                        [contentViewConfig.contentItemConfigs addObject:labelConfig];
+                    }
+                    [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, [Util formatDate:quote.creationDate])];
+                    [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, [quote formatContext])];
+                }
+                [contentScrollViewConfig.contentViewConfigs addObject:contentViewConfig];
+            }
+            [contentView configureWithContentScrollViewConfig:contentScrollViewConfig];
+        }
     }];
     
     [self showTitleBarForBook:book
@@ -530,10 +584,10 @@ forState:UIControlStateNormal]; \
         if (quote.quoteLines.count == 1)
         {
             QBQuoteLine* quoteLine = [quote.quoteLines lastObject];
-            [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, [quoteLine formatOnelineDisplay])];
-            [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, [quoteLine.who formatDisplayName])];
-            [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, [Util formatDate:quote.creationDate])];
-            [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, [quote formatContext])];
+            [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, [quoteLine formatOnelineDisplay])];
+            [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, [quoteLine.who formatDisplayName])];
+            [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, [Util formatDate:quote.creationDate])];
+            [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, [quote formatContext])];
         }
         else
         {
@@ -541,10 +595,10 @@ forState:UIControlStateNormal]; \
             {
                 ContentLabelConfig* labelConfig = ContentLabelConfig(kDefaultAdditionalHeight, NO, [quoteLine formatMultilineDisplay]);
                 labelConfig.alignment = ContentConfigAlignmentLeft;
-                [contentViewConfig.viewConfigs addObject:labelConfig];
+                [contentViewConfig.contentItemConfigs addObject:labelConfig];
             }
-            [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, [Util formatDate:quote.creationDate])];
-            [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, [quote formatContext])];
+            [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, [Util formatDate:quote.creationDate])];
+            [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, [quote formatContext])];
         }
         [contentView configureWithContentViewConfig:contentViewConfig];
         
@@ -640,7 +694,7 @@ forState:UIControlStateNormal]; \
         };
         
         ContentViewConfig* contentViewConfig = [ContentViewConfig object];
-        [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, @"Add new quote:")];
+        [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, @"Add new quote:")];
         for (QBQuoteLine* quoteLine in quoteToEdit.quoteLines)
         {
             int index = [quoteToEdit.quoteLines indexOfObject:quoteLine];
@@ -651,7 +705,7 @@ forState:UIControlStateNormal]; \
             });
             whoConfig.defaultFieldText = @"Required";
             whoConfig.overrideFieldText = [quoteLine.who formatDisplayName];
-            [contentViewConfig.viewConfigs addObject:whoConfig];
+            [contentViewConfig.contentItemConfigs addObject:whoConfig];
             
             ContentTextFieldConfig* quoteConfig = ContentTextFieldConfig_label(kDefaultAdditionalHeight, index == 0 ? @"Quote:" : @"Response:", ^(NSString* enteredString){
                 QBQuoteLine* quoteLine = [quoteToEdit.quoteLines objectAtIndex:index];
@@ -659,10 +713,10 @@ forState:UIControlStateNormal]; \
             });
             quoteConfig.defaultFieldText = @"Required";
             quoteConfig.overrideFieldText = quoteLine.text;
-            [contentViewConfig.viewConfigs addObject:quoteConfig];
+            [contentViewConfig.contentItemConfigs addObject:quoteConfig];
         }
         
-        [contentViewConfig.viewConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, @"Add Quote Line", ^{
+        [contentViewConfig.contentItemConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, @"Add Quote Line", ^{
             addQuoteLineToContentView();
         })];
 
@@ -671,15 +725,15 @@ forState:UIControlStateNormal]; \
         });
         contextConfig.defaultFieldText = @"Re:";
         contextConfig.overrideFieldText = quoteToEdit.quoteContext;
-        [contentViewConfig.viewConfigs addObject:contextConfig];
+        [contentViewConfig.contentItemConfigs addObject:contextConfig];
         
-        [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, @"When:")];
+        [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, @"When:")];
         
         ContentDatePickerConfig* dateConfig = ContentDatePickerConfig(kDefaultAdditionalHeight, ^(NSDate* enteredDate){
             quoteToEdit.creationDate = [[enteredDate copy] autorelease];
         });
         dateConfig.defaultDate = quoteToEdit.creationDate;
-        [contentViewConfig.viewConfigs addObject:dateConfig];
+        [contentViewConfig.contentItemConfigs addObject:dateConfig];
         
         [contentView configureWithContentViewConfig:contentViewConfig];
         
@@ -718,8 +772,8 @@ forState:UIControlStateNormal]; \
         
         ContentViewConfig* contentViewConfig = [ContentViewConfig object];
         contentViewConfig.initialSpacerHeight = 30;
-        [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight * 1.5, NO, @"Invite members:")];
-        [contentViewConfig.viewConfigs addObject:ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"E-mail:", ^(NSString* enteredString) {
+        [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight * 1.5, NO, @"Invite members:")];
+        [contentViewConfig.contentItemConfigs addObject:ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"E-mail:", ^(NSString* enteredString) {
 //            [userManager retrieveUserWithEmail:enteredString
 //                                  successBlock:^(QBUser* user) {
 //                                      [users addObject:user];
@@ -729,8 +783,8 @@ forState:UIControlStateNormal]; \
 //                                                      failureBlock:^{}];
 //                                  }];
         })];
-        [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, @"or...")];
-        [contentViewConfig.viewConfigs addObject:ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"Users:", ^(NSString* enteredString) {
+        [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, @"or...")];
+        [contentViewConfig.contentItemConfigs addObject:ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"Users:", ^(NSString* enteredString) {
             // This needs to be changed to a User Dropdown
             // This successblock needs to return a user
         })];
@@ -762,10 +816,10 @@ forState:UIControlStateNormal]; \
     [self showContentViewWithSetupBlock:^(ContentView* contentView) {
         ContentViewConfig* contentViewConfig = [ContentViewConfig object];
         contentViewConfig.initialSpacerHeight = 60;
-        [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, Format(@"An invitation to join \"%@\" has been sent to:", book.title))];
+        [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, Format(@"An invitation to join \"%@\" has been sent to:", book.title))];
         for (QBUser* user in users)
         {
-            [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, Format(@"- %@", [user formatDisplayName]))];
+            [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, Format(@"- %@", [user formatDisplayName]))];
         }
         [contentView configureWithContentViewConfig:contentViewConfig];
         
@@ -794,14 +848,14 @@ forState:UIControlStateNormal]; \
     
     [self showContentViewWithSetupBlock:^(ContentView* contentView) {
         ContentViewConfig* contentViewConfig = [ContentViewConfig object];
-        [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, @"Filter by...")];
-        [contentViewConfig.viewConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, @"Members", ^{
+        [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, @"Filter by...")];
+        [contentViewConfig.contentItemConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, @"Members", ^{
             //                                                   [self showMenuForChoosingMemberDispalysOnBook:book];
         })];
-        [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, @"Display...")];
-        [contentViewConfig.viewConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, @"Reverse (default)", ^{
+        [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, @"Display...")];
+        [contentViewConfig.contentItemConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, @"Reverse (default)", ^{
         })];
-        [contentViewConfig.viewConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, @"Chronological", ^{
+        [contentViewConfig.contentItemConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, @"Chronological", ^{
         })];
         [contentView configureWithContentViewConfig:contentViewConfig];
     }];
@@ -823,15 +877,15 @@ forState:UIControlStateNormal]; \
     
     [self showContentViewWithSetupBlock:^(ContentView* contentView) {
         ContentViewConfig* contentViewConfig = [ContentViewConfig object];
-        [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, @"Members")];
+        [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, @"Members")];
         for (QBUser* user in book.memberUsers)
         {
-            [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, Format(@"- %@", [user formatDisplayName]))];
+            [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, Format(@"- %@", [user formatDisplayName]))];
         }
-        [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, @"Invited")];
+        [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, @"Invited")];
         for (QBUser* user in book.invitedUsers)
         {
-            [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, Format(@"- %@", [user formatDisplayName]))];
+            [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, Format(@"- %@", [user formatDisplayName]))];
         }
         [contentView configureWithContentViewConfig:contentViewConfig];
     }];
@@ -853,11 +907,11 @@ forState:UIControlStateNormal]; \
     
     [self showContentViewWithSetupBlock:^(ContentView* contentView) {
         ContentViewConfig* contentViewConfig = [ContentViewConfig object];
-        [contentViewConfig.viewConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight * 3, NO, @"Search Keywords")];
-        [contentViewConfig.viewConfigs addObject:ContentTextFieldConfig(kDefaultAdditionalHeight, ^(NSString* enteredString){
+        [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight * 3, NO, @"Search Keywords")];
+        [contentViewConfig.contentItemConfigs addObject:ContentTextFieldConfig(kDefaultAdditionalHeight, ^(NSString* enteredString){
             
         })];
-        [contentViewConfig.viewConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, @"Run search...", ^{
+        [contentViewConfig.contentItemConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, @"Run search...", ^{
         })];
         [contentView configureWithContentViewConfig:contentViewConfig];
     }];

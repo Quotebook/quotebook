@@ -9,10 +9,10 @@
             "creationDate": {
               
             },
-            "quoteContext": "HEYO!@",
+            "quoteContext": null,
             "quoteLines": [
               {
-                "text": "Suck it!",
+                "text": "caleb1",
                 "who": {
                   "nonuserQuoted": "caleb",
                   "userQuoted": null
@@ -20,6 +20,38 @@
               }
             ],
             "uuid": 1
+          },
+          {
+            "creationDate": {
+              
+            },
+            "quoteContext": null,
+            "quoteLines": [
+              {
+                "text": "caleb2",
+                "who": {
+                  "nonuserQuoted": "caleb2",
+                  "userQuoted": null
+                }
+              }
+            ],
+            "uuid": 2
+          },
+          {
+            "creationDate": {
+              
+            },
+            "quoteContext": null,
+            "quoteLines": [
+              {
+                "text": "caleb333",
+                "who": {
+                  "nonuserQuoted": "caleb333",
+                  "userQuoted": null
+                }
+              }
+            ],
+            "uuid": 3
           }
         ],
         "title": "caleb",
@@ -28,7 +60,7 @@
     ]
   },
   "bookUuidGenerator": 1,
-  "quoteUuidGenerator": 1,
+  "quoteUuidGenerator": 3,
   "userData": {
     "userActors": [
       {
@@ -37,7 +69,7 @@
           "bookIds": [
             1
           ],
-          "email": "caleb1322@caleb.com",
+          "email": "caleb@caleb.com",
           "firstName": "caleb",
           "lastName": "caleb",
           "uuid": 1

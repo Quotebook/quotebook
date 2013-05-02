@@ -15,6 +15,8 @@
 
 - (void)removeAllManagedViews;
 
+- (void)setShouldScrollVertical:(BOOL)shouldScrollHorizontal;
+
 - (void)setHorizontalSpacing:(int)horizontalSpacing;
 
 - (void)setVerticalSpacing:(int)verticalSpacing;

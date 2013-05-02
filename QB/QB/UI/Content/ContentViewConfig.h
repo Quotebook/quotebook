@@ -9,8 +9,17 @@ typedef enum
 } ContentConfigAlignment;
 
 @interface ContentViewConfig : ManagedPropertiesObject
-@property (nonatomic, retain) NSMutableArray* viewConfigs;
+@property (nonatomic, retain) NSMutableArray* contentItemConfigs;
 @property (nonatomic, assign) int initialSpacerHeight;
+@end
+
+@interface ContentScrollViewConfig : ManagedPropertiesObject
+@property (nonatomic, retain) NSMutableArray* contentViewConfigs;
+@property (nonatomic, assign) BOOL enablePaging;
+@property (nonatomic, assign) BOOL enableLooping;
+@property (nonatomic, assign) BOOL enableScrolling;
+@property (nonatomic, assign) BOOL enableVerticalScrolling;
+@property (nonatomic, assign) int indexToFocus;
 @end
 
 @interface ContentItemConfig : ManagedPropertiesObject
@@ -45,4 +54,5 @@ typedef enum
 @property (nonatomic, retain) ContentItemConfig* contentItemConfig;
 @property (nonatomic, assign) int index;
 @end
+
 

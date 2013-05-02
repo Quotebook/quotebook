@@ -76,6 +76,12 @@ typedef enum
     }
 }
 
+- (void)setShouldScrollVertical:(BOOL)shouldScrollVertical
+{
+    _scrollDirection = shouldScrollVertical ? ScrollDirection_vertical : ScrollDirection_horizontal;
+    [self internal_refreshViewPlacement];
+}
+
 - (void)setHorizontalSpacing:(int)horizontalSpacing
 {
     _currentHorizontalSpacing = horizontalSpacing;
