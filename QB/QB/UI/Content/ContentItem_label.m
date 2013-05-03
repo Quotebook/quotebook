@@ -49,6 +49,24 @@
         labelItem.label.textAlignment = config.alignment;
     }
     
+    switch (config.font)
+    {
+        case ContentConfigFontNormal:
+            break;
+        case ContentConfigFontBold:
+            labelItem.label.font = [UIFont fontWithName:@"GillSans-Bold"
+                                                   size:17];
+            break;
+        case ContentConfigFontItalic:
+            labelItem.label.font = [UIFont fontWithName:@"GillSans-Italic"
+                                                   size:17];
+            break;
+        case ContentConfigFontBoldItalic:
+            labelItem.label.font = [UIFont fontWithName:@"GillSans-BoldItalic"
+                                                   size:17];
+            break;
+    }
+    
     labelItem.additionalViewHeight = config.additionalViewHeight;
     
     return labelItem;

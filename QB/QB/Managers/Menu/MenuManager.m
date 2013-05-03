@@ -109,30 +109,21 @@ forState:UIControlStateNormal]; \
     
     NSMutableArray* sideMenuConfigs = [NSMutableArray object];
     
-    SideMenuConfig* addNewQuoteConfig = [SideMenuConfig object];
     SideMenuConfig* inviteMembersConfig = [SideMenuConfig object];
     SideMenuConfig* displayOptionsConfig = [SideMenuConfig object];
     SideMenuConfig* viewStatsConfig = [SideMenuConfig object];
     SideMenuConfig* searchConfig = [SideMenuConfig object];
     
-    [sideMenuConfigs addObject:addNewQuoteConfig];
     [sideMenuConfigs addObject:inviteMembersConfig];
     [sideMenuConfigs addObject:displayOptionsConfig];
     [sideMenuConfigs addObject:viewStatsConfig];
     [sideMenuConfigs addObject:searchConfig];
     
-    addNewQuoteConfig.buttonTitleText = @"Add new quote";
     inviteMembersConfig.buttonTitleText = @"Invite members";
     displayOptionsConfig.buttonTitleText = @"Display options";
     viewStatsConfig.buttonTitleText = @"View stats";
     searchConfig.buttonTitleText = @"Search";
     
-    addNewQuoteConfig.buttonAction = ^{
-        [self showMenuForAddingNewQuoteToBook:book
-                                      forUser:user
-                                optionalQuote:nil];
-    };
-
     inviteMembersConfig.buttonAction = ^{
         [self showMenuForInvitingNewMembersToBook:book
                                           forUser:user];
@@ -451,6 +442,10 @@ forState:UIControlStateNormal]; \
                                   forUser:user];
                 })];
             }
+            
+            ConfigureContentViewWithAction(contentView, @"Add new book", ^{
+                [self showCreateNewBookMenuForUser:user];
+            });
         }
         [contentView configureWithContentViewConfig:contentViewConfig];
     }];
@@ -473,40 +468,6 @@ forState:UIControlStateNormal]; \
     [self dismissContentView];
     
     [self showDefaultBackground];
-    
-    // Show scroll view of buttons representing all quotes
-    /*
-    [self showContentViewWithSetupBlock:^(ContentView* contentView) {
-        ContentViewConfig* contentViewConfig = [ContentViewConfig object];
-        
-        if (book.isEmpty)
-        {
-            [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight * 2, YES, @"Get started by creating a new quote!")];
-            
-            [contentViewConfig.contentItemConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, @"Add new quote", ^{
-                [self showMenuForAddingNewQuoteToBook:book
-                                              forUser:user
-                                        optionalQuote:nil];
-            })];
-        }
-        else
-        {
-        
-            for (QBQuote* quote in book.quotes)
-            {
-                [contentViewConfig.contentItemConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, [quote formatDisplayName], ^{
-                    [self showMenuForViewingQuote:quote
-                                          forBook:book
-                                          forUser:user
-                                        asPreview:NO];
-                })];
-            }
-        }
-        
-        [contentView configureWithContentViewConfig:contentViewConfig];
-        
-    }];
-    */
     
     [self showContentViewWithSetupBlock:^(ContentView* contentView) {
         if (book.isEmpty)
@@ -540,7 +501,9 @@ forState:UIControlStateNormal]; \
                     [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, [quoteLine formatOnelineDisplay])];
                     [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, [quoteLine.who formatDisplayName])];
                     [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, [Util formatDate:quote.creationDate])];
-                    [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, [quote formatContext])];
+                    ContentLabelConfig* contentLabelConfig = ContentLabelConfig(kDefaultAdditionalHeight, NO, [quote formatContext]);
+                    contentLabelConfig.font = ContentConfigFontBoldItalic;
+                    [contentViewConfig.contentItemConfigs addObject:contentLabelConfig];
                 }
                 else
                 {
@@ -551,11 +514,19 @@ forState:UIControlStateNormal]; \
                         [contentViewConfig.contentItemConfigs addObject:labelConfig];
                     }
                     [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, [Util formatDate:quote.creationDate])];
-                    [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, [quote formatContext])];
+                    ContentLabelConfig* contentLabelConfig = ContentLabelConfig(kDefaultAdditionalHeight, NO, [quote formatContext]);
+                    contentLabelConfig.font = ContentConfigFontBoldItalic;
+                    [contentViewConfig.contentItemConfigs addObject:contentLabelConfig];
                 }
                 [contentScrollViewConfig.contentViewConfigs addObject:contentViewConfig];
             }
             [contentView configureWithContentScrollViewConfig:contentScrollViewConfig];
+            
+            ConfigureContentViewWithAction(contentView, @"Add new quote", ^{
+                [self showMenuForAddingNewQuoteToBook:book
+                                              forUser:user
+                                        optionalQuote:nil];
+            });
         }
     }];
     
@@ -587,7 +558,9 @@ forState:UIControlStateNormal]; \
             [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, [quoteLine formatOnelineDisplay])];
             [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, [quoteLine.who formatDisplayName])];
             [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, [Util formatDate:quote.creationDate])];
-            [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, [quote formatContext])];
+            ContentLabelConfig* contentLabelConfig = ContentLabelConfig(kDefaultAdditionalHeight, NO, [quote formatContext]);
+            contentLabelConfig.font = ContentConfigFontBoldItalic;
+            [contentViewConfig.contentItemConfigs addObject:contentLabelConfig];
         }
         else
         {
@@ -598,7 +571,9 @@ forState:UIControlStateNormal]; \
                 [contentViewConfig.contentItemConfigs addObject:labelConfig];
             }
             [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, [Util formatDate:quote.creationDate])];
-            [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, [quote formatContext])];
+            ContentLabelConfig* contentLabelConfig = ContentLabelConfig(kDefaultAdditionalHeight, NO, [quote formatContext]);
+            contentLabelConfig.font = ContentConfigFontBoldItalic;
+            [contentViewConfig.contentItemConfigs addObject:contentLabelConfig];
         }
         [contentView configureWithContentViewConfig:contentViewConfig];
         
@@ -627,7 +602,8 @@ forState:UIControlStateNormal]; \
                        [self showMenuForAddingNewQuoteToBook:book
                                                      forUser:user
                                                optionalQuote:quote];
-                       [quote release];
+
+                       //[quote release]; TODO - crash has to do with blocks.
                    }];
     }
     else
@@ -646,6 +622,8 @@ forState:UIControlStateNormal]; \
                                 forUser:(QBUser*)user
                           optionalQuote:(QBQuote*)quoteArg
 {
+    [quoteArg retain];
+    
     [self dismissContentView];
     
     [self showDefaultBackground];
@@ -745,7 +723,8 @@ forState:UIControlStateNormal]; \
                                       forUser:user
                                     asPreview:YES];
                 
-                [quoteToEdit release];
+                //[quoteToEdit release]; TODO Leaking - crash has to do with blocks.
+                //[quoteArg release];
             }
         });
     }];
@@ -756,7 +735,8 @@ forState:UIControlStateNormal]; \
                  [self showMenuForBook:book
                                forUser:user];
                  
-                 [quoteToEdit release];
+                 //[quoteToEdit release]; TODO Leaking - crash has to do with blocks.
+                 //[quoteArg release];
              }];
 }
 

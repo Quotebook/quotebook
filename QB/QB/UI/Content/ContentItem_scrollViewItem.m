@@ -181,8 +181,7 @@
     
     if (activeTag == textFieldCount)
     {
-        [contentItemTextField.textField resignFirstResponder];
-        [contentItemTextField.textFieldWithlabel resignFirstResponder];
+        [contentItemTextField deactivateTextField];
         [self internal_animateViewsForTextEditingDown];
         [self cancelTextEntry];
         return YES;

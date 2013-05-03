@@ -68,7 +68,7 @@ static void ManagedPropertiesObject__releaseManagedProperties(id object, Class s
             
             CheckTrue(![propertyName hasPrefix:@"get"]);
             
-            NSLog(@"Releasing property with name: %@ on object: %@", propertyName, object);
+            // NSLog(@"Releasing property with name: %@ on object: %@", propertyName, object);
             
 			[[object valueForKey:propertyName] release];
 		}

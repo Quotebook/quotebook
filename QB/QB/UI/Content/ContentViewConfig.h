@@ -8,6 +8,14 @@ typedef enum
     ContentConfigAlignmentCenter = NSTextAlignmentCenter
 } ContentConfigAlignment;
 
+typedef enum
+{
+    ContentConfigFontNormal = 0,
+    ContentConfigFontBold,
+    ContentConfigFontItalic,
+    ContentConfigFontBoldItalic
+} ContentConfigFont;
+
 @interface ContentViewConfig : ManagedPropertiesObject
 @property (nonatomic, retain) NSMutableArray* contentItemConfigs;
 @property (nonatomic, assign) int initialSpacerHeight;
@@ -35,6 +43,7 @@ typedef enum
 @property (nonatomic, retain) NSString* labelText;
 @property (nonatomic, assign) BOOL wordWrap;
 @property (nonatomic, assign) ContentConfigAlignment alignment;
+@property (nonatomic, assign) ContentConfigFont font;
 @end
 
 @interface ContentTextFieldConfig : ContentItemConfig
