@@ -1,5 +1,5 @@
 #import "ContentItem_textField.h"
-#import "ContentItem_scrollViewItem.h"
+#import "ContentItem_scrollView.h"
 #import "ContentViewConfig.h"
 
 @interface ContentItem_textField ()
@@ -20,7 +20,7 @@
     [super dealloc];
 }
 
-- (ContentItem_scrollViewItem*)internal_parent
+- (ContentItem_scrollView*)internal_parent
 {
     return self.parent;
 }
@@ -123,7 +123,6 @@
                         change:(NSDictionary*)change
                        context:(void*)contex
 {
-    NSLog(@"%s", __FUNCTION__);
     UITextField* textField = (UITextField*)object;
     if ([textField.text isEqualToString:@""])
     {
@@ -140,13 +139,11 @@
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField*)textField
 {
-    NSLog(@"%s", __FUNCTION__);
     return YES;
 }
 
 - (void)textFieldDidBeginEditing:(UITextField*)textField
 {
-    NSLog(@"%s", __FUNCTION__); 
     _shouldRestoreDefaultText = NO;
     
     if (!_textChangeOccurred)
@@ -167,14 +164,12 @@
 
 - (BOOL)textFieldShouldEndEditing:(UITextField*)textField
 {
-    NSLog(@"%s", __FUNCTION__);
     textField.backgroundColor = [UIColor whiteColor];
     return YES;
 }
 
 - (void)textFieldDidEndEditing:(UITextField*)textField
 {
-    NSLog(@"%s", __FUNCTION__);    
     if (_shouldRestoreDefaultText && _overrideText == nil)
     {
         textField.text = _defaultText;
@@ -190,27 +185,23 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField*)textField
 {
-    NSLog(@"%s", __FUNCTION__);
     return [self.internal_parent notifyContentTextFieldDidReturn:self];
 }
 
 - (void)activateTextField
 {
-    NSLog(@"%s", __FUNCTION__);
     if (!_textField.hidden) [_textField becomeFirstResponder];
     if (!_textFieldWithlabel.hidden) [_textFieldWithlabel becomeFirstResponder];
 }
 
 - (void)deactivateTextField
 {
-    NSLog(@"%s", __FUNCTION__);
     if (!_textField.hidden) [_textField resignFirstResponder];
     if (!_textFieldWithlabel.hidden) [_textFieldWithlabel resignFirstResponder];
 }
 
 - (IBAction)cancelTextEntry
 {
-    NSLog(@"%s", __FUNCTION__);
     [self.internal_parent cancelTextEntry];
 }
 

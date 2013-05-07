@@ -96,10 +96,17 @@
         ],
         "title": "2",
         "uuid": 2
+      },
+      {
+        "invitedUsers": null,
+        "memberUsers": null,
+        "quotes": null,
+        "title": "dtxfcghvjbknlm;",
+        "uuid": 3
       }
     ]
   },
-  "bookUuidGenerator": 2,
+  "bookUuidGenerator": 3,
   "quoteUuidGenerator": 5,
   "userData": {
     "userActors": [
@@ -108,7 +115,8 @@
         "user": {
           "bookIds": [
             1,
-            2
+            2,
+            3
           ],
           "email": "caleb@caleb.com",
           "firstName": "caleb",

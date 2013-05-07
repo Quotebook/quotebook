@@ -1,5 +1,5 @@
 #import "ContentItem_button.h"
-#import "ContentItem_scrollViewItem.h"
+#import "ContentItem_scrollView.h"
 #import "ContentViewConfig.h"
 
 @implementation ContentItem_button
@@ -45,7 +45,7 @@
 
 - (IBAction)cancelTextEntry
 {
-    ContentItem_scrollViewItem* parent = self.parent;
+    ContentItem_scrollView* parent = self.parent;
     [parent cancelTextEntry];
 }
 

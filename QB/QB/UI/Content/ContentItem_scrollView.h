@@ -1,16 +1,27 @@
 #import "QB.h"
 
+@class ContentViewConfig;
 @class ContentScrollViewConfig;
-@class ContentItem_scrollViewItem;
+@class ContentItem_textField;
 
 @interface ContentItem_scrollView : ManagedView
 
-@property (nonatomic, assign) IBOutlet ManagedPassthroughScrollView* scrollView;
+@property (nonatomic, assign) IBOutlet ManagedScrollView* scrollView;
 
-- (void)configure:(ContentScrollViewConfig*)config;
+- (ContentItem_scrollView*)activeScrollViewItem;
 
-- (ContentItem_scrollViewItem*)activeScrollViewItem;
+- (ContentItem_scrollView*)scrollViewItemAtIndex:(int)index;
 
-- (ContentItem_scrollViewItem*)scrollViewItemAtIndex:(int)index;
+- (void)configureAsScrollView:(ContentScrollViewConfig*)config;
+
+- (void)configureAsContentView:(ContentViewConfig*)config;
+
+- (void)addContentItemConfigs:(NSArray*)contentItemConfigsToAdd;
+
+- (void)keepContentTextFieldVisibleWithAcitveOSK:(ContentItem_textField*)textField;
+
+- (BOOL)notifyContentTextFieldDidReturn:(ContentItem_textField*)contentItemTextField;
+
+- (void)cancelTextEntry;
 
 @end

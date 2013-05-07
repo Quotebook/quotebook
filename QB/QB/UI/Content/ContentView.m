@@ -54,16 +54,16 @@
 {
     [self internal_createScrollView];
     
-    ContentScrollViewConfig* scrollViewConfig = [ContentScrollViewConfig object];
-    [scrollViewConfig.contentViewConfigs addObject:contentViewConfig];
-    [_scrollView configure:scrollViewConfig];
+//    ContentScrollViewConfig* scrollViewConfig = [ContentScrollViewConfig object];
+//    [scrollViewConfig.contentViewConfigs addObject:contentViewConfig];
+    [_scrollView configureAsContentView:contentViewConfig];
 }
 
 - (void)configureWithContentScrollViewConfig:(ContentScrollViewConfig*)scrollViewConfig
 {
     [self internal_createScrollView];
     
-    [_scrollView configure:scrollViewConfig];
+    [_scrollView configureAsScrollView:scrollViewConfig];
 }
 
 - (void)addContentItemConfigs:(NSArray*)contentItemConfigsToAdd

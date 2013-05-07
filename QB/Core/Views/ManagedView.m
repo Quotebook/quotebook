@@ -67,6 +67,31 @@
     return _managedView;
 }
 
+- (CGPoint)locationInHighestParentView
+{
+    id parent = self.parent;
+    CGPoint currentLocationOfSelfInParent = [self.managedUIView frame].origin;
+    if ([parent isKindOfClass:ManagedView.class])
+    {
+        ManagedView* managedViewParent = (ManagedView*)parent;
+        CGPoint parentLocation = [managedViewParent locationInHighestParentView];
+        currentLocationOfSelfInParent = CGPointMake(parentLocation.x + currentLocationOfSelfInParent.x,
+                                                    parentLocation.y + currentLocationOfSelfInParent.y);
+    }
+    else
+    {
+        UIView* uiView = self.managedUIView;
+        while (uiView != nil)
+        {
+            CGPoint uiViewLocation = uiView.frame.origin;
+            currentLocationOfSelfInParent = CGPointMake(uiViewLocation.x + currentLocationOfSelfInParent.x,
+                                                        uiViewLocation.y + currentLocationOfSelfInParent.y);
+            uiView = uiView.superview;
+        }
+    }
+    return currentLocationOfSelfInParent;
+}
+
 - (void)sizeToScreen
 {
     self.managedView.frame = _viewLayer.view.bounds;

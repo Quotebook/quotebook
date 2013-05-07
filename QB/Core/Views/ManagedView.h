@@ -13,6 +13,8 @@
 
 - (UIView*)managedUIView;
 
+- (CGPoint)locationInHighestParentView;
+
 - (void)sizeToScreen;
 
 - (void)viewWillShow;
@@ -24,9 +26,11 @@
 - (void)fadeOut;
 
 - (void)fadeInAlpha;
+
 - (void)fadeOutAlpha;
 
 - (void)fadeInSlideUp;
+
 - (void)fadeOutSlideDown;
 
 - (void)dismiss;

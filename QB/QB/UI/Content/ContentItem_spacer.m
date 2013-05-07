@@ -1,5 +1,5 @@
 #import "ContentItem_spacer.h"
-#import "ContentItem_scrollViewItem.h"
+#import "ContentItem_scrollView.h"
 
 @implementation ContentItem_spacer
 
@@ -31,7 +31,7 @@
 
 - (IBAction)cancelTextEntry
 {
-    ContentItem_scrollViewItem* parent = self.parent;
+    ContentItem_scrollView* parent = self.parent;
     [parent cancelTextEntry];
 }
 
