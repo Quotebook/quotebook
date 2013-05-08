@@ -41,11 +41,11 @@ NSDateFormatter* dateFormatter = nil;
     if (dateFormatter == nil)
     {
         dateFormatter = [[NSDateFormatter alloc] init];
-//        [dateFormatter setDateFormat:@"yyyy-MM-dd 'at' HH:mm"];
-//        [dateFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
-        [dateFormatter setDateFormat:@"EEEE hh:mm a 'on' MM/dd/yyyy"];
-        // Desire
-        //      July, 15 2011 - 2:00pm.
+//        [dateFormatter setDateFormat:@"EEEE hh:mm a 'on' MM/dd/yyyy"]; // Tuesday 11:41 PM on 05/07/2013
+        [dateFormatter setDateFormat:@"MMM d, y - h:mma"]; // July, 15 2011 - 2:00pm
+        
+        [dateFormatter setAMSymbol:@"am"];
+        [dateFormatter setPMSymbol:@"pm"];
     }
 
     return [dateFormatter stringFromDate:date];
