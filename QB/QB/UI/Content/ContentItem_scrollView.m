@@ -99,13 +99,20 @@
 
 - (void)addContentItemConfigs:(NSArray*)contentItemConfigsToAdd
 {
-    for (ContentItemConfigToAdd* contentItemConfigToAdd in contentItemConfigsToAdd)
+    if (_configAsContentView != nil)
     {
-        ManagedView* managedView = [self internal_createManagedViewForContentItemConfig:contentItemConfigToAdd.contentItemConfig];
-        [_scrollView addManagedView:managedView
-                            atIndex:contentItemConfigToAdd.index
-                           refreshViewPlacement:NO];
-        
+        for (ContentItemConfigToAdd* contentItemConfigToAdd in contentItemConfigsToAdd)
+        {
+            ManagedView* managedView = [self internal_createManagedViewForContentItemConfig:contentItemConfigToAdd.contentItemConfig];
+            [_scrollView addManagedView:managedView
+                                atIndex:contentItemConfigToAdd.index
+                               refreshViewPlacement:NO];
+            
+        }
+    }
+    else if (_configAsScrollView != nil)
+    {
+        [[self activeScrollViewItem] addContentItemConfigs:contentItemConfigsToAdd];
     }
     [_scrollView refreshViewPlacement];
     [self internal_enumerateTextFields];
@@ -247,6 +254,19 @@
         return YES;
     }
     return NO;
+}
+
+- (void)scrollToOffset:(CGPoint)point
+         withAnimation:(BOOL)animate
+{
+    [_scrollView setContentOffset:point
+                         animated:animate];
+}
+
+- (void)scrollToBottomWithAnimation:(BOOL)animate
+{
+    [self scrollToOffset:CGPointMake(0, _scrollView.contentheight - self.managedUIView.frame.size.height)
+           withAnimation:animate];
 }
 
 @end

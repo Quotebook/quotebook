@@ -54,8 +54,6 @@
 {
     [self internal_createScrollView];
     
-//    ContentScrollViewConfig* scrollViewConfig = [ContentScrollViewConfig object];
-//    [scrollViewConfig.contentViewConfigs addObject:contentViewConfig];
     [_scrollView configureAsContentView:contentViewConfig];
 }
 
@@ -70,7 +68,7 @@
 {
     CheckNotNull(_scrollView)
     
-    [[_scrollView activeScrollViewItem] addContentItemConfigs:contentItemConfigsToAdd];   
+    [_scrollView addContentItemConfigs:contentItemConfigsToAdd];   
 }
 
 - (IBAction)cancelTextEntry

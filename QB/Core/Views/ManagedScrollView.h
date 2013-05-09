@@ -23,6 +23,10 @@
 
 - (void)refreshViewPlacement;
 
+- (int)contentWidth;
+
+- (int)contentheight;
+
 @end
 
 @interface ManagedPassthroughScrollView : ManagedScrollView

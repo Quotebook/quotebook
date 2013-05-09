@@ -24,4 +24,9 @@
 
 - (void)cancelTextEntry;
 
+- (void)scrollToOffset:(CGPoint)point
+         withAnimation:(BOOL)animate;
+
+- (void)scrollToBottomWithAnimation:(BOOL)animate;
+
 @end

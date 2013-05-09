@@ -704,9 +704,7 @@ forState:UIControlStateNormal]; \
         contextConfig.defaultFieldText = @"Re:";
         contextConfig.overrideFieldText = quoteToEdit.quoteContext;
         [contentViewConfig.contentItemConfigs addObject:contextConfig];
-        
-        [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, @"When:")];
-        
+                
         ContentDatePickerConfig* dateConfig = ContentDatePickerConfig(kDefaultAdditionalHeight, ^(NSDate* enteredDate){
             quoteToEdit.creationDate = [[enteredDate copy] autorelease];
         });

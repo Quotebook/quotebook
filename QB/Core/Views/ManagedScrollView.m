@@ -162,6 +162,47 @@ typedef enum
     [self internal_refreshViewPlacement];
 }
 
+// TODO - recalculate this so that it is accurate.
+// the current implementation is one off, it ignore the content height of the first view - shit thats a lie. FUCK beats me, have fun
+
+- (int)contentWidth
+{
+    int accumulatedWidth = 0;
+    for (ManagedView* scrollViewItem in _scrollViewItems)
+    {
+        if (_scrollDirection == ScrollDirection_horizontal)
+        {
+            accumulatedWidth += scrollViewItem.managedUIView.frame.size.width;
+            if ([_scrollViewItems indexOfObject:scrollViewItem] != 0)
+                accumulatedWidth += _currentHorizontalSpacing;
+        }
+        else if (_scrollDirection == ScrollDirection_vertical)
+        {
+            return scrollViewItem.managedUIView.frame.size.height;
+        }
+    }
+    return accumulatedWidth;
+}
+
+- (int)contentheight
+{
+    int accumulatedHeight = 0;
+    for (ManagedView* scrollViewItem in _scrollViewItems)
+    {
+        if (_scrollDirection == ScrollDirection_horizontal)
+        {
+            return scrollViewItem.managedUIView.frame.size.width;
+        }
+        else if (_scrollDirection == ScrollDirection_vertical)
+        {
+            accumulatedHeight += scrollViewItem.managedUIView.frame.size.height;
+            if ([_scrollViewItems indexOfObject:scrollViewItem] != 0)
+                accumulatedHeight += _currentVerticalSpacing;
+        }
+    }
+    return accumulatedHeight;
+}
+
 @end
 
 @implementation ManagedPassthroughScrollView
@@ -185,6 +226,5 @@ typedef enum
 	
     return hit == self ? nil : hit;
 }
-
 
 @end
