@@ -1,6 +1,18 @@
 #import "ContentItem_label.h"
 #import "ContentItem_scrollView.h"
-#import "ContentViewConfig.h"
+
+@implementation ContentLabelConfig
+
+- (id)init
+{
+    if (self = [super init])
+    {
+        _alignment = ContentConfigAlignmentNone;
+    }
+    return self;
+}
+
+@end
 
 @implementation ContentItem_label
 

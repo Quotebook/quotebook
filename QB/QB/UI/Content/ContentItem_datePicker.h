@@ -1,6 +1,10 @@
 #import "QB.h"
+#import "ContentViewConfig.h"
 
-@class ContentDatePickerConfig;
+@interface ContentDatePickerConfig : ContentItemConfig
+@property (nonatomic, copy) void(^dateBlock)(NSDate*);
+@property (nonatomic, retain) NSDate* defaultDate;
+@end
 
 @interface ContentItem_datePicker : ManagedView
 

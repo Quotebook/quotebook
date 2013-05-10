@@ -1,6 +1,8 @@
 #import "ContentItem_button.h"
 #import "ContentItem_scrollView.h"
-#import "ContentViewConfig.h"
+
+@implementation ContentButtonConfig
+@end
 
 @implementation ContentItem_button
 

@@ -2,6 +2,10 @@
 #import "BackgroundView.h"
 #import "ContentView.h"
 #import "ContentViewConfig.h"
+#import "ContentItem_button.h"
+#import "ContentItem_label.h"
+#import "ContentItem_textField.h"
+#import "ContentItem_datePicker.h"
 #import "TitleBarView.h"
 #import "BookManager.h"
 #import "UserManager.h"
@@ -46,17 +50,19 @@ contentLabelConfig.wordWrap = wordWrapArg; \
 return contentLabelConfig; \
 }()
 
-#define ContentTextFieldConfig(additionalViewHeightArg, textBlockArg) ^ContentTextFieldConfig*{ \
+#define ContentTextFieldConfig(additionalViewHeightArg, shouldUseTextViewArg, textBlockArg) ^ContentTextFieldConfig*{ \
 ContentTextFieldConfig* contentTextFieldConfig = [ContentTextFieldConfig object]; \
 contentTextFieldConfig.additionalViewHeight = additionalViewHeightArg; \
 contentTextFieldConfig.textBlock = textBlockArg; \
+contentTextFieldConfig.shouldUseTextView = shouldUseTextViewArg; \
 return contentTextFieldConfig; \
 }()
 
-#define ContentTextFieldConfig_label(additionalViewHeightArg, labelTextArg, textBlockArg) ^ContentTextFieldConfig*{ \
+#define ContentTextFieldConfig_label(additionalViewHeightArg, labelTextArg, shouldUseTextViewArg, textBlockArg) ^ContentTextFieldConfig*{ \
 ContentTextFieldConfig* contentTextFieldConfig = [ContentTextFieldConfig object]; \
 contentTextFieldConfig.additionalViewHeight = additionalViewHeightArg; \
 contentTextFieldConfig.textBlock = textBlockArg; \
+contentTextFieldConfig.shouldUseTextView = shouldUseTextViewArg; \
 contentTextFieldConfig.labelText = labelTextArg; \
 return contentTextFieldConfig; \
 }()
@@ -252,22 +258,22 @@ forState:UIControlStateNormal]; \
         
         ContentViewConfig* contentViewConfig = [ContentViewConfig object];
         [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, @"Basic info:")];
-        [contentViewConfig.contentItemConfigs addObject:ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"E-mail:", ^(NSString* enteredString) {
+        [contentViewConfig.contentItemConfigs addObject:ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"E-mail:", NO, ^(NSString* enteredString) {
             email = enteredString;
         })];
-        [contentViewConfig.contentItemConfigs addObject:ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"First name:", ^(NSString* enteredString) {
+        [contentViewConfig.contentItemConfigs addObject:ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"First name:", NO, ^(NSString* enteredString) {
             firstName = enteredString;
         })];
-        [contentViewConfig.contentItemConfigs addObject:ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"Last name", ^(NSString* enteredString) {
+        [contentViewConfig.contentItemConfigs addObject:ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"Last name", NO, ^(NSString* enteredString) {
             lastName = enteredString;
         })];
         [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight * .2, NO, @"Create password:")];
-        ContentTextFieldConfig* passwordConfig = ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"Password:",^(NSString* enteredString) {
+        ContentTextFieldConfig* passwordConfig = ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"Password:", NO, ^(NSString* enteredString) {
             password = enteredString;
         });
         passwordConfig.secureTextEntry = YES;
         [contentViewConfig.contentItemConfigs addObject:passwordConfig];
-        ContentTextFieldConfig* confirmConfig = ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"Confirm", ^(NSString* enteredString) {
+        ContentTextFieldConfig* confirmConfig = ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"Confirm", NO, ^(NSString* enteredString) {
             confirm = enteredString;
         });
         confirmConfig.secureTextEntry = YES;
@@ -317,7 +323,7 @@ forState:UIControlStateNormal]; \
         ContentViewConfig* contentViewConfig = [ContentViewConfig object];
         contentViewConfig.initialSpacerHeight = 60;
         [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight * 1.5, NO, @"Name the book:")];
-        [contentViewConfig.contentItemConfigs addObject:ContentTextFieldConfig(kDefaultAdditionalHeight,^(NSString* enteredString) {
+        [contentViewConfig.contentItemConfigs addObject:ContentTextFieldConfig(kDefaultAdditionalHeight, NO, ^(NSString* enteredString) {
             bookName = [[NSString alloc] initWithString:enteredString];
         })];
         
@@ -382,10 +388,10 @@ forState:UIControlStateNormal]; \
         
         ContentViewConfig* contentViewConfig = [ContentViewConfig object];
         contentViewConfig.initialSpacerHeight = 80;
-        [contentViewConfig.contentItemConfigs addObject:ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"E-mail", ^(NSString* enteredString) {
+        [contentViewConfig.contentItemConfigs addObject:ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"E-mail", NO, ^(NSString* enteredString) {
             email = enteredString;
         })];
-        ContentTextFieldConfig* config = ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"Password", ^(NSString* enteredString) {
+        ContentTextFieldConfig* config = ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"Password", NO, ^(NSString* enteredString) {
             password = enteredString;
         });
         config.secureTextEntry = YES;
@@ -646,7 +652,7 @@ forState:UIControlStateNormal]; \
             __block QBQuoteLine* quoteLine = [QBQuoteLine object];
             [quoteToEdit.quoteLines addObject:quoteLine];
             
-            ContentTextFieldConfig* whoConfig = ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"Who:", ^(NSString* enteredString) {
+            ContentTextFieldConfig* whoConfig = ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"Who:", NO, ^(NSString* enteredString) {
                 quoteLine.who.nonuserQuoted = enteredString;
             });
             whoConfig.defaultFieldText = @"Required";
@@ -655,7 +661,7 @@ forState:UIControlStateNormal]; \
             whoConfigToAdd.contentItemConfig = whoConfig;
             whoConfigToAdd.index = index * 2 + 1;
             
-            ContentTextFieldConfig* quoteTextConfig = ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"Response:", ^(NSString* enteredString) {
+            ContentTextFieldConfig* quoteTextConfig = ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"Response:", YES, ^(NSString* enteredString) {
                 quoteLine.text = enteredString;
             });
             quoteTextConfig.defaultFieldText = @"Required";
@@ -677,7 +683,7 @@ forState:UIControlStateNormal]; \
         {
             int index = [quoteToEdit.quoteLines indexOfObject:quoteLine];
 
-            ContentTextFieldConfig* whoConfig = ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"Who:", ^(NSString* enteredString){
+            ContentTextFieldConfig* whoConfig = ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"Who:", NO, ^(NSString* enteredString){
                 QBQuoteLine* quoteLine = [quoteToEdit.quoteLines objectAtIndex:index];
                 quoteLine.who.nonuserQuoted = enteredString;
             });
@@ -685,7 +691,7 @@ forState:UIControlStateNormal]; \
             whoConfig.overrideFieldText = [quoteLine.who formatDisplayName];
             [contentViewConfig.contentItemConfigs addObject:whoConfig];
             
-            ContentTextFieldConfig* quoteConfig = ContentTextFieldConfig_label(kDefaultAdditionalHeight, index == 0 ? @"Quote:" : @"Response:", ^(NSString* enteredString){
+            ContentTextFieldConfig* quoteConfig = ContentTextFieldConfig_label(kDefaultAdditionalHeight, index == 0 ? @"Quote:" : @"Response:", YES, ^(NSString* enteredString){
                 QBQuoteLine* quoteLine = [quoteToEdit.quoteLines objectAtIndex:index];
                 quoteLine.text = enteredString;
             });
@@ -698,7 +704,7 @@ forState:UIControlStateNormal]; \
             addQuoteLineToContentView();
         })];
 
-        ContentTextFieldConfig* contextConfig = ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"Context:", ^(NSString* enteredString){
+        ContentTextFieldConfig* contextConfig = ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"Context:", NO, ^(NSString* enteredString){
             quoteToEdit.quoteContext = enteredString;
         });
         contextConfig.defaultFieldText = @"Re:";
@@ -751,7 +757,7 @@ forState:UIControlStateNormal]; \
         ContentViewConfig* contentViewConfig = [ContentViewConfig object];
         contentViewConfig.initialSpacerHeight = 30;
         [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight * 1.5, NO, @"Invite members:")];
-        [contentViewConfig.contentItemConfigs addObject:ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"E-mail:", ^(NSString* enteredString) {
+        [contentViewConfig.contentItemConfigs addObject:ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"E-mail:", NO, ^(NSString* enteredString) {
 //            [userManager retrieveUserWithEmail:enteredString
 //                                  successBlock:^(QBUser* user) {
 //                                      [users addObject:user];
@@ -762,7 +768,7 @@ forState:UIControlStateNormal]; \
 //                                  }];
         })];
         [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, @"or...")];
-        [contentViewConfig.contentItemConfigs addObject:ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"Users:", ^(NSString* enteredString) {
+        [contentViewConfig.contentItemConfigs addObject:ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"Users:", NO, ^(NSString* enteredString) {
             // This needs to be changed to a User Dropdown
             // This successblock needs to return a user
         })];
@@ -886,7 +892,7 @@ forState:UIControlStateNormal]; \
     [self showContentViewWithSetupBlock:^(ContentView* contentView) {
         ContentViewConfig* contentViewConfig = [ContentViewConfig object];
         [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight * 3, NO, @"Search Keywords")];
-        [contentViewConfig.contentItemConfigs addObject:ContentTextFieldConfig(kDefaultAdditionalHeight, ^(NSString* enteredString){
+        [contentViewConfig.contentItemConfigs addObject:ContentTextFieldConfig(kDefaultAdditionalHeight, NO, ^(NSString* enteredString){
             
         })];
         [contentViewConfig.contentItemConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, @"Run search...", ^{

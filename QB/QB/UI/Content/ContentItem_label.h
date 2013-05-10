@@ -1,6 +1,12 @@
 #import "QB.h"
+#import "ContentViewConfig.h"
 
-@class ContentLabelConfig;
+@interface ContentLabelConfig : ContentItemConfig
+@property (nonatomic, retain) NSString* labelText;
+@property (nonatomic, assign) BOOL wordWrap;
+@property (nonatomic, assign) ContentConfigAlignment alignment;
+@property (nonatomic, assign) ContentConfigFont font;
+@end
 
 @interface ContentItem_label : ManagedView
 

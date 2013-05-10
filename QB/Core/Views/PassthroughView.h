@@ -6,3 +6,10 @@
          withEvent:(UIEvent*)event;
 
 @end
+
+@interface PassthroughLabel : UILabel
+
+- (UIView*)hitTest:(CGPoint)point
+         withEvent:(UIEvent*)event;
+
+@end

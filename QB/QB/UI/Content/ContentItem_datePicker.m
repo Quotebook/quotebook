@@ -1,7 +1,9 @@
 #import "ContentItem_datePicker.h"
 #import "ContentView.h"
-#import "ContentViewConfig.h"
 #import "ContentItem_scrollView.h"
+
+@implementation ContentDatePickerConfig
+@end
 
 @interface ContentItem_datePicker()
 {
@@ -42,7 +44,6 @@
 - (void)dealloc
 {
 	[ContentItem_datePicker releaseRetainedPropertiesOfObject:self];
-    [_headerView release];
 	[super dealloc];
 }
 
