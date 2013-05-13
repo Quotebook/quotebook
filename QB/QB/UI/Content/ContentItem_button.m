@@ -20,9 +20,19 @@
     ContentItem_button* buttonItem = [viewManager createManagedViewOfClass:ContentItem_button.class
                                                                     parent:parent];
     
-    [buttonItem.button setTitle:config.buttonTitle
-                       forState:UIControlStateNormal];
+
+    [buttonItem.longButton setTitle:config.buttonTitle
+                            forState:UIControlStateNormal];
     
+    [buttonItem.shortButton setTitle:config.buttonTitle
+                            forState:UIControlStateNormal];
+    
+    buttonItem.shortLabel.text = config.labelText;
+    
+    buttonItem.longButton.hidden = config.labelText != nil;
+    
+    buttonItem.shortButton.hidden = config.labelText == nil;
+
     buttonItem.onTapBlock = config.onTapBlock;
     
     buttonItem.additionalViewHeight = config.additionalViewHeight;
@@ -32,7 +42,7 @@
 
 - (void)viewWillShow
 {
-    int viewHeight = _button.frame.size.height + _additionalViewHeight;
+    int viewHeight = _shortButton.frame.size.height + _additionalViewHeight;
     self.managedUIView.frame = CGRectMake(self.managedUIView.frame.origin.x,
                                           self.managedUIView.frame.origin.y,
                                           self.managedUIView.frame.size.width,

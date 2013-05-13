@@ -123,6 +123,50 @@
               }
             ],
             "uuid": 6
+          },
+          {
+            "creationDate": {
+              
+            },
+            "quoteContext": null,
+            "quoteLines": [
+              {
+                "text": "Omg trevor \t\t",
+                "who": {
+                  "nonuserQuoted": "text1",
+                  "userQuoted": null
+                }
+              },
+              {
+                "text": "YOU KNOW",
+                "who": {
+                  "nonuserQuoted": "wut?",
+                  "userQuoted": null
+                }
+              },
+              {
+                "text": null,
+                "who": {
+                  "nonuserQuoted": null,
+                  "userQuoted": null
+                }
+              },
+              {
+                "text": null,
+                "who": {
+                  "nonuserQuoted": null,
+                  "userQuoted": null
+                }
+              },
+              {
+                "text": null,
+                "who": {
+                  "nonuserQuoted": null,
+                  "userQuoted": null
+                }
+              }
+            ],
+            "uuid": 7
           }
         ],
         "title": "dtxfcghvjbknlm;",
@@ -131,7 +175,7 @@
     ]
   },
   "bookUuidGenerator": 3,
-  "quoteUuidGenerator": 6,
+  "quoteUuidGenerator": 7,
   "userData": {
     "userActors": [
       {

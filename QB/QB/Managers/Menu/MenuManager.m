@@ -34,10 +34,11 @@
 
 #define kDefaultAdditionalHeight 20
 
-#define ContentButtonConfig(additionalViewHeightArg, buttonTitleArg, onTapBlockArg) ^ContentButtonConfig*{ \
+#define ContentButtonConfig(additionalViewHeightArg, buttonTitleArg, labelTextArg, onTapBlockArg) ^ContentButtonConfig*{ \
 ContentButtonConfig* contentButtonConfig = [ContentButtonConfig object]; \
 contentButtonConfig.additionalViewHeight = additionalViewHeightArg; \
 contentButtonConfig.buttonTitle = buttonTitleArg; \
+contentButtonConfig.labelText = labelTextArg; \
 contentButtonConfig.onTapBlock = onTapBlockArg; \
 return contentButtonConfig; \
 }()
@@ -397,7 +398,7 @@ forState:UIControlStateNormal]; \
         config.secureTextEntry = YES;
         [contentViewConfig.contentItemConfigs addObject:config];
 
-        [contentViewConfig.contentItemConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, @"Login", ^{
+        [contentViewConfig.contentItemConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, @"Login", nil, ^{
             [userManager loginUserWithEmail:email
                                    password:password
                                successBlock:^(LoginResponse* loginResponse) {
@@ -434,7 +435,7 @@ forState:UIControlStateNormal]; \
         {
             [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight * 2, YES, @"Get started by creating a new book!")];
             
-            [contentViewConfig.contentItemConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, @"Create new book...", ^{
+            [contentViewConfig.contentItemConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, @"Create new book...", nil, ^{
                 [self showCreateNewBookMenuForUser:user];
             })];
         }
@@ -443,7 +444,7 @@ forState:UIControlStateNormal]; \
             for (NSNumber* bookId in user.bookIds)
             {
                 QBBook* book = [bookManager bookForBookId:bookId.intValue];
-                [contentViewConfig.contentItemConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, book.title, ^{
+                [contentViewConfig.contentItemConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, book.title, nil, ^{
                     [self showMenuForBook:book
                                   forUser:user];
                 })];
@@ -482,7 +483,7 @@ forState:UIControlStateNormal]; \
             
             [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight * 2, YES, @"Get started by creating a new quote!")];
             
-            [contentViewConfig.contentItemConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, @"Add new quote", ^{
+            [contentViewConfig.contentItemConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, @"Add new quote", nil, ^{
                 [self showMenuForAddingNewQuoteToBook:book
                                               forUser:user
                                         optionalQuote:nil];
@@ -700,7 +701,7 @@ forState:UIControlStateNormal]; \
             [contentViewConfig.contentItemConfigs addObject:quoteConfig];
         }
         
-        [contentViewConfig.contentItemConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, @"Add Quote Line", ^{
+        [contentViewConfig.contentItemConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, @"+", @"Add Line", ^{
             addQuoteLineToContentView();
         })];
 
@@ -833,13 +834,13 @@ forState:UIControlStateNormal]; \
     [self showContentViewWithSetupBlock:^(ContentView* contentView) {
         ContentViewConfig* contentViewConfig = [ContentViewConfig object];
         [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, @"Filter by...")];
-        [contentViewConfig.contentItemConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, @"Members", ^{
+        [contentViewConfig.contentItemConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, @"Members", nil, ^{
             //                                                   [self showMenuForChoosingMemberDispalysOnBook:book];
         })];
         [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, @"Display...")];
-        [contentViewConfig.contentItemConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, @"Reverse (default)", ^{
+        [contentViewConfig.contentItemConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, @"Reverse (default)", nil, ^{
         })];
-        [contentViewConfig.contentItemConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, @"Chronological", ^{
+        [contentViewConfig.contentItemConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, @"Chronological", nil, ^{
         })];
         [contentView configureWithContentViewConfig:contentViewConfig];
     }];
@@ -895,7 +896,7 @@ forState:UIControlStateNormal]; \
         [contentViewConfig.contentItemConfigs addObject:ContentTextFieldConfig(kDefaultAdditionalHeight, NO, ^(NSString* enteredString){
             
         })];
-        [contentViewConfig.contentItemConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, @"Run search...", ^{
+        [contentViewConfig.contentItemConfigs addObject:ContentButtonConfig(kDefaultAdditionalHeight, @"Run search...", nil, ^{
         })];
         [contentView configureWithContentViewConfig:contentViewConfig];
     }];
