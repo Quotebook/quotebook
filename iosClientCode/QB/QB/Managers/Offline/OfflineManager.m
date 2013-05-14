@@ -40,7 +40,7 @@
 
 - (NSString*)internal_offlineDatabasePathForFile:(NSString*)filename
 {
-    return Format(@"/myapps/quotebook/QB/Resources/OfflineDatabase/%@", filename);
+    return Format(@"/myapps/quotebook/iosClientCode/QB/Resources/OfflineDatabase/%@", filename);
 }
 
 - (void)load
