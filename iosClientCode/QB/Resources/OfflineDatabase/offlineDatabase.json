@@ -171,10 +171,24 @@
         ],
         "title": "dtxfcghvjbknlm;",
         "uuid": 3
+      },
+      {
+        "invitedUsers": null,
+        "memberUsers": null,
+        "quotes": null,
+        "title": "Caleb's new book!",
+        "uuid": 4
+      },
+      {
+        "invitedUsers": null,
+        "memberUsers": null,
+        "quotes": null,
+        "title": "asdfsd",
+        "uuid": 5
       }
     ]
   },
-  "bookUuidGenerator": 3,
+  "bookUuidGenerator": 5,
   "quoteUuidGenerator": 7,
   "userData": {
     "userActors": [
@@ -184,7 +198,9 @@
           "bookIds": [
             1,
             2,
-            3
+            3,
+            4,
+            5
           ],
           "email": "caleb@caleb.com",
           "firstName": "caleb",
