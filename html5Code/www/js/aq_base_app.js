@@ -30,7 +30,9 @@ var app =
     // function, we must explicity call 'app.receivedEvent(...);'
     registerAllModules: function()
     {
-        registerAppSplashMenu();
+//        registerAppSplashMenu();
+        registerLoginMenu();
+        registerUserMenu();
     },
     
     onDeviceReady: function()
@@ -39,7 +41,20 @@ var app =
         
         app.registerAllModules();
         
-        app.core.startModule("module-appSplashMenu");
+        app.core.startModule("module-loginMenu");
+    },
+    
+    startUserMenu: function()
+    {
+        logEvent("hi", "caleb", "hurry");
+        app.core.stopModule("module-loginMenu");
+        app.core.startModule("module-userMenu");
+        logEvent("hi", "caleb", "hurry");
+    },
+    
+    onClick: function()
+    {
+        logEvent("APP", "onClick", "w/e");
     },
     
     // Update DOM on a Received Event

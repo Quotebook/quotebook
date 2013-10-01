@@ -6,20 +6,24 @@
         <meta name="format-detection" content="telephone=no" />
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
         <link rel="stylesheet" type="text/css" href="css/index.css" />
-        <title>Hello World</title>
+        <title>AfterQuote</title>
        
-    </head>   
-        <div id="app" class="app">
-            <div id="titleBar" class="titleBar">
-                
+    </head>
+    
+    <body>
+        <div class="app">
+        <div class="header">
+            <h1 id="appHeader" class="headerText">Title Bar</h1>
+            
+            <div id="appBody" class="appBody" />
+            
+            <div id="deviceready" class="blink">
+                <p class="event listening"></p>
+                <p class="event received"></p>
             </div>
 
-            <div id="contentBody" class="contentBody">
-                
-            </div>
         </div>
-            
-            
+        </div>
         <script src="cordova.js"></script>
 
         <script src="js/aq_util_log.js"></script>
@@ -28,7 +32,9 @@
             
         <script src="js/aq_module_base.js"></script>
         <script src="js/aq_module_appSplashMenu.js"></script>
-            
+        <script src="js/aq_module_loginMenu.js"></script>
+        <script src="js/aq_module_userMenu.js"></script>
+
         <script src="js/aq_base_sandbox.js"></script>
         <script src="js/aq_base_factory.js"></script>
         <script src="js/aq_base_core.js"></script>

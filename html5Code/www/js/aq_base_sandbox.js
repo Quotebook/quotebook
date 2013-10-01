@@ -48,8 +48,12 @@ var Sandbox = function (core)
     
     return {
         // Functions
+        // eventData = {
+        //      type = "eventType"
+        // }
         postEvent: function(eventData)
         {
+            logEvent("SANDBOX", "PostEvent", eventData.type);
             boundEventsByEventType[eventData.type].executeCallbacks(eventData);
         },
         
@@ -86,6 +90,11 @@ var Sandbox = function (core)
             {
                 boundEventCallbacksByEventType[eventType].removeCallbacksForObject(listener);
             }
-        }
+        },
+        
+        getAppBody: function()
+        {
+            return document.getElementById("appBody");
+        },
     };
 };

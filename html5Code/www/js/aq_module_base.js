@@ -8,6 +8,16 @@ var Module = function(moduleName, sandbox)
         
         destroy: function() {},
         
+        postEvent: function(eventTypeArg, eventDataArg)
+        {
+            var eventData = {
+                type: eventTypeArg,
+                eventData: eventDataArg
+            };
+            
+            sandbox.postEvent(eventData);
+        },
+        
         bindEvent: function(eventTypes, eventCallback)
         {
             sandbox.bindEventsForListener(eventTypes, eventCallback, this);

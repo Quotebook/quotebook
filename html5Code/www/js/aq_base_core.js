@@ -37,6 +37,7 @@ var Core = function()
                 return;
             }
             
+            logEvent("sdf", "eee", "ee");
             moduleInstance.destroy();
             
             moduleInstances[moduleId] = null;
