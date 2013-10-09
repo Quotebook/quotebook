@@ -1,63 +1,36 @@
-// MODULE NAME LIST
-// module-appSplashMenu
-// module-loginMenu
-// module-sideMenu
-// module-userMenu
 
 var app =
 {
     core: new Core(),
     
-    // Application Constructor
     initialize: function()
     {
         this.bindEvents();
     },
     
-    // Bind Event Listeners
-    //
-    // Bind any events that are required on startup. Common events are:
-    // 'load', 'deviceready', 'offline', and 'online'.
     bindEvents: function()
     {
         document.addEventListener('deviceready', this.onDeviceReady, false);
         document.addEventListener('ontouchmove', this.blockElasticScroll, false);
     },
     
-    // deviceready Event Handler
-    //
-    // The scope of 'this' is the event. In order to call the 'receivedEvent'
-    // function, we must explicity call 'app.receivedEvent(...);'
-    registerAllModules: function()
-    {
-//        registerAppSplashMenu();
-        registerLoginMenu();
-        registerUserMenu();
-    },
-    
     onDeviceReady: function()
-    {
+    {        
         app.receivedEvent('deviceready');
         
-        app.registerAllModules();
+        logEvent("APP", "BeginStartUp", "========================================");
         
-        app.core.startModule("module-loginMenu");
+        app.core.logAllRegisteredClasses();
+        
+        app.core.startAllRegisteredServices();
+        
+        app.core.bindEventForListener("LoginSuccessful", function(eventData){ app.loginSuccessful(eventData) }, app);
+        
+        app.core.startModule(getLoginMenuModuleName());
+        
+        logEvent("APP", "StartUpComplete", "========================================");
     },
     
-    startUserMenu: function()
-    {
-        logEvent("hi", "caleb", "hurry");
-        app.core.stopModule("module-loginMenu");
-        app.core.startModule("module-userMenu");
-        logEvent("hi", "caleb", "hurry");
-    },
-    
-    onClick: function()
-    {
-        logEvent("APP", "onClick", "w/e");
-    },
-    
-    // Update DOM on a Received Event
     receivedEvent: function(id)
     {
         var parentElement = document.getElementById(id);
@@ -67,11 +40,17 @@ var app =
         listeningElement.setAttribute('style', 'display:none;');
         receivedElement.setAttribute('style', 'display:block;');
 
-        logEvent("APP", "EventReceived", id);
+        logEvent("APP", "App Event", id);
     },
     
     blockElasticScroll: function(event)
     {
         event.preventDefault();
+    },
+    
+    loginSuccessful: function(eventData)
+    {
+        app.core.stopAllModules();
+        app.core.startModule(getUserMenuModuleName());
     }
 };

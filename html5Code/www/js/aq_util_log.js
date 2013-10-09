@@ -17,7 +17,7 @@ var makeStringWithMinimumStringLength = function(stringData, stringLength)
 var logEvent = function(eventGroup, eventType, eventData)
 {
     var eventGroupOutput = makeStringWithMinimumStringLength(eventGroup, 10);
-    var eventTypeOutput = makeStringWithMinimumStringLength(eventType, 14);
+    var eventTypeOutput = makeStringWithMinimumStringLength(eventType, 15);
     
     console.log(eventGroupOutput + " - " + eventTypeOutput + " : " + eventData);
 }

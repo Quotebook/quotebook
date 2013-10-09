@@ -1,42 +1,55 @@
-
-var registerUserMenu = function()
+var getUserMenuModuleName = function()
 {
-    var moduleName = "module-userMenu";
+    return "module-userMenu";
+};
+
+var createUserMenuModuleFunction = function(sandbox)
+{
+    var module = new Module(getUserMenuModuleName(), sandbox);
     
-    var moduleFunction = function(sandbox)
+    module.init = function()
     {
-        var module = new Module(moduleName, sandbox);
-        
-        module.init = function()
-        {
-            module.build();
-        };
-        
-        module.destroy = function()
-        {
-        };
-        
-        module.build = function()
-        {
-            var appBody = sandbox.getAppBody();
-            
-            var page_break = document.createElement("br");
-            
-            var button_login = document.createElement("button");
-            button_login.onclick = module.login;
-            button_login.appendChild(document.createTextNode("Add new Quote!"));
-            
-            var button_createNewLogin = document.createElement("button");
-            button_createNewLogin.appendChild(document.createTextNode("Invite a friend!"));
-            button_createNewLogin.onclick = module.createNewLogin;
-            
-            appBody.appendChild(button_login);
-            appBody.appendChild(page_break);
-            appBody.appendChild(button_createNewLogin);
-        };
-        
-        return module;
+        module.build();
     };
     
-    app.core.registerModule(moduleName, moduleFunction);
+    module.destroy = function()
+    {
+    };
+    
+    module.build = function()
+    {
+        var appBody = sandbox.getAppBody();
+        
+        appBody.clearContent(getUserMenuModuleName() + " build");
+        
+        appBody.addButton("Add new Quote!", module.buildForAddNewQuote);
+        appBody.addLineBreak();
+        appBody.addButton("Invite a friend!", null);
+    };
+    
+    module.buildForAddNewQuote = function()
+    {
+        var appBody = sandbox.getAppBody();
+        
+        appBody.clearContent(getUserMenuModuleName() + " build");
+        
+        appBody.addDiv("Add new Quote:");
+                appBody.addLineBreak();
+        appBody.addTextInput("Who");
+                appBody.addLineBreak();
+        appBody.addTextInput("Quote");
+                appBody.addLineBreak();
+                appBody.addButton("Add Line", null);
+                appBody.addLineBreak();
+               appBody.addTextInput("Context");
+                appBody.addLineBreak();
+        appBody.addDiv("Oct 8, 2013 - 9:03am");
+                appBody.addLineBreak();
+                appBody.addButton("Preview", null);
+                appBody.addLineBreak();
+    }
+    
+    return module;
 };
+
+app.core.registerModule(getUserMenuModuleName(), createUserMenuModuleFunction);

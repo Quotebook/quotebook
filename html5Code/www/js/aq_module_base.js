@@ -1,8 +1,6 @@
 
 var Module = function(moduleName, sandbox)
 {
-    logEvent("MODULE", "Creation", moduleName);
-    
     return {
         init: function() {},
         
@@ -31,6 +29,16 @@ var Module = function(moduleName, sandbox)
         unbindAllEvents: function()
         {
             sandbox.unbindAllEventsForListener(this);
+        },
+        
+        clearAppContentOnBuild: function()
+        {
+            sandbox.getAppBody().clearContent(moduleName + " on build");
+        },
+        
+        clearAppContentOnDestroy: function()
+        {
+            sandbox.getAppBody().clearContent(moduleName + " on destroy");
         }
     };
 };

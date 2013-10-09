@@ -7,9 +7,6 @@ var Factory = function()
     var classCreatorFunctionsByClassName = {};
     
     return {
-    simpleFunction: function() {
-        console.log("factory simple");
-    },
         registerClassByName: function(className, creatorFunctionArg)
         {   
             if (classCreatorFunctionsByClassName[className] != null)
@@ -19,11 +16,6 @@ var Factory = function()
             }
             
             classCreatorFunctionsByClassName[className] = creatorFunctionArg;
-        },
-
-        createClassInstance: function(className)
-        {
-            return this.createNamedInstanceWithParameter(className, null);
         },
     
         createClassInstanceWithParameter: function(className, parameter)
@@ -48,6 +40,14 @@ var Factory = function()
             }
             
             return classInstance;
+        },
+        
+        logAllRegisteredClasses: function()
+        {
+            for (var className in classCreatorFunctionsByClassName)
+            {
+                logEvent("FACTORY", "RegisteredClass", className);
+            }
         }
     };
 };

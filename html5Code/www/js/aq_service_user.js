@@ -1,3 +1,28 @@
+var getUserServiceName = function()
+{
+    return "service-user";
+};
+
+var createUserServiceFunction = function(core)
+{
+    var service = new Service(getUserServiceName(), core);
+
+    service.attemptLogin = function(loginRequest)
+    {
+        logEvent("SERVICE", "AttemptLogin", "attemptLogin");
+        
+        loginRequest.executeSuccess();
+        
+//        core.stopAllModules();
+    };
+    
+    return service;
+};
+
+
+app.core.registerService(getUserServiceName(), createUserServiceFunction);
+
+
 //
 //core.registerService("login", function(sandbox)
 //{

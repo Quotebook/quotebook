@@ -1,100 +1,118 @@
 
-var Event = function()
-{
-    return {
-        callbacks: [],
-            
-        addCallback: function(callback, object)
-        {
-            var callback =
-            {
-                callbackObject: object,
-                callbackFunction: callback,
-                
-                execute: function(eventData)
-                {
-                    callbackObject.callbackFunction(eventData);
-                }
-            };
-            
-            callbacks.push(callback);
-        },
-        
-        executeCallbacks: function(eventData)
-        {
-            for (callback in callbacks)
-            {
-                callback.execute(eventData);
-            }
-        },
-        
-        removeCallbacksForObject: function(object)
-        {
-            for (var i = callbacks.length() - 1; i >= 0; --i)
-            {
-                if (callbacks[i].callbackObject == object)
-                {
-                    callbacks.splice(i, 1);
-                }
-            }
-        }
-    };
-};
-
 var Sandbox = function (core)
 {
-    // Needs to be shared data
-    var boundEventsByEventType = {};
-    
     return {
-        // Functions
-        // eventData = {
-        //      type = "eventType"
-        // }
+        // -----------------------
+        // EVENTS
+        // -----------------------
         postEvent: function(eventData)
         {
-            logEvent("SANDBOX", "PostEvent", eventData.type);
-            boundEventsByEventType[eventData.type].executeCallbacks(eventData);
+            core.postEvent(eventData);
         },
         
         bindEventsForListener: function(eventTypeList, eventCallback, listener)
         {
-            for (eventType in eventTypeList)
-            {
-                var event = eventListeners[eventType];
-                
-                if (event == null)
-                {
-                    event = new Event();
-                    
-                    eventListeners[eventType] = event;
-                }
-                
-                event.addCallback(eventCallback, listener);
-            }
+            core.bindEventsForListener(eventTypeList, eventCallback, listener);
         },
         
         unbindAllEventsForListener: function(listener)
         {
-            for (eventType in boundEventsByEventType)
-            {
-                var event = boundEventsByEventType[eventType];
-                
-                event.removeCallbacksForObject(listener);
-            }
+            core.unbindAllEventsForListener(listener);
         },
         
         unbindEventsForListener: function(eventTypeList, listener)
         {
-            for (eventType in eventTypeList)
-            {
-                boundEventCallbacksByEventType[eventType].removeCallbacksForObject(listener);
-            }
+            core.unbindEventsForListener(eventTypeList, listener);
         },
         
+        // -----------------------
+        // DOCUMENT
+        // -----------------------
         getAppBody: function()
         {
-            return document.getElementById("appBody");
+            var appBody = {
+                appBodyElement: document.getElementById("appBody"),
+                
+                addLineBreak: function()
+                {
+                    var pageBreak = document.createElement("br");
+                    
+                    this.appBodyElement.appendChild(pageBreak);
+                    
+                    return pageBreak;
+                },
+                
+                addButton: function(buttonName, buttonOnClickFunction)
+                {
+                    var button = document.createElement("BUTTON");
+                    
+                    button.appendChild(document.createTextNode(buttonName));
+                    button.onclick = buttonOnClickFunction;
+                    this.appBodyElement.appendChild(button);
+                    
+                    return button;
+                },
+                
+                addDiv: function(divInnerHTML)
+                {
+                    var div = document.createElement("DIV");
+                    
+                    div.innerHTML = divInnerHTML;
+                    this.appBodyElement.appendChild(div);
+                    
+                    return div;
+                },
+                
+                addTextInput: function(textFieldName)
+                {
+                    this.appBodyElement.appendChild(document.createTextNode(textFieldName));
+                    
+                    var textInput = document.createElement("INPUT");
+                    textInput.setAttribute("type", "TEXT");
+                    textInput.setAttribute("name", textFieldName);
+                    textInput.appendChild(document.createTextNode(textFieldName));
+                    this.appBodyElement.appendChild(textInput);
+                    
+                    return textInput;
+                },
+                
+                addPasswordInput: function(passwordFieldName)
+                {
+                    this.appBodyElement.appendChild(document.createTextNode(passwordFieldName));
+                    
+                    var passwordInput = document.createElement("INPUT");
+                    passwordInput.setAttribute("type", "PASSWORD");
+                    this.appBodyElement.appendChild(passwordInput);
+                    
+                    return passwordInput;
+                },
+                
+                clearContent: function(contextDescription)
+                {
+                    logEvent("SANDBOX", "ClearAppBody", contextDescription);
+                    this.appBodyElement.innerHTML = "";
+                }
+            };
+            
+            return appBody;
+        },
+        
+        // -----------------------
+        // SERVICES
+        // -----------------------
+        getUserService: function()
+        {
+            return core.getServiceById(getUserServiceName());
+        },
+        
+        getBookService: function ()
+        {
+            return core.getServiceById(getBookServiceName());
+        },
+    
+        getQuoteService: function()
+        {
+            return core.getServiceById(getQuoteServiceName());
         },
     };
 };
