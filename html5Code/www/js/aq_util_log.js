@@ -1,17 +1,14 @@
 
-var makeStringWithMinimumStringLength = function(stringData, stringLength)
+var logAssert = function(assertMessage)
 {
-    var stringDataOutput = stringData;
-    var stringLengthDifference = stringLength - stringDataOutput.length;
-    
-    if (stringLengthDifference > 0)
-    {
-        for (var i = stringLengthDifference; i > 0; --i)
-        {
-            stringDataOutput = stringDataOutput + " ";
-        }
-    }
-    return stringDataOutput;
+    console.log("************************************************************")
+    console.log("ASSERT - " + assertMessage);
+    console.log("************************************************************")
+}
+
+var logMessage = function(message)
+{
+    console.log("MESSAGE - " + message);
 }
 
 var logEvent = function(eventGroup, eventType, eventData)
@@ -20,4 +17,9 @@ var logEvent = function(eventGroup, eventType, eventData)
     var eventTypeOutput = makeStringWithMinimumStringLength(eventType, 15);
     
     console.log(eventGroupOutput + " - " + eventTypeOutput + " : " + eventData);
+}
+
+var logNotYetImplemented = function()
+{
+    logMessage("Not Yet Implemented");
 }

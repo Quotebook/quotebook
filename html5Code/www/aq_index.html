@@ -12,34 +12,45 @@
     
     <body>
         <div class="app">
-        <div class="header">
-            <h1 id="appHeader" class="headerText">Title Bar</h1>
-            
-            <div id="appBody" class="appBody" />
-            
-            <div id="deviceready" class="blink">
-                <p class="event listening"></p>
-                <p class="event received"></p>
+            <div class="appHeader">
+                <h1 id="appHeader_title" class="appHeaderText">Title Bar</h1>
+                
+                <button id="appHeader_leftButton" class="appHeaderLeftButton">Left Button</button>
+                
+                <button id="appHeader_rightButton" class="appHeaderRightButton">Right Button</button>
+                
+                <div id="deviceready" class="blink">
+                    <p class="event listening"></p>
+                    <p class="event received"></p>
+                </div>
+
             </div>
 
-        </div>
+            <div id="appBody" class="appBody" />
+            
         </div>
         <script src="cordova.js"></script>
 
         <script src="js/aq_util_log.js"></script>
+        <script src="js/aq_util_object.js"></script>
             
-        <script src="js/aq_data_user.js"></script>
-        <script src="js/aq_data_requests.js"></script>
+        <script src="js/aq_view_user.js"></script>
+        <script src="js/aq_view_book.js"></script>
+        <script src="js/aq_view_quote.js"></script>
         
+        <script src="js/aq_data_request.js"></script>
+        
+        <script src="js/aq_base_object.js"></script>
         <script src="js/aq_base_sandbox.js"></script>
         <script src="js/aq_base_factory.js"></script>
         <script src="js/aq_base_core.js"></script>
         <script src="js/aq_base_app.js"></script>
 
-        <script src="js/aq_service_base.js"></script>
-        <script src="js/aq_service_book.js"></script>
-        <script src="js/aq_service_quote.js"></script>
-        <script src="js/aq_service_user.js"></script>
+        <script src="js/aq_manager_base.js"></script>
+        <script src="js/aq_manager_document.js"></script>
+        <script src="js/aq_manager_book.js"></script>
+        <script src="js/aq_manager_quote.js"></script>
+        <script src="js/aq_manager_user.js"></script>
         
         <script src="js/aq_module_base.js"></script>
         <script src="js/aq_module_loginMenu.js"></script>

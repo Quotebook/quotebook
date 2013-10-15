@@ -14,23 +14,38 @@ var createLoginMenuModuleFunction = function(sandbox)
     
     module.buildDefaultLogin = function()
     {
-        var appBody = sandbox.getAppBody();
-        
-        module.clearAppContentOnBuild();
-        
+        module.clearAppBodyOnBuild();
+
+        var appBody = module.getAppBody();
+
         appBody.addTextInput("E-mail");
         appBody.addLineBreak();
         appBody.addPasswordInput("Password");
         appBody.addLineBreak();
         appBody.addButton("Login", module.attemptLogin);
         appBody.addButton("Create New Login", module.buildCreateNewLogin);
+        
+        var appHeader = module.getAppHeader();
+        appHeader.clearConfiguration();
+        appHeader.configureTitle("Login");
+        appHeader.configureLeftButton("Menu", sandbox.menuButtonAction);
     };
     
     module.buildCreateNewLogin = function()
     {
-        var appBody = sandbox.getAppBody();
+        var doneFunction = function()
+        {
+            module.attemptLogin();
+        };
         
-        module.clearAppContentOnBuild();
+        var backFunction = function()
+        {
+            module.buildDefaultLogin();
+        };
+        
+        module.clearAppBodyOnBuild();
+        
+        var appBody = module.getAppBody();
         
         appBody.addDiv("Basic info:");
         appBody.addTextInput("E-mail");
@@ -45,13 +60,13 @@ var createLoginMenuModuleFunction = function(sandbox)
         appBody.addLineBreak();
         appBody.addPasswordInput("Confirm");
         appBody.addLineBreak();
-        
-        var doneFunction = function()
-        {
-            
-        };
-        
         appBody.addButton("Done", doneFunction);
+        
+        var appHeader = module.getAppHeader();
+        appHeader.clearConfiguration();
+        appHeader.configureTitle("Login");
+        appHeader.configureLeftButton("Menu", sandbox.menuButtonAction);
+        appHeader.configureRightButton("Back", backFunction);
     };
     
     module.attemptLogin = function()
@@ -66,12 +81,12 @@ var createLoginMenuModuleFunction = function(sandbox)
             module.postEvent("LoginFailed", "");            
         };
         
-        sandbox.getUserService().attemptLogin(new LoginRequest("caleb", "password", successFunction, failureFunction)); // send data
+        sandbox.getUserManager().attemptLogin(new LoginRequest("caleb", "password", successFunction, failureFunction)); // send data
     };
     
     module.destroy = function()
     {
-        module.clearAppContentOnDestroy();
+        module.clearAppBodyOnDestroy();
     };
     
     return module;

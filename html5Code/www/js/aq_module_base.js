@@ -1,44 +1,70 @@
 
 var Module = function(moduleName, sandbox)
 {
-    return {
-        init: function() {},
+    var module = new Object();
+    
+    module.init = function() {};
+    
+    module.destroy = function() {};
+    
+    // -----------------------
+    // EVENTS
+    // -----------------------
+    module.postEvent = function(eventTypeArg, eventDataArg)
+    {
+        var eventData = {
+        type: eventTypeArg,
+        eventData: eventDataArg
+        };
         
-        destroy: function() {},
-        
-        postEvent: function(eventTypeArg, eventDataArg)
-        {
-            var eventData = {
-                type: eventTypeArg,
-                eventData: eventDataArg
-            };
-            
-            sandbox.postEvent(eventData);
-        },
-        
-        bindEvent: function(eventTypes, eventCallback)
-        {
-            sandbox.bindEventsForListener(eventTypes, eventCallback, this);
-        },
-        
-        unbindEvent: function(eventTypes)
-        {
-            sandbox.unbindEventForListener(eventTypes, this);
-        },
-        
-        unbindAllEvents: function()
-        {
-            sandbox.unbindAllEventsForListener(this);
-        },
-        
-        clearAppContentOnBuild: function()
-        {
-            sandbox.getAppBody().clearContent(moduleName + " on build");
-        },
-        
-        clearAppContentOnDestroy: function()
-        {
-            sandbox.getAppBody().clearContent(moduleName + " on destroy");
-        }
+        sandbox.postEvent(eventData);
     };
+    
+    module.bindEvent = function(eventTypes, eventCallback)
+    {
+        sandbox.bindEventsForListener(eventTypes, eventCallback, this);
+    };
+    
+    module.unbindEvent = function(eventTypes)
+    {
+        sandbox.unbindEventForListener(eventTypes, this);
+    };
+    
+    module.unbindAllEvents = function()
+    {
+        sandbox.unbindAllEventsForListener(this);
+    };
+    
+    // -----------------------
+    // APP HEADER
+    // -----------------------
+    module.getAppHeader = function()
+    {
+        return sandbox.getDocumentManager().getAppHeader();
+    };
+    
+    // -----------------------
+    // APP CONTENT
+    // -----------------------
+    module.getAppBody = function()
+    {
+        return sandbox.getDocumentManager().getAppBody();
+    };
+    
+    module.clearAppBodyOnBuild = function()
+    {
+        this.clearAppBodyOnEvent("build");
+    };
+    
+    module.clearAppBodyOnEvent = function(eventName)
+    {
+        this.getAppBody().clearContent(moduleName + " on " + eventName);
+    };
+    
+    module.clearAppBodyOnDestroy = function()
+    {
+        this.clearAppBodyOnEvent("destroy");
+    };
+    
+    return module;
 };

@@ -1,32 +1,19 @@
-var getUserServiceName = function()
-{
-    return "service-user";
-};
+var kQuoteManagerName = "manager-quote";
 
-var createUserServiceFunction = function(core)
+var createQuoteManagerFunction = function(core)
 {
-    var service = new Service(getUserServiceName(), core);
-
-    service.attemptLogin = function(loginRequest)
-    {
-        logEvent("SERVICE", "AttemptLogin", "attemptLogin");
-        
-        loginRequest.executeSuccess();
-        
-//        core.stopAllModules();
-    };
+    var manager = new Manager(kQuoteManagerName, core);
     
-    return service;
+    return manager;
 };
 
-
-app.core.registerService(getUserServiceName(), createUserServiceFunction);
+app.core.registerManager(kQuoteManagerName, createQuoteManagerFunction);
 
 
 //
-//core.registerService("login", function(sandbox)
+//core.registerManager("login", function(sandbox)
 //{
-//    var service = {
+//    var manager = {
 //        // -----------------------
 //        // DATA
 //        // -----------------------
@@ -83,5 +70,5 @@ app.core.registerService(getUserServiceName(), createUserServiceFunction);
 //        }
 //    };
 //                     
-//    return service;
+//    return manager;
 //});

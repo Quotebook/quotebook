@@ -1,22 +1,18 @@
-var getQuoteServiceName = function()
-{
-    return "service-quote";
-};
+var kBookManagerName = "manager-book";
 
-var createQuoteServiceFunction = function(core)
+var createBookManagerFunction = function(core)
 {
-    var service = new Service(getQuoteServiceName(), core);
+    var manager = new Manager(kBookManagerName, core);
     
-    return service;
+    return manager;
 };
 
-app.core.registerService(getQuoteServiceName(), createQuoteServiceFunction);
-
+app.core.registerManager(kBookManagerName, createBookManagerFunction);
 
 //
-//core.registerService("login", function(sandbox)
+//core.registerManager("login", function(sandbox)
 //{
-//    var service = {
+//    var manager = {
 //        // -----------------------
 //        // DATA
 //        // -----------------------
@@ -73,5 +69,5 @@ app.core.registerService(getQuoteServiceName(), createQuoteServiceFunction);
 //        }
 //    };
 //                     
-//    return service;
+//    return manager;
 //});

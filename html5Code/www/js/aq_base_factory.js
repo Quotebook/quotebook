@@ -6,48 +6,50 @@ var Factory = function()
     // -----------------------
     var classCreatorFunctionsByClassName = {};
     
-    return {
-        registerClassByName: function(className, creatorFunctionArg)
-        {   
-            if (classCreatorFunctionsByClassName[className] != null)
-            {
-                // Assert.
-                return;
-            }
-            
-            classCreatorFunctionsByClassName[className] = creatorFunctionArg;
-        },
+    var factory = new Object();
     
-        createClassInstanceWithParameter: function(className, parameter)
+    factory.registerClassByName = function(className, creatorFunctionArg)
+    {
+        if (classCreatorFunctionsByClassName[className] != null)
         {
-            var creatorFunction = classCreatorFunctionsByClassName[className];
-
-            if (creatorFunction == null)
-            {
-                // Assert.
-                return null;
-            }
-            
-            var classInstance = null;
-            
-            if (parameter == null)
-            {
-                classInstance = creatorFunction();
-            }
-            else
-            {
-                classInstance = creatorFunction(parameter);
-            }
-            
-            return classInstance;
-        },
+            logAssert("factory.registerClassByName: for className=" + className + " creator function already registered");
+            return;
+        }
         
-        logAllRegisteredClasses: function()
+        classCreatorFunctionsByClassName[className] = creatorFunctionArg;
+    };
+    
+    factory.createClassInstanceWithParameter = function(className, parameter)
+    {
+        var creatorFunction = classCreatorFunctionsByClassName[className];
+        
+        if (creatorFunction == null)
         {
-            for (var className in classCreatorFunctionsByClassName)
-            {
-                logEvent("FACTORY", "RegisteredClass", className);
-            }
+            logAssert("core.createClassInstanceWithParameter: for className=" + className + " creator function doesn't exist");
+            return null;
+        }
+        
+        var classInstance = null;
+        
+        if (parameter == null)
+        {
+            classInstance = creatorFunction();
+        }
+        else
+        {
+            classInstance = creatorFunction(parameter);
+        }
+        
+        return classInstance;
+    };
+    
+    factory.logAllRegisteredClasses = function()
+    {
+        for (var className in classCreatorFunctionsByClassName)
+        {
+            logEvent("FACTORY", "RegisteredClass", className);
         }
     };
+    
+    return factory;
 };

@@ -1,21 +1,28 @@
-var getBookServiceName = function()
-{
-    return "service-book";
-};
+var kUserManagerName = "manager-user";
 
-var createBookServiceFunction = function(core)
+var createUserManagerFunction = function(core)
 {
-    var service = new Service(getBookServiceName(), core);
+    var manager = new Manager(kUserManagerName, core);
+
+    manager.attemptLogin = function(loginRequest)
+    {
+        logEvent("MANAGER", "AttemptLogin", "attemptLogin");
+        
+        loginRequest.executeSuccess();
+        
+//        core.stopAllModules();
+    };
     
-    return service;
+    return manager;
 };
 
-app.core.registerService(getBookServiceName(), createBookServiceFunction);
+app.core.registerManager(kUserManagerName, createUserManagerFunction);
+
 
 //
-//core.registerService("login", function(sandbox)
+//core.registerManager("login", function(sandbox)
 //{
-//    var service = {
+//    var manager = {
 //        // -----------------------
 //        // DATA
 //        // -----------------------
@@ -72,5 +79,5 @@ app.core.registerService(getBookServiceName(), createBookServiceFunction);
 //        }
 //    };
 //                     
-//    return service;
+//    return manager;
 //});
