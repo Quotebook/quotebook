@@ -1,9 +1,8 @@
 
-var getUserViewByUserId = function(userId)
+var getQuoteViewByBookViewAndQuoteId = function(bookView, quoteId)
 {
     
 };
-
 
 //
 //app.core.registerClassByName("user", function()

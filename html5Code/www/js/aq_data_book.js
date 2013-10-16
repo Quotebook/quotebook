@@ -1,5 +1,5 @@
 
-var getUserViewByUserId = function(userId)
+var getBookViewByUserViewAndBookId = function(userView, bookId)
 {
     
 };
