@@ -65,23 +65,23 @@ var createLoginMenuModuleFunction = function(sandbox)
         var appHeader = module.getAppHeader();
         appHeader.clearConfiguration();
         appHeader.configureTitle("Login");
-        appHeader.configureLeftButton("Menu", sandbox.menuButtonAction);
+        appHeader.configureLeftButton("Menu", sandbox.menuBwwuttonAction);
         appHeader.configureRightButton("Back", backFunction);
     };
     
     module.attemptLogin = function()
     {
-        var successFunction = function()
+        var successFunction = function(userId)
         {
             module.postEvent("LoginSuccessful", "");
         };
         
-        var failureFunction = function()
+        var failureFunction = function(failureReason)
         {
-            module.postEvent("LoginFailed", "");            
+            logAssert("Login failed. Reason: " + failureReason);
         };
         
-        sandbox.getUserManager().attemptLogin(new LoginRequest("caleb", "password", successFunction, failureFunction)); // send data
+        sandbox.getUserManager().attemptLogin(new LoginRequest("caleb_fisher@yahoo.com", "pass", successFunction, failureFunction));
     };
     
     module.destroy = function()

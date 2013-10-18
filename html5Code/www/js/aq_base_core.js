@@ -54,7 +54,8 @@ var Core = function()
         managerInstances: {},
     
         boundEventsByEventType: {},
-        factory: new Factory()
+        factory: new Factory(),
+        localDataStore: new LocalDataStore(),
     };
     
     var core = new Object();
@@ -227,9 +228,6 @@ var Core = function()
         coreData.moduleInstances.length = 0;
     };
     
-    // -----------------------
-    // DATA
-    // -----------------------
     core.registerClassByName = function(dataClassName, creatorFunction)
     {
         coreData.factory.registerClassByName(dataClassName, creatorFunction);
@@ -239,6 +237,11 @@ var Core = function()
     {
         coreData.factory.logAllRegisteredClasses();
     };
-
+    
+    core.getLocalDataStore = function()
+    {
+        return coreData.localDataStore;
+    };
+    
     return core;
 };

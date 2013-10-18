@@ -1,9 +1,9 @@
 
 var logAssert = function(assertMessage)
 {
-    console.log("************************************************************")
+    console.log("************************************************************");
     console.log("ASSERT - " + assertMessage);
-    console.log("************************************************************")
+    console.log("************************************************************");
 }
 
 var logMessage = function(message)

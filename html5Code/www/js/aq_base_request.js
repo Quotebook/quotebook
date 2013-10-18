@@ -1,33 +1,19 @@
 
-var Request = function(requestDataArg)
+var Request = function()
 {
-    var request = {
-        requestData: requestDataArg
-    };
+    var request = new Object();
     
     return request;
 };
 
 var LoginRequest = function(emailArg, passwordArg, successFunctionArg, failureFunctionArg)
 {
-    var requestData = {
-        email: emailArg,
-        password: passwordArg,
-        successFunction: successFunctionArg,
-        failureFunction: failureFunctionArg,
-    };
-    
-    var request = new Request(requestData);
-    
-    request.executeSuccess = function()
-    {
-        requestData.successFunction();
-    };
+    var request = new Request();
 
-    request.executeFailure = function()
-    {
-        request.requestData.failureFunction();
-    };
+    request.email = emailArg;
+    request.password = passwordArg;
+    request.successFunction = successFunctionArg;
+    request.failureFunction = failureFunctionArg;
     
     return request;
 };

@@ -54,5 +54,29 @@ var Sandbox = function (core)
         logNotYetImplemented();
     };
     
+    // -----------------------
+    // DATA VIEWS
+    // -----------------------
+    var getUserViewByUserId = function(userId)
+    {
+        var userDataHolder = core.getLocalDataStore().getDataHolderForTypeAndId(kDataType_user, userId);
+        
+        return new UserView(userDataHolder, userId);
+    };
+    
+    var getBookViewByUserViewAndBookId = function(userView, bookId)
+    {
+        var bookDataHolder = core.getLocalDataStore().getDataHolderForTypeAndId(kDataType_book, bookId);
+        
+        return new BookView(bookDataHolder, bookId, userView);
+    };
+    
+    var getQuoteViewByBookViewAndQuoteId = function(bookView, quoteId)
+    {
+        var quoteDataHolder = core.getLocalDataStore().getDataHolderForTypeAndId(kDataType_quote, quoteId);
+        
+        return new QuoteView(quoteDataHolder, quoteId, bookView);
+    };
+    
     return sandbox;
 };
