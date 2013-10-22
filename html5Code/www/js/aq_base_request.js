@@ -5,15 +5,3 @@ var Request = function()
     
     return request;
 };
-
-var LoginRequest = function(emailArg, passwordArg, successFunctionArg, failureFunctionArg)
-{
-    var request = new Request();
-
-    request.email = emailArg;
-    request.password = passwordArg;
-    request.successFunction = successFunctionArg;
-    request.failureFunction = failureFunctionArg;
-    
-    return request;
-};

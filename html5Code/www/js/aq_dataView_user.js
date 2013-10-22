@@ -5,6 +5,18 @@ var kDataKey_user_email = "u_eml";
 var kDataKey_user_bookIds = "u_bki";
 var kDataKey_user_password = "u_psw";
 
+var LoginRequest = function(emailArg, passwordArg, successFunctionArg, failureFunctionArg)
+{
+    var request = new Request();
+    
+    request.email = emailArg;
+    request.password = passwordArg;
+    request.successFunction = successFunctionArg;
+    request.failureFunction = failureFunctionArg;
+    
+    return request;
+};
+
 var CreateNewUserRequest = function(emailArg, firstNameArg, lastNameArg, passwordArg, confirmArg, successFunctionArg, failureFunctionArg)
 {
     var request = new Request();

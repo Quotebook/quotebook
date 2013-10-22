@@ -23,8 +23,10 @@ var createLoginMenuModuleFunction = function(sandbox)
         var doneFunction = function()
         {
             var appBody = module.getAppBody();
+            
             var email = appBody.getElementForId(kLoginMenuId_textInput_email).value;
             var password = appBody.getElementForId(kLoginMenuId_textInput_password).value;
+            
             module.attemptLoginWithEmailAndPassword(email, password);
         };
         
@@ -48,8 +50,16 @@ var createLoginMenuModuleFunction = function(sandbox)
     module.buildCreateNewLogin = function()
     {
         var doneFunction = function()
-        {   
-            module.attemptLoginWithEmailAndPassword("caleb_fisher@yahoo.com", "pass");
+        {
+            var appBody = module.getAppBody();
+            
+            var email = appBody.getElementForId(kLoginMenuId_textInput_email).value;
+            var firstName = appBody.getElementForId(kLoginMenuId_textInput_firstName).value;
+            var lastName = appBody.getElementForId(kLoginMenuId_textInput_lastName).value;
+            var password = appBody.getElementForId(kLoginMenuId_textInput_password).value;
+            var confirm = appBody.getElementForId(kLoginMenuId_textInput_confirm).value;
+            
+            module.attemptCreateNewUser(email, firstName, lastName, password, confirm);
         };
         
         var backFunction = function()
@@ -87,7 +97,7 @@ var createLoginMenuModuleFunction = function(sandbox)
     {
         var successFunction = function(userId)
         {
-            module.postEvent("LoginSuccessful", "");
+            module.postEvent("LoginSuccessful", userId);
         };
         
         var failureFunction = function(failureReason)
@@ -95,7 +105,28 @@ var createLoginMenuModuleFunction = function(sandbox)
             logAssert("Login failed. Reason: " + failureReason);
         };
         
-        sandbox.getUserManager().attemptLogin(new LoginRequest(name, password, successFunction, failureFunction));
+        var loginRequest = new LoginRequest(name, password, successFunction, failureFunction);
+        
+        sandbox.getUserManager().attemptLogin(loginRequest);
+    };
+    
+    module.attemptCreateNewUser = function(email, firstName, lastName, password, confirm)
+    {
+        var successFunction = function(userId)
+        {
+            logMessage("Create New User Successful");
+            
+            module.attemptLoginWithEmailAndPassword(email, password);
+        };
+        
+        var failureFunction = function(failureReason)
+        {
+            logAssert("Create New User Failed. Reason: " + failureReason);
+        };
+        
+        var createNewUserRequest = new CreateNewUserRequest(email, firstName, lastName, password, confirm, successFunction, failureFunction);
+        
+        sandbox.getUserManager().createNewUser(createNewUserRequest);
     };
     
     module.destroy = function()

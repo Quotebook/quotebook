@@ -22,10 +22,6 @@ var createUserManagerFunction = function(core)
         {
             logAssert("Create New User failed. Reason: " + failureReason);
         };
-        
-        var createNewUserRequest = new CreateNewUserRequest("caleb_fisher@yahoo.com", "caleb", "fisher", "pass", "pass", successFunction, failureFunction);
-        
-        manager.createNewUser(createNewUserRequest);
       
         var userId = manager.getUserIdForEmail(loginRequest.email);
         
