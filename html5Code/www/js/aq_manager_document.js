@@ -89,28 +89,36 @@ var createDocumentManagerFunction = function(core)
                 return div;
             },
             
-            addTextInput: function(textFieldName)
+            addTextInput: function(textFieldName, elementId)
             {
                 this.appBodyElement.appendChild(document.createTextNode(textFieldName));
                 
                 var textInput = document.createElement("INPUT");
                 textInput.setAttribute("type", "TEXT");
                 textInput.setAttribute("name", textFieldName);
+                textInput.id = elementId;
                 textInput.appendChild(document.createTextNode(textFieldName));
+                
                 this.appBodyElement.appendChild(textInput);
                 
                 return textInput;
             },
             
-            addPasswordInput: function(passwordFieldName)
+            addPasswordInput: function(passwordFieldName, elementId)
             {
                 this.appBodyElement.appendChild(document.createTextNode(passwordFieldName));
                 
                 var passwordInput = document.createElement("INPUT");
                 passwordInput.setAttribute("type", "PASSWORD");
+                passwordInput.id = elementId;
                 this.appBodyElement.appendChild(passwordInput);
                 
                 return passwordInput;
+            },
+            
+            getElementForId: function(elementId)
+            {
+                return document.getElementById(elementId);
             },
             
             clearContent: function(contextDescription)

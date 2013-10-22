@@ -1,3 +1,9 @@
+var kLoginMenuId_textInput_email = "loginMenuId_textInput_email";
+var kLoginMenuId_textInput_firstName = "loginMenuId_textInput_firstName";
+var kLoginMenuId_textInput_lastName = "loginMenuId_textInput_lastName";
+var kLoginMenuId_textInput_password = "loginMenuId_textInput_password";
+var kLoginMenuId_textInput_confirm = "loginMenuId_textInput_confirm";
+
 var getLoginMenuModuleName = function()
 {
     return "module-loginMenu";
@@ -14,15 +20,23 @@ var createLoginMenuModuleFunction = function(sandbox)
     
     module.buildDefaultLogin = function()
     {
+        var doneFunction = function()
+        {
+            var appBody = module.getAppBody();
+            var email = appBody.getElementForId(kLoginMenuId_textInput_email).value;
+            var password = appBody.getElementForId(kLoginMenuId_textInput_password).value;
+            module.attemptLoginWithEmailAndPassword(email, password);
+        };
+        
         module.clearAppBodyOnBuild();
 
         var appBody = module.getAppBody();
 
-        appBody.addTextInput("E-mail");
+        appBody.addTextInput("E-mail", kLoginMenuId_textInput_email);
         appBody.addLineBreak();
-        appBody.addPasswordInput("Password");
+        appBody.addPasswordInput("Password", kLoginMenuId_textInput_password);
         appBody.addLineBreak();
-        appBody.addButton("Login", module.attemptLogin);
+        appBody.addButton("Login", doneFunction);
         appBody.addButton("Create New Login", module.buildCreateNewLogin);
         
         var appHeader = module.getAppHeader();
@@ -34,8 +48,8 @@ var createLoginMenuModuleFunction = function(sandbox)
     module.buildCreateNewLogin = function()
     {
         var doneFunction = function()
-        {
-            module.attemptLogin();
+        {   
+            module.attemptLoginWithEmailAndPassword("caleb_fisher@yahoo.com", "pass");
         };
         
         var backFunction = function()
@@ -48,28 +62,28 @@ var createLoginMenuModuleFunction = function(sandbox)
         var appBody = module.getAppBody();
         
         appBody.addDiv("Basic info:");
-        appBody.addTextInput("E-mail");
+        appBody.addTextInput("E-mail", kLoginMenuId_textInput_email);
         appBody.addLineBreak();
-        appBody.addTextInput("First name");
+        appBody.addTextInput("First name", kLoginMenuId_textInput_firstName);
         appBody.addLineBreak();
-        appBody.addTextInput("Last name");
+        appBody.addTextInput("Last name", kLoginMenuId_textInput_lastName);
         appBody.addLineBreak();
         appBody.addLineBreak();
         appBody.addDiv("Create password:");
-        appBody.addPasswordInput("Password");
+        appBody.addPasswordInput("Password", kLoginMenuId_textInput_password);
         appBody.addLineBreak();
-        appBody.addPasswordInput("Confirm");
+        appBody.addPasswordInput("Confirm", kLoginMenuId_textInput_confirm);
         appBody.addLineBreak();
         appBody.addButton("Done", doneFunction);
         
         var appHeader = module.getAppHeader();
         appHeader.clearConfiguration();
         appHeader.configureTitle("Login");
-        appHeader.configureLeftButton("Menu", sandbox.menuBwwuttonAction);
+        appHeader.configureLeftButton("Menu", sandbox.menuButtonAction);
         appHeader.configureRightButton("Back", backFunction);
     };
     
-    module.attemptLogin = function()
+    module.attemptLoginWithEmailAndPassword = function(name, password)
     {
         var successFunction = function(userId)
         {
@@ -81,7 +95,7 @@ var createLoginMenuModuleFunction = function(sandbox)
             logAssert("Login failed. Reason: " + failureReason);
         };
         
-        sandbox.getUserManager().attemptLogin(new LoginRequest("caleb_fisher@yahoo.com", "pass", successFunction, failureFunction));
+        sandbox.getUserManager().attemptLogin(new LoginRequest(name, password, successFunction, failureFunction));
     };
     
     module.destroy = function()
