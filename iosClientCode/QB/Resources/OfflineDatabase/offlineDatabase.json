@@ -52,6 +52,29 @@
               }
             ],
             "uuid": 3
+          },
+          {
+            "creationDate": {
+              
+            },
+            "quoteContext": "sdfsd",
+            "quoteLines": [
+              {
+                "text": "Caleb\t",
+                "who": {
+                  "nonuserQuoted": "caleb",
+                  "userQuoted": null
+                }
+              },
+              {
+                "text": "Fff",
+                "who": {
+                  "nonuserQuoted": "asd",
+                  "userQuoted": null
+                }
+              }
+            ],
+            "uuid": 8
           }
         ],
         "title": "caleb",
@@ -185,11 +208,18 @@
         "quotes": null,
         "title": "asdfsd",
         "uuid": 5
+      },
+      {
+        "invitedUsers": null,
+        "memberUsers": null,
+        "quotes": null,
+        "title": "Ok",
+        "uuid": 6
       }
     ]
   },
-  "bookUuidGenerator": 5,
-  "quoteUuidGenerator": 7,
+  "bookUuidGenerator": 6,
+  "quoteUuidGenerator": 8,
   "userData": {
     "userActors": [
       {
@@ -200,7 +230,8 @@
             2,
             3,
             4,
-            5
+            5,
+            6
           ],
           "email": "caleb@caleb.com",
           "firstName": "caleb",

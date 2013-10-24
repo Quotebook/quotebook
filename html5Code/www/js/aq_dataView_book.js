@@ -15,3 +15,35 @@ var BookView = function(bookDataHolder)
     
     return bookView;
 };
+
+
+var CreateNewBookRequest = function(bookTitleArg, userViewArg, successFunctionArg, failureFunctionArg)
+{
+    var request = new Request();
+    
+    request.userView = userViewArg;
+    request.bookTitle = bookTitleArg;
+    request.successFunction = successFunctionArg;
+    request.failureFunction = failureFunctionArg;
+    
+    request.validate = function()
+    {
+        return bookTitleArg != null &&
+               userViewArg != null;
+    };
+    
+    request.buildDataForNewBook = function()
+    {
+        var data = {};
+        
+        data[kDataKey_book_title] = request.bookTitle;
+        data[kDataKey_book_quoteIds] = [];
+        data[kDataKey_book_memberUserIds] = [];
+        data[kDataKey_book_invitedUserIds] = [];
+        
+        return data;
+    };
+    
+    return request;
+};
+

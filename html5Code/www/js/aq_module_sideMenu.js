@@ -1,4 +1,1 @@
-var getSideMenuModuleName = function()
-{
-    return "module-sideMenu";
-};
+var kSideMenuId_moduleName = "module-sideMenu";

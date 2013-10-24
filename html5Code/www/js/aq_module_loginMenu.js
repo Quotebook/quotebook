@@ -1,17 +1,14 @@
+var kLoginMenuId_moduleName = "module-loginMenu";
+
 var kLoginMenuId_textInput_email = "loginMenuId_textInput_email";
 var kLoginMenuId_textInput_firstName = "loginMenuId_textInput_firstName";
 var kLoginMenuId_textInput_lastName = "loginMenuId_textInput_lastName";
 var kLoginMenuId_textInput_password = "loginMenuId_textInput_password";
 var kLoginMenuId_textInput_confirm = "loginMenuId_textInput_confirm";
 
-var getLoginMenuModuleName = function()
-{
-    return "module-loginMenu";
-};
-
 var createLoginMenuModuleFunction = function(sandbox)
 {
-    var module = new Module(getLoginMenuModuleName(), sandbox);
+    var module = new Module(kLoginMenuId_moduleName, sandbox);
     
     module.init = function()
     {
@@ -124,9 +121,9 @@ var createLoginMenuModuleFunction = function(sandbox)
             logAssert("Create New User Failed. Reason: " + failureReason);
         };
         
-        var createNewUserRequest = new CreateNewUserRequest(email, firstName, lastName, password, confirm, successFunction, failureFunction);
+        var request = new CreateNewUserRequest(email, firstName, lastName, password, confirm, successFunction, failureFunction);
         
-        sandbox.getUserManager().createNewUser(createNewUserRequest);
+        sandbox.getUserManager().createNewUser(request);
     };
     
     module.destroy = function()
@@ -137,4 +134,4 @@ var createLoginMenuModuleFunction = function(sandbox)
     return module;
 };
 
-app.core.registerModule(getLoginMenuModuleName(), createLoginMenuModuleFunction);
+app.core.registerModule(kLoginMenuId_moduleName, createLoginMenuModuleFunction);

@@ -73,7 +73,7 @@ var createUserManagerFunction = function(core)
             createNewUserRequest.failureFunction("Request did not validate.");
             return;
         }
-        
+
         var userId = manager.getUserIdForEmail(createNewUserRequest.email);
         
         if (userId != null)
@@ -81,13 +81,15 @@ var createUserManagerFunction = function(core)
             createNewUserRequest.failureFunction("User already exists for email: " + createNewUserRequest.email);
             return;
         }
-        
+
         var data = createNewUserRequest.buildDataForNewUser();
         
         var userDataHolder = core.getLocalDataStore().createDataHolderForDataAndTypeAndId(data, kDataType_user, manager.createNextUserId());
         
         createNewUserRequest.successFunction(new UserView(userDataHolder));
     };
+    
+//    manager.addBookToUser = function
     
     manager.createNextUserId = function()
     {

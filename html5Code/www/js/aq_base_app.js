@@ -27,7 +27,7 @@ app.onDeviceReady = function()
     app.core.bindEventForListener("LoginSuccessful", function(eventData){ app.loginSuccessful(eventData) }, app);
     app.core.bindEventForListener("LogoutSuccessful", function(eventData){ app.logoutSuccessful(eventData) }, app);
     
-    app.core.startModule(getLoginMenuModuleName());
+    app.core.startModule(kLoginMenuId_moduleName);
     
     logEvent("APP", "StartUpComplete", "========================================");
 };
@@ -52,11 +52,11 @@ app.blockElasticScroll = function(event)
 app.loginSuccessful = function(eventData)
 {
     app.core.stopAllModules();
-    app.core.startModule(getUserMenuModuleName());
+    app.core.startModule(kUserMenuId_moduleName);
 };
 
 app.logoutSuccessful = function(eventData)
 {
     app.core.stopAllModules();
-    app.core.startModule(getLoginMenuModuleName());
+    app.core.startModule(kLoginMenuId_moduleName);
 };

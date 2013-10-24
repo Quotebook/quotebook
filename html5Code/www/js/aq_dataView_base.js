@@ -5,7 +5,7 @@ var DataHolder = function(data, dataId)
     
     dataHolder.dataId = dataId;
     dataHolder.data = data;
-    dataHolder.needsUpdate = false;
+    dataHolder.needsUpdate = true;
     
     dataHolder.valueForKey = function(key)
     {
@@ -36,6 +36,11 @@ var DataView = function(dataHolder)
     {
         return dataHolder.dataId;
     };
+    
+    dataView.markForUpdate = function()
+    {
+        dataHolder.markForUpdate();
+    }
 
     return dataView;
 };

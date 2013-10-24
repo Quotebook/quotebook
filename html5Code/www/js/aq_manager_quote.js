@@ -4,6 +4,10 @@ var createQuoteManagerFunction = function(core)
 {
     var manager = new Manager(kQuoteManagerName, core);
     
+    manager.createNewQuoteForBookView = function(createNewQuoteRequest)
+    {
+//        createNewQuoteRequest
+    };
     // example
 //    manager.addQuoteToBook = function(quoteView, bookView)
 //    {

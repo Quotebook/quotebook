@@ -68,5 +68,11 @@ var UserView = function(userDataHolder)
     userView.email = userDataHolder.valueForKey(kDataKey_user_email);
     userView.bookIds = userDataHolder.valueForKey(kDataKey_user_bookIds);
     
+    userView.addBookId = function(bookId)
+    {
+        userView.bookIds.push(bookId);
+        userView.markForUpdate();
+    };
+    
     return userView;
 };

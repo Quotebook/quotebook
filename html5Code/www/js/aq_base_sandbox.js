@@ -57,25 +57,37 @@ var Sandbox = function (core)
     // -----------------------
     // DATA VIEWS
     // -----------------------
-    var getUserViewByUserId = function(userId)
+    sandbox.writeAllData = function()
+    {
+        core.getLocalDataStore().writeAllData();
+    };
+    
+    sandbox.getCurrentlyLoggedInUser = function()
+    {
+        var userManager = sandbox.getUserManager();
+        
+        return sandbox.getUserViewByUserId(userManager.currentlyLoggedInUserId);
+    };
+    
+    sandbox.getUserViewByUserId = function(userId)
     {
         var userDataHolder = core.getLocalDataStore().getDataHolderForTypeAndId(kDataType_user, userId);
         
-        return new UserView(userDataHolder, userId);
+        return new UserView(userDataHolder);
     };
     
-    var getBookViewByUserViewAndBookId = function(userView, bookId)
+    sandbox.getBookViewByUserViewAndBookId = function(userView, bookId)
     {
         var bookDataHolder = core.getLocalDataStore().getDataHolderForTypeAndId(kDataType_book, bookId);
         
-        return new BookView(bookDataHolder, bookId, userView);
+        return new BookView(bookDataHolder, userView);
     };
     
-    var getQuoteViewByBookViewAndQuoteId = function(bookView, quoteId)
+    sandbox.getQuoteViewByBookViewAndQuoteId = function(bookView, quoteId)
     {
         var quoteDataHolder = core.getLocalDataStore().getDataHolderForTypeAndId(kDataType_quote, quoteId);
         
-        return new QuoteView(quoteDataHolder, quoteId, bookView);
+        return new QuoteView(quoteDataHolder, bookView);
     };
     
     return sandbox;
