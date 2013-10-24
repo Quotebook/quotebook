@@ -129,7 +129,7 @@ var createUserMenuModuleFunction = function(sandbox)
         
         var appBody = module.getAppBody();
         
-        if (bookView.bookIds.length > 0)
+        if (bookView.quoteIds.length > 0)
         {
             // Build buttons for current quotes
             for (var i = 0; i < bookView.quoteIds.length; ++i)
@@ -147,6 +147,7 @@ var createUserMenuModuleFunction = function(sandbox)
                 appBody.addLineBreak();
                 appBody.addLineBreak();
             }
+            appBody.addDiv("hill?");
         }
         else
         {
