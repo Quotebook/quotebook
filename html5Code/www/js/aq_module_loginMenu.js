@@ -27,6 +27,13 @@ var createLoginMenuModuleFunction = function(sandbox)
             module.attemptLoginWithEmailAndPassword(email, password);
         };
         
+        // DEBUG
+        var DEBUG_useDefaultUser = function()
+        {
+            module.attemptCreateNewUser("defaultUser@test.com", "default", "user", "pass", "pass");
+        }
+        // !DEBUG
+        
         module.clearAppBodyOnBuild();
 
         var appBody = module.getAppBody();
@@ -37,6 +44,12 @@ var createLoginMenuModuleFunction = function(sandbox)
         appBody.addLineBreak();
         appBody.addButton("Login", doneFunction);
         appBody.addButton("Create New Login", module.buildCreateNewLogin);
+        
+        // DEBUG
+        appBody.addLineBreak();
+        appBody.addLineBreak();
+        appBody.addButton("(DEBUG)Use default user", DEBUG_useDefaultUser);
+        // !DEBUG
         
         var appHeader = module.getAppHeader();
         appHeader.clearConfiguration();

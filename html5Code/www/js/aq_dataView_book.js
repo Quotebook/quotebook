@@ -13,6 +13,12 @@ var BookView = function(bookDataHolder)
     bookView.memberUserIds = bookDataHolder.valueForKey(kDataKey_book_memberUserIds);
     bookView.invitedUserIds = bookDataHolder.valueForKey(kDataKey_book_invitedUserIds);
     
+    bookView.addQuoteId = function(quoteId)
+    {
+        bookView.quoteIds.push(quoteId);
+        bookView.markForUpdate();
+    };
+    
     return bookView;
 };
 

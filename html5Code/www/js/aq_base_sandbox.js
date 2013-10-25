@@ -80,14 +80,14 @@ var Sandbox = function (core)
     {
         var bookDataHolder = core.getLocalDataStore().getDataHolderForTypeAndId(kDataType_book, bookId);
         
-        return new BookView(bookDataHolder, userView);
+        return new BookView(bookDataHolder);
     };
     
     sandbox.getQuoteViewByBookViewAndQuoteId = function(bookView, quoteId)
     {
         var quoteDataHolder = core.getLocalDataStore().getDataHolderForTypeAndId(kDataType_quote, quoteId);
         
-        return new QuoteView(quoteDataHolder, bookView);
+        return new QuoteView(quoteDataHolder);
     };
     
     return sandbox;

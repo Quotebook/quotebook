@@ -20,20 +20,20 @@ var createBookManagerFunction = function(core)
         
         var data = createNewBookRequest.buildDataForNewBook();
         
-        var bookId = manager.createNextBookId();
+        var bookId = manager.createNextBookIdForUserView(userView);
         
         var bookDataHolder = core.getLocalDataStore().createDataHolderForDataAndTypeAndId(data, kDataType_book, bookId);
 
         userView.addBookId(bookId);
         
-        createNewBookRequest.successFunction(new BookView(bookDataHolder, createNewBookRequest.userView));
+        createNewBookRequest.successFunction(new BookView(bookDataHolder, userView));
     };
     
-    manager.createNextBookId = function()
+    manager.createNextBookIdForUserView = function(userView)
     {
         temp_bookIdGenerator++;
         
-        var bookId = "b_" + temp_bookIdGenerator;
+        var bookId = "b_" + temp_bookIdGenerator + "_" + userView.getDataId();
         
         logEvent("BOOK", "CreateNextBookId", bookId);
         

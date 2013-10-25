@@ -5,6 +5,24 @@ var kDataKey_user_email = "u_eml";
 var kDataKey_user_bookIds = "u_bki";
 var kDataKey_user_password = "u_psw";
 
+var UserView = function(userDataHolder)
+{
+    var userView = new DataView(userDataHolder);
+    
+    userView.firstName = userDataHolder.valueForKey(kDataKey_user_firstName);
+    userView.lastName = userDataHolder.valueForKey(kDataKey_user_lastName);
+    userView.email = userDataHolder.valueForKey(kDataKey_user_email);
+    userView.bookIds = userDataHolder.valueForKey(kDataKey_user_bookIds);
+    
+    userView.addBookId = function(bookId)
+    {
+        userView.bookIds.push(bookId);
+        userView.markForUpdate();
+    };
+    
+    return userView;
+};
+
 var LoginRequest = function(emailArg, passwordArg, successFunctionArg, failureFunctionArg)
 {
     var request = new Request();
@@ -58,21 +76,3 @@ var CreateNewUserRequest = function(emailArg, firstNameArg, lastNameArg, passwor
     return request;
 };
 
-
-var UserView = function(userDataHolder)
-{
-    var userView = new DataView(userDataHolder);
-    
-    userView.firstName = userDataHolder.valueForKey(kDataKey_user_firstName);
-    userView.lastName = userDataHolder.valueForKey(kDataKey_user_lastName);
-    userView.email = userDataHolder.valueForKey(kDataKey_user_email);
-    userView.bookIds = userDataHolder.valueForKey(kDataKey_user_bookIds);
-    
-    userView.addBookId = function(bookId)
-    {
-        userView.bookIds.push(bookId);
-        userView.markForUpdate();
-    };
-    
-    return userView;
-};

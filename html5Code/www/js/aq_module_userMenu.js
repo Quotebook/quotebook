@@ -147,7 +147,6 @@ var createUserMenuModuleFunction = function(sandbox)
                 appBody.addLineBreak();
                 appBody.addLineBreak();
             }
-            appBody.addDiv("hill?");
         }
         else
         {
@@ -195,6 +194,45 @@ var createUserMenuModuleFunction = function(sandbox)
             module.buildForPreviewNewQuoteForBookView(bookView, quoteLines, date, context);
         };
         
+        // DEBUG
+        var DEBUG_useDefaultSingleLinedQuote = function()
+        {
+            var quoteLines = [];
+            
+            var quoteLine = {};
+                
+            quoteLine.who = "Default who";
+            quoteLine.quote = "Default quote";
+                
+            quoteLines.push(quoteLine);
+            
+            module.buildForPreviewNewQuoteForBookView(bookView, quoteLines, "Default date", "Default context");
+        };
+        
+        var DEBUG_useDefaultMultiLinedQuote = function()
+        {
+            var quoteLines = [];
+            
+            var quoteLine1 = {};
+            quoteLine1.who = "Default who1";
+            quoteLine1.quote = "Default quote1";
+
+            var quoteLine2 = {};
+            quoteLine2.who = "Default who2";
+            quoteLine2.quote = "Default quote2";
+            
+            var quoteLine3 = {};
+            quoteLine3.who = "Default who3";
+            quoteLine3.quote = "Default quote3";
+            
+            quoteLines.push(quoteLine1);
+            quoteLines.push(quoteLine2);
+            quoteLines.push(quoteLine3);
+            
+            module.buildForPreviewNewQuoteForBookView(bookView, quoteLines, "Default date", "Default context");
+        };
+        // !DEBUG
+        
         module.clearAppBodyOnEvent("content change");
         
         var appBody = module.getAppBody();
@@ -214,6 +252,13 @@ var createUserMenuModuleFunction = function(sandbox)
         appBody.addButton("Preview", previewFunction);
         appBody.addLineBreak();
         
+        // DEBUG
+        appBody.addButton("(DEBUG)Use default single lined quotes", DEBUG_useDefaultSingleLinedQuote);
+        appBody.addLineBreak();
+        appBody.addButton("(DEBUG)Use default multi lined quotes", DEBUG_useDefaultMultiLinedQuote);
+        appBody.addLineBreak();
+        // DEBUG
+        
         module.quoteLineKeyIndex++;
         
         var appHeader = module.getAppHeader();
@@ -230,7 +275,7 @@ var createUserMenuModuleFunction = function(sandbox)
             module.buildForAddNewQuote(); // pass the data back
         };
         
-        var addTheQuoteFunction = function()
+        var createQuoteFunction = function()
         {
             var successFunction = function(quoteView)
             {
@@ -241,10 +286,10 @@ var createUserMenuModuleFunction = function(sandbox)
             {
                 logAssert("Create New Quote Failed. Reason: " + failureReason);
             };
-            
-            var request = new CreateNewQuoteRequest(quoteLines, date, context, successFunction, failureFunction);
-            
-            sandbox.getBookManager().createNewQuoteForBookView(request);
+
+            var request = new CreateNewQuoteRequest(quoteLines, date, context, bookView, successFunction, failureFunction);
+
+            sandbox.getQuoteManager().createNewQuote(request);
         };
         
         module.clearAppBodyOnEvent("content change");
@@ -277,7 +322,7 @@ var createUserMenuModuleFunction = function(sandbox)
         appBody.addDiv("Re: " + context); // context
         appBody.addLineBreak();
         appBody.addLineBreak();
-        appBody.addButton("Add The Quote", addTheQuoteFunction);
+        appBody.addButton("Add The Quote", createQuoteFunction);
         
         var appHeader = module.getAppHeader();
         appHeader.clearConfiguration();
@@ -288,7 +333,7 @@ var createUserMenuModuleFunction = function(sandbox)
     
     module.buildForBookViewForQuoteView = function(bookView, quoteView)
     {
-        
+        logNotYetImplemented();
         
     };
     
