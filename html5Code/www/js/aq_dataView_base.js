@@ -9,13 +9,13 @@ var DataHolder = function(data, dataId)
     
     dataHolder.valueForKey = function(key)
     {
-        var value = data[key];
-        if (value == null)
+        if (key in data)
         {
-            logAssert("Value for key not found. Key: " + key + ". DataId: " + dataId + ". Data: " + data);
+            return data[key];
         }
         
-        return value;
+        logAssert("Value for key not found. Key: " + key + ". DataId: " + dataId + ". Data: " + data);
+        return null;
     };
     
     dataHolder.markForUpdate = function()

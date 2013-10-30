@@ -87,6 +87,11 @@ var Sandbox = function (core)
     {
         var quoteDataHolder = core.getLocalDataStore().getDataHolderForTypeAndId(kDataType_quote, quoteId);
         
+        if (quoteDataHolder == null)
+        {
+            logAssert("quoteDataHolder == null for quoteId: " + quoteId);
+        }
+        
         return new QuoteView(quoteDataHolder);
     };
     

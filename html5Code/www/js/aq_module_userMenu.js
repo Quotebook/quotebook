@@ -54,7 +54,7 @@ var createUserMenuModuleFunction = function(sandbox)
                 
                 var buildForBookViewFunction = function()
                 {
-                    module.buildForUserViewAndBookView(userView, bookView);
+                    module.buildForUserViewAndBookViewAndOptionalQuoteView(userView, bookView, null);
                 };
                 
                 appBody.addButton(bookView.title, buildForBookViewFunction);
@@ -100,7 +100,7 @@ var createUserMenuModuleFunction = function(sandbox)
                 // LEFT OFF
                 sandbox.writeAllData();
                 
-                module.buildForUserViewAndBookView(userView, bookView);
+                module.buildForUserViewAndBookViewAndOptionalQuoteView(userView, bookView, null);
             };
             
             var failureFunction = function(failureReason)
@@ -123,8 +123,12 @@ var createUserMenuModuleFunction = function(sandbox)
     };
     
     
-    module.buildForUserViewAndBookView = function(userView, bookView)
+    module.buildForUserViewAndBookViewAndOptionalQuoteView = function(userView, bookView, optionalQuoteViewToFocus)
     {
+        // Confirm quote is a child of this book
+        // Confirm book is a child of this user - maybe. Consider the case where yore viewing another users books/quotes
+        logEvent("USERMENU", "User&Book&Quote", "" + userView + " " + bookView + " " + optionalQuoteViewToFocus);
+        
         module.clearAppBodyOnBuild();
         
         var appBody = module.getAppBody();
@@ -140,7 +144,7 @@ var createUserMenuModuleFunction = function(sandbox)
                 
                 var viewQuoteFunction = function()
                 {
-                    module.buildForBookViewAndQuoteView(bookView, quoteView);
+                    module.buildForUserViewAndBookViewAndOptionalQuoteView(bookView, quoteView, null);
                 };
                 
                 appBody.addButton(buttonTitle, viewQuoteFunction);
@@ -153,7 +157,7 @@ var createUserMenuModuleFunction = function(sandbox)
             // Prompt to add new books
             var buildForNewQuoteFunction = function()
             {
-                module.buildForAddNewQuoteForBookView(bookView);
+                module.buildForAddNewQuoteForBookView(userView, bookView);
             };
             
             appBody.addDiv("Create your first quote!");
@@ -163,7 +167,7 @@ var createUserMenuModuleFunction = function(sandbox)
         }
     };
     
-    module.buildForAddNewQuoteForBookView = function(bookView)
+    module.buildForAddNewQuoteForBookView = function(userView, bookView)
     {
         var backFunction = function()
         {
@@ -191,7 +195,7 @@ var createUserMenuModuleFunction = function(sandbox)
             var date = "Date: Input not implemented";
             var context = appBody.getElementForId(kUserMenuId_textInput_context).value;
             
-            module.buildForPreviewNewQuoteForBookView(bookView, quoteLines, date, context);
+            module.buildForPreviewNewQuoteForBookView(userView, bookView, quoteLines, date, context);
         };
         
         // DEBUG
@@ -206,7 +210,7 @@ var createUserMenuModuleFunction = function(sandbox)
                 
             quoteLines.push(quoteLine);
             
-            module.buildForPreviewNewQuoteForBookView(bookView, quoteLines, "Default date", "Default context");
+            module.buildForPreviewNewQuoteForBookView(userView, bookView, quoteLines, "Default date", "Default context");
         };
         
         var DEBUG_useDefaultMultiLinedQuote = function()
@@ -229,7 +233,7 @@ var createUserMenuModuleFunction = function(sandbox)
             quoteLines.push(quoteLine2);
             quoteLines.push(quoteLine3);
             
-            module.buildForPreviewNewQuoteForBookView(bookView, quoteLines, "Default date", "Default context");
+            module.buildForPreviewNewQuoteForBookView(userView, bookView, quoteLines, "Default date", "Default context");
         };
         // !DEBUG
         
@@ -268,7 +272,7 @@ var createUserMenuModuleFunction = function(sandbox)
         appHeader.configureRightButton("Back", backFunction);
     };
     
-    module.buildForPreviewNewQuoteForBookView = function(bookView, quoteLines, date, context)
+    module.buildForPreviewNewQuoteForBookView = function(userView, bookView, quoteLines, date, context)
     {
         var backFunction = function()
         {
@@ -279,7 +283,7 @@ var createUserMenuModuleFunction = function(sandbox)
         {
             var successFunction = function(quoteView)
             {
-                module.buildForBookViewForQuoteView(bookView, quoteView);
+                module.buildForUserViewAndBookViewAndOptionalQuoteView(userView, bookView, quoteView);
             };
             
             var failureFunction = function(failureReason)
@@ -295,8 +299,6 @@ var createUserMenuModuleFunction = function(sandbox)
         module.clearAppBodyOnEvent("content change");
         
         var appBody = module.getAppBody();
-        
-        logMessage(quoteLines);
         
         for (var i = 0; i < quoteLines.length; ++i)
         {
@@ -330,13 +332,7 @@ var createUserMenuModuleFunction = function(sandbox)
         appHeader.configureLeftButton("Menu", sandbox.menuButtonAction);
         appHeader.configureRightButton("Back", backFunction);
     };
-    
-    module.buildForBookViewForQuoteView = function(bookView, quoteView)
-    {
-        logNotYetImplemented();
-        
-    };
-    
+
     module.buildForViewingQuoteBook = function()
     {
         
