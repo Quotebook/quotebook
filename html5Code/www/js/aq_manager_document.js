@@ -74,6 +74,7 @@ var createDocumentManagerFunction = function(core)
                 
                 button.appendChild(document.createTextNode(buttonName));
                 button.onclick = buttonOnClickFunction;
+                button.id = buttonName;
                 this.appBodyElement.appendChild(button);
                 
                 return button;

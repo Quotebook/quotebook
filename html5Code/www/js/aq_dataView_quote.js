@@ -14,7 +14,7 @@ var QuoteView = function(quoteDataHolder)
 
     quoteView.creationDate = quoteDataHolder.valueForKey(kDataKey_quote_creationDate);
     quoteView.context = quoteDataHolder.valueForKey(kDataKey_quote_context);
-    quoteView.text = quoteDataHolder.valueForKey(kDataKey_quote_text);
+    quoteView.quoteText = quoteDataHolder.valueForKey(kDataKey_quote_text);
     quoteView.who = quoteDataHolder.valueForKey(kDataKey_quote_who);
     quoteView.bookId = quoteDataHolder.valueForKey(kDataKey_quote_bookId);
     quoteView.parentQuoteId = quoteDataHolder.valueForKey(kDataKey_quote_parentQuoteId);
@@ -72,7 +72,7 @@ var CreateNewQuoteRequest = function(quoteLinesArg, dateArg, contextArg, bookVie
         
         data[kDataKey_quote_creationDate] = request.date;
         data[kDataKey_quote_context] = request.context;
-        data[kDataKey_quote_text] = quoteLine.text;
+        data[kDataKey_quote_text] = quoteLine.quoteText;
         data[kDataKey_quote_who] = quoteLine.who;
         data[kDataKey_quote_bookId] = null;
         data[kDataKey_quote_parentQuoteId] = null;

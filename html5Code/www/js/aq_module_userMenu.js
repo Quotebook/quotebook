@@ -45,6 +45,12 @@ var createUserMenuModuleFunction = function(sandbox)
         
         var appBody = module.getAppBody();
         
+        // Prompt to add new books
+        var buildForNewBookFunction = function()
+        {
+            module.buildForNewBookForUserView(userView);
+        };
+        
         if (userView.bookIds.length > 0)
         {
             // Build buttons for current books
@@ -54,26 +60,33 @@ var createUserMenuModuleFunction = function(sandbox)
                 
                 var buildForBookViewFunction = function()
                 {
+                    logMessage("working title = " + bookView.title);
                     module.buildForUserViewAndBookViewAndOptionalQuoteView(userView, bookView, null);
                 };
                 
-                appBody.addButton(bookView.title, buildForBookViewFunction);
+                // TODO - check the element id of this button... could be squashing it
+                var button = appBody.addButton(bookView.title, function()
+                                               {
+                                                    logMessage("working title = " + bookView.title);
+                                                    logMessage("id = " + i);
+                                                    module.buildForUserViewAndBookViewAndOptionalQuoteView(userView, bookView, null);
+                                               });
+
+                button.id = "id_" + i;
                 appBody.addLineBreak();
-                appBody.addLineBreak();
+                appBody.addLineBreak(); 
             }
+            
+            // DEBUG
+            appBody.addButton("Add another book", buildForNewBookFunction)
+            // !DEBUG
         }
         else
         {
-            // Prompt to add new books
-            var buildForNewBookFunction = function()
-            {
-                module.buildForNewBookForUserView(userView);
-            };
-            
             appBody.addDiv("To get started, add your first quotebook!");
             appBody.addLineBreak();
             appBody.addLineBreak();
-            appBody.addButton("Add book", buildForNewBookFunction)
+            appBody.addButton("Add first book", buildForNewBookFunction)
         }
         
         var appHeader = module.getAppHeader();
@@ -88,6 +101,11 @@ var createUserMenuModuleFunction = function(sandbox)
         module.clearAppBodyOnBuild();
         
         var appBody = module.getAppBody();
+        
+        var backFunction = function()
+        {
+            module.buildDefaultForUserView(userView);
+        }
         
         var createBookFunction = function()
         {
@@ -120,6 +138,12 @@ var createUserMenuModuleFunction = function(sandbox)
         appBody.addLineBreak();
         appBody.addLineBreak();
         appBody.addButton("Create", createBookFunction);
+        
+        var appHeader = module.getAppHeader();
+        appHeader.clearConfiguration();
+        appHeader.configureTitle(userView.firstName + " " + userView.lastName);
+        appHeader.configureLeftButton("Menu", sandbox.menuButtonAction);
+        appHeader.configureRightButton("Back", backFunction);
     };
     
     
@@ -127,11 +151,15 @@ var createUserMenuModuleFunction = function(sandbox)
     {
         // Confirm quote is a child of this book
         // Confirm book is a child of this user - maybe. Consider the case where yore viewing another users books/quotes
-        logEvent("USERMENU", "User&Book&Quote", "" + userView + " " + bookView + " " + optionalQuoteViewToFocus);
-        
         module.clearAppBodyOnBuild();
         
         var appBody = module.getAppBody();
+        
+        // Prompt to add new quote
+        var buildForNewQuoteFunction = function()
+        {
+            module.buildForAddNewQuoteForBookView(userView, bookView);
+        };
         
         if (bookView.quoteIds.length > 0)
         {
@@ -140,38 +168,47 @@ var createUserMenuModuleFunction = function(sandbox)
             {
                 var quoteView = sandbox.getQuoteViewByBookViewAndQuoteId(bookView, bookView.quoteIds[i]);
                 
-                var buttonTitle = quoteView.text;
+                var buttonTitle = quoteView.quoteText;
                 
                 var viewQuoteFunction = function()
                 {
-                    module.buildForUserViewAndBookViewAndOptionalQuoteView(bookView, quoteView, null);
+                    module.buildForUserViewAndBookViewAndOptionalQuoteView(userView, bookView, quoteView);
                 };
                 
                 appBody.addButton(buttonTitle, viewQuoteFunction);
                 appBody.addLineBreak();
                 appBody.addLineBreak();
             }
+            
+            // DEBUG
+            appBody.addButton("Add another quote", buildForNewQuoteFunction)
+            // !DEBUG
         }
         else
         {
-            // Prompt to add new books
-            var buildForNewQuoteFunction = function()
-            {
-                module.buildForAddNewQuoteForBookView(userView, bookView);
-            };
-            
             appBody.addDiv("Create your first quote!");
             appBody.addLineBreak();
             appBody.addLineBreak();
             appBody.addButton("Add first quote", buildForNewQuoteFunction)
         }
+        
+        var backFunction = function()
+        {
+            module.buildDefaultForUserView(userView);
+        };
+        
+        var appHeader = module.getAppHeader();
+        appHeader.clearConfiguration();
+        appHeader.configureTitle(bookView.title);
+        appHeader.configureLeftButton("Menu", sandbox.menuButtonAction);
+        appHeader.configureRightButton("Back", backFunction);
     };
     
     module.buildForAddNewQuoteForBookView = function(userView, bookView)
     {
         var backFunction = function()
         {
-            module.buildDefault();
+            module.buildDefaultForUserView(userView);
         };
         
         var previewFunction = function()
@@ -187,7 +224,7 @@ var createUserMenuModuleFunction = function(sandbox)
                 var quoteIndexedKey = kUserMenuId_textInput_quote + i;
                 
                 quoteLine.who = appBody.getElementForId(whoIndexedKey).value;
-                quoteLine.quote = appBody.getElementForId(quoteIndexedKey).value;
+                quoteLine.quoteText = appBody.getElementForId(quoteIndexedKey).value;
                 
                 quoteLines.push(quoteLine);
             }
@@ -206,7 +243,7 @@ var createUserMenuModuleFunction = function(sandbox)
             var quoteLine = {};
                 
             quoteLine.who = "Default who";
-            quoteLine.quote = "Default quote";
+            quoteLine.quoteText = "Default quote";
                 
             quoteLines.push(quoteLine);
             
@@ -219,15 +256,15 @@ var createUserMenuModuleFunction = function(sandbox)
             
             var quoteLine1 = {};
             quoteLine1.who = "Default who1";
-            quoteLine1.quote = "Default quote1";
+            quoteLine1.quoteText = "Default quote1";
 
             var quoteLine2 = {};
             quoteLine2.who = "Default who2";
-            quoteLine2.quote = "Default quote2";
+            quoteLine2.quoteText = "Default quote2";
             
             var quoteLine3 = {};
             quoteLine3.who = "Default who3";
-            quoteLine3.quote = "Default quote3";
+            quoteLine3.quoteText = "Default quote3";
             
             quoteLines.push(quoteLine1);
             quoteLines.push(quoteLine2);
@@ -276,7 +313,7 @@ var createUserMenuModuleFunction = function(sandbox)
     {
         var backFunction = function()
         {
-            module.buildForAddNewQuote(); // pass the data back
+            module.buildForAddNewQuoteForBookView(userView, bookView);
         };
         
         var createQuoteFunction = function()
@@ -312,12 +349,6 @@ var createUserMenuModuleFunction = function(sandbox)
             appBody.addLineBreak();
         }
         
-//        appBody.addDiv("\"I said something funny!\""); // quote
-//        appBody.addLineBreak();
-//        appBody.addLineBreak();
-//        appBody.addDiv("Caleb Fisher"); // who
-//        appBody.addLineBreak();
-//        appBody.addLineBreak();
         appBody.addDiv(date); // date
         appBody.addLineBreak();
         appBody.addLineBreak();
@@ -332,17 +363,12 @@ var createUserMenuModuleFunction = function(sandbox)
         appHeader.configureLeftButton("Menu", sandbox.menuButtonAction);
         appHeader.configureRightButton("Back", backFunction);
     };
-
-    module.buildForViewingQuoteBook = function()
-    {
-        
-    };
     
     module.buildForInviteAFriend = function()
     {
         var backFunction = function()
         {
-            module.buildDefault();
+            module.buildDefaultForUserView(userView);
         };
         
         module.clearAppBodyOnEvent("content change");

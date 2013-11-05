@@ -23,8 +23,6 @@ var Object = function()
             {
                 if (this.hasOwnProperty(propertyName))
                 {
-                    logMessage("about to delete " + propertyName);
-                    
                     delete this[propertyName];
                     
                     this[propertyName] = null;
