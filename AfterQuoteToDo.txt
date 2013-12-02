@@ -1,0 +1,17 @@
+AfterQuote ToDo
+===============
+
+===== Features =====
+
+== Integrate SQL connection to our hosted database
+
+===== Bugs =====
+
+== Preview button when adding a quote doesn't seem to be working
+
+== Selecting a quote via the book menu doesn't seem to be working
+
+
+
+
+

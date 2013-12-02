@@ -65,12 +65,10 @@ var createUserMenuModuleFunction = function(sandbox)
                 };
                 
                 // TODO - check the element id of this button... could be squashing it
-                var button = appBody.addButton(bookView.title, function()
-                                               {
-                                                    logMessage("working title = " + bookView.title);
-                                                    logMessage("id = " + i);
-                                                    module.buildForUserViewAndBookViewAndOptionalQuoteView(userView, bookView, null);
-                                               });
+                var button = appBody.addButtonWithData(bookView.title, bookView, function(mouseEvent)
+                                                       {
+                                                            module.buildForUserViewAndBookViewAndOptionalQuoteView(userView, mouseEvent.target.userData, null);
+                                                       });
 
                 button.id = "id_" + i;
                 appBody.addLineBreak();
@@ -166,16 +164,16 @@ var createUserMenuModuleFunction = function(sandbox)
             // Build buttons for current quotes
             for (var i = 0; i < bookView.quoteIds.length; ++i)
             {
-                var quoteView = sandbox.getQuoteViewByBookViewAndQuoteId(bookView, bookView.quoteIds[i]);
+                var userData = {};
+                userData.bookView = bookView;
+                userData.quoteView = sandbox.getQuoteViewByBookViewAndQuoteId(bookView, bookView.quoteIds[i]);
                 
-                var buttonTitle = quoteView.quoteText;
-                
-                var viewQuoteFunction = function()
-                {
-                    module.buildForUserViewAndBookViewAndOptionalQuoteView(userView, bookView, quoteView);
-                };
-                
-                appBody.addButton(buttonTitle, viewQuoteFunction);
+                appBody.addButtonWithdata(quoteView.quoteText, userData, function(mouseEvent)
+                                          {
+                                            var userData = mouseEvent.target.userData;
+                                          
+                                            module.buildForUserViewAndBookViewAndOptionalQuoteView(userView, userData.bookView, userData.quoteView);
+                                          });
                 appBody.addLineBreak();
                 appBody.addLineBreak();
             }

@@ -70,11 +70,16 @@ var createDocumentManagerFunction = function(core)
             
             addButton: function(buttonName, buttonOnClickFunction)
             {
+                return this.addButtonWithData(buttonName, null, buttonOnClickFunction);
+            },
+            
+            addButtonWithData: function(buttonName, userData, buttonOnClickFunction)
+            {
                 var button = document.createElement("BUTTON");
                 
                 button.appendChild(document.createTextNode(buttonName));
                 button.onclick = buttonOnClickFunction;
-                button.id = buttonName;
+                button.userData = userData;
                 this.appBodyElement.appendChild(button);
                 
                 return button;
