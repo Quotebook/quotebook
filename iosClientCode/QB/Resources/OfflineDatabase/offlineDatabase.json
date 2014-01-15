@@ -215,11 +215,42 @@
         "quotes": null,
         "title": "Ok",
         "uuid": 6
+      },
+      {
+        "invitedUsers": null,
+        "memberUsers": null,
+        "quotes": [
+          {
+            "creationDate": {
+              
+            },
+            "quoteContext": "caleb",
+            "quoteLines": [
+              {
+                "text": "Cale\n\t",
+                "who": {
+                  "nonuserQuoted": "Caleb",
+                  "userQuoted": null
+                }
+              },
+              {
+                "text": "Caleb",
+                "who": {
+                  "nonuserQuoted": "caleb",
+                  "userQuoted": null
+                }
+              }
+            ],
+            "uuid": 9
+          }
+        ],
+        "title": "caleb",
+        "uuid": 7
       }
     ]
   },
-  "bookUuidGenerator": 6,
-  "quoteUuidGenerator": 8,
+  "bookUuidGenerator": 7,
+  "quoteUuidGenerator": 9,
   "userData": {
     "userActors": [
       {
@@ -238,8 +269,20 @@
           "lastName": "caleb",
           "uuid": 1
         }
+      },
+      {
+        "password": "caleb",
+        "user": {
+          "bookIds": [
+            7
+          ],
+          "email": "caleb@caleb@.com",
+          "firstName": "caleb",
+          "lastName": "caleb",
+          "uuid": 2
+        }
       }
     ]
   },
-  "userUuidGenerator": 1
+  "userUuidGenerator": 2
 }

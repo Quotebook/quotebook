@@ -215,6 +215,8 @@
 
 - (void)textFieldDidEndEditing:(UITextField*)textField
 {
+    textField.text = textField.text;
+    
     if (_shouldRestoreDefaultText && _overrideText == nil)
     {
         textField.text = _defaultText;

@@ -260,22 +260,22 @@ forState:UIControlStateNormal]; \
         ContentViewConfig* contentViewConfig = [ContentViewConfig object];
         [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight, NO, @"Basic info:")];
         [contentViewConfig.contentItemConfigs addObject:ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"E-mail:", NO, ^(NSString* enteredString) {
-            email = enteredString;
+            email = [enteredString copy];
         })];
         [contentViewConfig.contentItemConfigs addObject:ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"First name:", NO, ^(NSString* enteredString) {
-            firstName = enteredString;
+            firstName = [enteredString copy];
         })];
         [contentViewConfig.contentItemConfigs addObject:ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"Last name", NO, ^(NSString* enteredString) {
-            lastName = enteredString;
+            lastName = [enteredString copy];
         })];
         [contentViewConfig.contentItemConfigs addObject:ContentLabelConfig(kDefaultAdditionalHeight * .2, NO, @"Create password:")];
         ContentTextFieldConfig* passwordConfig = ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"Password:", NO, ^(NSString* enteredString) {
-            password = enteredString;
+            password = [enteredString copy];
         });
         passwordConfig.secureTextEntry = YES;
         [contentViewConfig.contentItemConfigs addObject:passwordConfig];
         ContentTextFieldConfig* confirmConfig = ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"Confirm", NO, ^(NSString* enteredString) {
-            confirm = enteredString;
+            confirm = [enteredString copy];
         });
         confirmConfig.secureTextEntry = YES;
         [contentViewConfig.contentItemConfigs addObject:confirmConfig];
@@ -390,10 +390,10 @@ forState:UIControlStateNormal]; \
         ContentViewConfig* contentViewConfig = [ContentViewConfig object];
         contentViewConfig.initialSpacerHeight = 80;
         [contentViewConfig.contentItemConfigs addObject:ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"E-mail", NO, ^(NSString* enteredString) {
-            email = enteredString;
+            email = [enteredString copy];
         })];
         ContentTextFieldConfig* config = ContentTextFieldConfig_label(kDefaultAdditionalHeight, @"Password", NO, ^(NSString* enteredString) {
-            password = enteredString;
+            password = [enteredString copy];
         });
         config.secureTextEntry = YES;
         [contentViewConfig.contentItemConfigs addObject:config];

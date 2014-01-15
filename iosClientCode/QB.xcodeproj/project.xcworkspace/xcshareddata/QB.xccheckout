@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>8D052DFF-545F-4B26-8D4F-7247A85AC1EE</string>
+	<key>IDESourceControlProjectName</key>
+	<string>QB</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>720C7222-634D-4A6F-8EA9-6328A12A81D5</key>
+		<string>https://github.com/Quotebook/quotebook.git</string>
+		<key>ADFEAF12-EF86-47E7-8F09-6997DB85E55E</key>
+		<string>https://github.com/TheCanon/core.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>iosClientCode/QB.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>720C7222-634D-4A6F-8EA9-6328A12A81D5</key>
+		<string>../../..</string>
+		<key>ADFEAF12-EF86-47E7-8F09-6997DB85E55E</key>
+		<string>../../submodules/core</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/Quotebook/quotebook.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>720C7222-634D-4A6F-8EA9-6328A12A81D5</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>ADFEAF12-EF86-47E7-8F09-6997DB85E55E</string>
+			<key>IDESourceControlWCCName</key>
+			<string>core</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>720C7222-634D-4A6F-8EA9-6328A12A81D5</string>
+			<key>IDESourceControlWCCName</key>
+			<string>quotebook</string>
+		</dict>
+	</array>
+</dict>
+</plist>
